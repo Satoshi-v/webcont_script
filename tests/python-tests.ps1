@@ -90,8 +90,8 @@ Describe "Tests" {
         }
     }
 
-    # Pyinstaller 3.5 does not support Python 3.8.0. Check issue https://github.com/pyinstaller/pyinstaller/issues/4311
-    if ($Version -lt "3.8.0" -and $Version.Major -ne "2") {
+    # Pyinstaller 3.5 does not support Python 3.11.0. Check issue https://github.com/pyinstaller/pyinstaller/issues/4311
+    if ($Version -lt "3.11.0" -and $Version.Major -ne "2") {
         It "Validate Pyinstaller" {
             "pip install pyinstaller" | Should -ReturnZeroExitCode
             "pyinstaller --onefile ./sources/simple-test.py" | Should -ReturnZeroExitCode

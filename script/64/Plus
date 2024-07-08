@@ -129,91 +129,33 @@ fun_bar 'fun_attlist'
     echo ""
     echo -e "            \033[1;37mCOSTUMA DEMORAR UM POUCO!\033[0m"
     echo ""
-    # Função para instalar uma versão específica do Python
-install_python_version() {
-    VERSION=$1
-    echo "Instalando Python $VERSION..."
-
-    # Atualizar lista de pacotes
-    sudo apt update
-
-    # Instalar dependências
-    sudo apt install -y software-properties-common
-
-    # Adicionar repositório para Python
-    sudo add-apt-repository ppa:deadsnakes/ppa
-    sudo apt update
-
-    # Instalar a versão específica do Python
-    sudo apt install -y python$VERSION
-
-    # Configurar a versão instalada como uma alternativa
-    sudo update-alternatives --install /usr/bin/python$VERSION python$VERSION /usr/bin/python$VERSION 1
+    otimize_python() {
+    # INSTALA PYTHON AO PYTHON2
+    apt-get install python -y >/dev/null 2>&1
+    apt-get install python2 -y >/dev/null 2>&1
+    # INSTALA PYTHON3.6 AO PYTHON3.11
+    apt-get install python3.6 -y >/dev/null 2>&1
+    apt-get install python3.7 -y >/dev/null 2>&1
+    apt-get install python3.8 -y >/dev/null 2>&1
+    apt-get install python3.9 -y >/dev/null 2>&1
+    apt-get install python3.10 -y >/dev/null 2>&1
+    apt-get install python3.11 -y >/dev/null 2>&1
+    # CRIA ALTERNATIVAS PYTHON
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1 >/dev/null 2>&1
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 3 >/dev/null 2>&1
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2 >/dev/null 2>&1
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 4 >/dev/null 2>&1
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 5 >/dev/null 2>&1
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 6 >/dev/null 2>&1
+    # INSTALA PIP
+    apt install pip -y
+    apt install python3-pip -y
+    # INSTALA SOCAT
+    apt install socat -y
+    #SETAR PYTHON3
+    update-alternatives --set python3 /usr/bin/python3.11
 }
-
-# Função para configurar as alternativas de Python
-configure_python_alternatives() {
-    echo "Configurando alternativas de Python..."
-
-    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
-    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 2
-    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 3
-}
-
-# Função para atualizar pip e pacotes
-optimize_python() {
-    echo "Otimização do Python..."
-
-    # Atualizar pip para a versão mais recente
-    python3 -m pip install --upgrade pip
-
-    # Atualizar pacotes pip instalados
-    python3 -m pip list --outdated | grep -oP '^\S+' | xargs -n1 python3 -m pip install --upgrade
-
-    # Limpar cache do pip
-    python3 -m pip cache purge
-}
-
-# Função para criar e ativar um ambiente virtual
-create_virtual_env() {
-    ENV_NAME=$1
-    echo "Criando ambiente virtual: $ENV_NAME..."
-
-    # Instalar virtualenv se não estiver instalado
-    python3 -m pip install --user virtualenv
-
-    # Criar ambiente virtual
-    python3 -m virtualenv $ENV_NAME
-
-    # Ativar ambiente virtual
-    source $ENV_NAME/bin/activate
-    echo "Ambiente virtual $ENV_NAME ativado."
-}
-
-# Função principal do script
-main() {
-    # Instalar Python 3.9, 3.10 e 3.11
-    install_python_version 3.9
-    install_python_version 3.10
-    install_python_version 3.11
-
-    # Configurar alternativas
-    configure_python_alternatives
-
-    # Otimizar Python
-    optimize_python
-
-    # Criar e ativar um ambiente virtual (opcional)
-    # Nome do ambiente virtual
-    ENV_NAME="myenv"
-    create_virtual_env $ENV_NAME
-
-    # Verificar versões instaladas
-    echo "Versões do Python instaladas:"
-    python3.9 --version
-    python3.10 --version
-    python3.11 --version
-}
+    fun_bar 'otimize_python'
 #-----------------------------------------------------------------------------------------------------------------
 tput reset
 echo ""

@@ -1,29 +1,35 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# Socks TURBONET
 import socket
 import threading
 import select
 import sys
 import time
+import argparse
+import logging
 from os import system
+
+# Configuração do logger
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 system("clear")
 
-# conexao
+# Argumentos de linha de comando
+parser = argparse.ArgumentParser(description='Servidor Proxy SOCKS.')
+parser.add_argument('--port', type=int, default=80, help='Porta para o servidor (default: 80)')
+args = parser.parse_args()
+
+# Configurações
 IP = '0.0.0.0'
-try:
-    PORT = int(sys.argv[1])
-except:
-    PORT = 80
-PASS = ''
+PORT = args.port
 BUFLEN = 8196 * 8
 TIMEOUT = 60
 MSG = ''
 COR = '<font color="null">'
 FTAG = '</font>'
 DEFAULT_HOST = '0.0.0.0:22'
-RESPONSE = "HTTP/1.1 200 " + str(COR) + str(MSG) + str(FTAG) + "\r\n\r\n"
+RESPONSE = f"HTTP/1.1 200 {COR}{MSG}{FTAG}\r\n\r\n"
 
 class Server(threading.Thread):
     def __init__(self, host, port):
@@ -36,58 +42,45 @@ class Server(threading.Thread):
         self.logLock = threading.Lock()
 
     def run(self):
-        self.soc = socket.socket(socket.AF_INET)
-        self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.soc.settimeout(2)
-        self.soc.bind((self.host, self.port))
-        self.soc.listen(0)
-        self.running = True
-
         try:
+            self.soc = socket.socket(socket.AF_INET)
+            self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self.soc.settimeout(2)
+            self.soc.bind((self.host, self.port))
+            self.soc.listen(0)
+            self.running = True
+            logger.info(f"Servidor iniciado em {self.host}:{self.port}")
+
             while self.running:
                 try:
                     c, addr = self.soc.accept()
                     c.setblocking(1)
+                    conn = ConnectionHandler(c, self, addr)
+                    conn.start()
+                    self.addConn(conn)
                 except socket.timeout:
                     continue
-                
-                conn = ConnectionHandler(c, self, addr)
-                conn.start()
-                self.addConn(conn)
+                except Exception as e:
+                    logger.error(f"Erro ao aceitar conexão: {e}")
         finally:
             self.running = False
             self.soc.close()
-            
-    def printLog(self, log):
-        self.logLock.acquire()
-        print(log)
-        self.logLock.release()
-    
+            logger.info("Servidor encerrado")
+
     def addConn(self, conn):
-        try:
-            self.threadsLock.acquire()
+        with self.threadsLock:
             if self.running:
                 self.threads.append(conn)
-        finally:
-            self.threadsLock.release()
                     
     def removeConn(self, conn):
-        try:
-            self.threadsLock.acquire()
+        with self.threadsLock:
             self.threads.remove(conn)
-        finally:
-            self.threadsLock.release()
                 
     def close(self):
-        try:
-            self.running = False
-            self.threadsLock.acquire()
-            
-            threads = list(self.threads)
-            for c in threads:
+        self.running = False
+        with self.threadsLock:
+            for c in self.threads:
                 c.close()
-        finally:
-            self.threadsLock.release()
 
 class ConnectionHandler(threading.Thread):
     def __init__(self, socClient, server, addr):
@@ -97,15 +90,15 @@ class ConnectionHandler(threading.Thread):
         self.client = socClient
         self.client_buffer = ''
         self.server = server
-        self.log = 'Conexao: ' + str(addr)
+        self.log = f'Conexao: {addr}'
 
     def close(self):
         try:
             if not self.clientClosed:
                 self.client.shutdown(socket.SHUT_RDWR)
                 self.client.close()
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao fechar conexão do cliente: {e}")
         finally:
             self.clientClosed = True
             
@@ -113,15 +106,14 @@ class ConnectionHandler(threading.Thread):
             if not self.targetClosed:
                 self.target.shutdown(socket.SHUT_RDWR)
                 self.target.close()
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao fechar conexão com o alvo: {e}")
         finally:
             self.targetClosed = True
 
     def run(self):
         try:
             self.client_buffer = self.client.recv(BUFLEN)
-        
             hostPort = self.findHeader(self.client_buffer, 'X-Real-Host')
             
             if hostPort == '':
@@ -133,66 +125,43 @@ class ConnectionHandler(threading.Thread):
                 self.client.recv(BUFLEN)
             
             if hostPort != '':
-                passwd = self.findHeader(self.client_buffer, 'X-Pass')
-                
-                if len(PASS) != 0 and passwd == PASS:
-                    self.method_CONNECT(hostPort)
-                elif len(PASS) != 0 and passwd != PASS:
-                    self.client.send(b'HTTP/1.1 400 WrongPass!\r\n\r\n')
                 if hostPort.startswith(IP):
                     self.method_CONNECT(hostPort)
                 else:
-                   self.client.send(b'HTTP/1.1 403 Forbidden!\r\n\r\n')
+                    self.client.send(b'HTTP/1.1 403 Forbidden!\r\n\r\n')
             else:
-                print('- No X-Real-Host!')
+                logger.warning('No X-Real-Host header found')
                 self.client.send(b'HTTP/1.1 400 NoXRealHost!\r\n\r\n')
-
         except Exception as e:
-            self.log += ' - error: ' + str(e)
-            self.server.printLog(self.log)
-            pass
+            logger.error(f'Erro na conexão: {e}')
         finally:
             self.close()
             self.server.removeConn(self)
 
     def findHeader(self, head, header):
-        aux = head.find(header + ': ')
-    
+        aux = head.find(f'{header}: ')
         if aux == -1:
             return ''
-
         aux = head.find(':', aux)
         head = head[aux+2:]
         aux = head.find('\r\n')
-
-        if aux == -1:
-            return ''
-
-        return head[:aux]
+        return '' if aux == -1 else head[:aux]
 
     def connect_target(self, host):
         i = host.find(':')
-        if i != -1:
-            port = int(host[i+1:])
-            host = host[:i]
-        else:
-            if self.method == 'CONNECT':
-                port = 443
-            else:
-                port = 22
-
+        port = int(host[i+1:]) if i != -1 else (443 if self.method == 'CONNECT' else 22)
+        host = host[:i] if i != -1 else host
         (soc_family, soc_type, proto, _, address) = socket.getaddrinfo(host, port)[0]
-
         self.target = socket.socket(soc_family, soc_type, proto)
         self.targetClosed = False
         self.target.connect(address)
 
     def method_CONNECT(self, path):
-        self.log += ' - CONNECT ' + path
+        self.log += f' - CONNECT {path}'
         self.connect_target(path)
         self.client.sendall(RESPONSE.encode('utf-8'))
         self.client_buffer = ''
-        self.server.printLog(self.log)
+        logger.info(self.log)
         self.doCONNECT()
                     
     def doCONNECT(self):
@@ -201,7 +170,7 @@ class ConnectionHandler(threading.Thread):
         error = False
         while True:
             count += 1
-            (recv, _, err) = select.select(socs, [], socs, 3)
+            recv, _, err = select.select(socs, [], socs, 3)
             if err:
                 error = True
             if recv:
@@ -215,17 +184,14 @@ class ConnectionHandler(threading.Thread):
                                 while data:
                                     byte = self.target.send(data)
                                     data = data[byte:]
-
                             count = 0
                         else:
                             break
-                    except:
+                    except Exception as e:
+                        logger.error(f"Erro na transferência de dados: {e}")
                         error = True
                         break
-            if count == TIMEOUT:
-                error = True
-
-            if error:
+            if count == TIMEOUT or error:
                 break
 
 def main(host=IP, port=PORT):
@@ -235,13 +201,12 @@ def main(host=IP, port=PORT):
     print("\033[0;34m━"*10,"\033[1;32m TURBONET2023","\033[0;34m━\033[1;37m"*11,"\n")
     server = Server(IP, PORT)
     server.start()
-    while True:
-        try:
+    try:
+        while True:
             time.sleep(2)
-        except KeyboardInterrupt:
-            print('\nParando...')
-            server.close()
-            break
+    except KeyboardInterrupt:
+        print('\nParando...')
+        server.close()
 
 if __name__ == '__main__':
     main()

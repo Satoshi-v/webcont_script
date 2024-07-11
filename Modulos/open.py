@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 # encoding: utf-8
+
 import socket
 import threading
 import select
 import sys
 import time
-from os import system
+import os
 
-system("clear")
+# Limpar o terminal de maneira segura
+os.system("clear")
 
-# conexao
+# Configurações de conexão
 IP = '0.0.0.0'
 try:
     PORT = int(sys.argv[1])
-except:
+except IndexError:
     PORT = 8080
 
 PASS = ''

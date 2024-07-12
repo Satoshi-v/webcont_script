@@ -1,199 +1,183 @@
 #!/bin/bash
 tput reset
-
-# Função para exibir uma barra de progresso
 fun_bar () {
-    comando[0]="$1"
-    comando[1]="$2"
-    (
-        [[ -e $HOME/fim ]] && rm $HOME/fim
-        [[ ! -e /usr/lib/sshplus ]] && rm -rf /bin/menu > /dev/null 2>&1
-        ${comando[0]} -y > /dev/null 2>&1
-        ${comando[1]} -y > /dev/null 2>&1
-        touch $HOME/fim
-    ) > /dev/null 2>&1 &
-    tput civis
-    echo -ne "\033[1;37m["
-    while true; do
-        for ((i=0; i<18; i++)); do
-            echo -ne "\033[1;31m#"
-            sleep 0.1s
-        done
-        [[ -e $HOME/fim ]] && rm $HOME/fim && break
-        echo -e "\033[1;37m]"
-        sleep 1s
-        tput cuu1
-        tput dl1
-        echo -ne "\033[1;37m["
-    done
-    echo -e "\033[1;37m]\033[1;37m -\033[1;32m OK !\033[1;37m"
-    tput cnorm
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/fim ]] && rm $HOME/fim
+[[ ! -e /usr/lib/sshplus ]] && rm -rf /bin/menu > /dev/null 2>&1
+${comando[0]} -y > /dev/null 2>&1
+${comando[1]} -y > /dev/null 2>&1
+touch $HOME/fim
+ ) > /dev/null 2>&1 &
+ tput civis
+echo -ne "\033[1;37m["
+while true; do
+   for((i=0; i<18; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1s
+   done
+   [[ -e $HOME/fim ]] && rm $HOME/fim && break
+   echo -e "\033[1;37m]"
+   sleep 1s
+   tput cuu1
+   tput dl1
+   echo -ne "\033[1;37m["
+done
+echo -e "\033[1;37m]\033[1;37m -\033[1;32m OK !\033[1;37m"
+tput cnorm
 }
 
-# Função para exibir uma barra de progresso com aguarde
+IP=$(cat /etc/IP)
+x="ok"
+
+velocity () {
 aguarde () {
-    comando[0]="$1"
-    comando[1]="$2"
-    (
-        [[ -e $HOME/fim ]] && rm $HOME/fim
-        [[ ! -d /etc/SSHPlus ]] && rm -rf /bin/menu
-        ${comando[0]} > /dev/null 2>&1
-        ${comando[1]} > /dev/null 2>&1
-        touch $HOME/fim
-    ) > /dev/null 2>&1 &
-    tput civis
-    echo -ne "  \033[1;37mAGUARDE \033[1;37m- \033[1;37m["
-    while true; do
-        for ((i=0; i<18; i++)); do
-            echo -ne "\033[1;31m#"
-            sleep 0.1s
-        done
-        [[ -e $HOME/fim ]] && rm $HOME/fim && break
-        echo -e "\033[1;37m]"
-        sleep 1s
-        tput cuu1
-        tput dl1
-        echo -ne "  \033[1;37mAGUARDE \033[1;37m- \033[1;37m["
-    done
-    echo -e "\033[1;37m]\033[1;37m -\033[1;32m OK !\033[1;37m"
-    tput cnorm
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/fim ]] && rm $HOME/fim
+[[ ! -d /etc/SSHPlus ]] && rm -rf /bin/menu
+${comando[0]} > /dev/null 2>&1
+${comando[1]} > /dev/null 2>&1
+touch $HOME/fim
+ ) > /dev/null 2>&1 &
+ tput civis
+echo -ne "  \033[1;37mAGUARDE \033[1;37m- \033[1;37m["
+while true; do
+   for((i=0; i<18; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1s
+   done
+   [[ -e $HOME/fim ]] && rm $HOME/fim && break
+   echo -e "\033[1;37m]"
+   sleep 1s
+   tput cuu1
+   tput dl1
+   echo -ne "  \033[1;37mAGUARDE \033[1;37m- \033[1;37m["
+done
+echo -e "\033[1;37m]\033[1;37m -\033[1;32m OK !\033[1;37m"
+tput cnorm
 }
-
-# Função para testar a velocidade
 fun_tst () {
-    speedtest --share > speed --secure
+speedtest --share > speed --secure
 }
-
-# Exibe cabeçalho
 echo -e "\E[38;5;18m╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮\033[0m"
 echo -e "\E[38;5;18m┃\E[44;1;37m    TESTANDO A VELOCIDADE DO SERVIDOR    \E[0m\E[38;5;18m┃"
 echo -e "\E[38;5;18m╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯\033[0m"
 echo ""
-
 aguarde 'fun_tst'
-
 clear
 echo -e "\E[38;5;18m╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮\033[0m"
 echo -e "\E[38;5;18m┃\E[44;1;37m    TESTANDO A VELOCIDADE DO SERVIDOR    \E[0m\E[38;5;18m┃"
 echo -e "\E[38;5;18m╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯\033[0m"
 echo ""
-
-# Exibe resultados
-png=$(sed -n '5 p' speed | awk -F : '{print $NF}')
-down=$(sed -n '7 p' speed | awk -F : '{print $NF}')
-upl=$(sed -n '9 p' speed | awk -F : '{print $NF}')
-lnk=$(sed -n '10 p' speed | awk '{print $NF}')
-
+png=$(cat speed | sed -n '5 p' |awk -F : {'printf $NF'})
+down=$(cat speed | sed -n '7 p' |awk -F :  {'print $NF'})
+upl=$(cat speed | sed -n '9 p' |awk -F :  {'print $NF'})
+lnk=$(cat speed | sed -n '10 p' |awk {'print $NF'})
 echo -e "\E[38;5;18m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
 echo -e "\033[1;32mPING (LATENCIA):\033[1;37m$png"
 echo -e "\033[1;32mDOWNLOAD:\033[1;37m$down"
 echo -e "\033[1;32mUPLOAD:\033[1;37m$upl"
 echo -e "\033[1;32mLINK: \E[38;5;33m$lnk"
 echo -e "\E[38;5;18m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-
 rm -rf $HOME/speed
+}
 
-# Funções para gerenciamento de limiter
+#limiter
 function limit1 () {
-    clear
-    echo -e "\n\033[1;32mINICIANDO O LIMITER... \033[0m"
-    echo ""
-    fun_bar 'screen -dmS limiter limiter' 'sleep 3'
-    if ! grep -qw "limiter" /etc/autostart; then
-        echo -e "ps x | grep 'limiter' | grep -v 'grep' && echo 'ON' || screen -dmS limiter limiter" >> /etc/autostart
-    else
-        sed -i '/limiter/d' /etc/autostart
-        echo -e "ps x | grep 'limiter' | grep -v 'grep' && echo 'ON' || screen -dmS limiter limiter" >> /etc/autostart
-    fi
-    echo -e "\n\033[1;32m  LIMITER ATIVO !\033[0m"
-    sleep 3
-    menu
+   clear
+   echo -e "\n\033[1;32mINICIANDO O LIMITER... \033[0m"
+   echo ""
+   fun_bar 'screen -dmS limiter limiter' 'sleep 3'
+   [[ $(grep -wc "limiter" /etc/autostart) = '0' ]] && {
+       echo -e "ps x | grep 'limiter' | grep -v 'grep' && echo 'ON' || screen -dmS limiter limiter" >> /etc/autostart
+   } || {
+       sed -i '/limiter/d' /etc/autostart
+	   echo -e "ps x | grep 'limiter' | grep -v 'grep' && echo 'ON' || screen -dmS limiter limiter" >> /etc/autostart
+   }
+   echo -e "\n\033[1;32m  LIMITER ATIVO !\033[0m"
+   sleep 3
+   menu
 }
-
 function limit2 () {
-    clear
-    echo -e "\033[1;32mPARANDO O LIMITER... \033[0m"
-    echo ""
-    fun_stplimiter () {
-        sleep 1
-        screen -r -S "limiter" -X quit
-        screen -wipe 1>/dev/null 2>/dev/null
-        if grep -qw "limiter" /etc/autostart; then
-            sed -i '/limiter/d' /etc/autostart
-        fi
-        sleep 1
-    }
-    fun_bar 'fun_stplimiter' 'sleep 3'
-    echo -e "\n\033[1;31m LIMITER PARADO !\033[0m"
-    sleep 3
-    menu
+   clear
+   echo -e "\033[1;32mPARANDO O LIMITER... \033[0m"
+   echo ""
+   fun_stplimiter () {
+      sleep 1
+      screen -r -S "limiter" -X quit
+      screen -wipe 1>/dev/null 2>/dev/null
+      [[ $(grep -wc "limiter" /etc/autostart) != '0' ]] && {
+          sed -i '/limiter/d' /etc/autostart
+      }
+      sleep 1
+   }
+   fun_bar 'fun_stplimiter' 'sleep 3'
+   echo -e "\n\033[1;31m LIMITER PARADO !\033[0m"
+   sleep 3
+   menu
 }
-
 function limit_ssh () {
-    if pgrep -f "limiter" > /dev/null; then
-        limit2
-    else
-        limit1
-    fi
+[[ $(ps x | grep "limiter"|grep -v grep |wc -l) = '0' ]] && limit1 || limit2
 }
-
-# Funções para gerenciamento de onlineapp
+#onlineapp
 function onapp1 () {
-    clear
-    echo -e "\n\033[1;32mINICIANDO O ONLINE APP... \033[0m"
-    echo ""
-    apt install apache2 -y > /dev/null 2>&1
-    sed -i "s/Listen 80/Listen 8888/g" /etc/apache2/ports.conf >/dev/null 2>&1
-    service apache2 restart
-    rm -rf /var/www/html/server >/dev/null 2>&1
-    mkdir /var/www/html/server >/dev/null 2>&1
-    fun_bar 'screen -dmS onlineapp onlineapp' 'sleep 3'
-    if ! grep -qw "onlineapp" /etc/autostart; then
-        echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
-    else
-        sed -i '/onlineapp/d' /etc/autostart
-        echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
-    fi
-    IP=$(wget -qO- ipv4.icanhazip.com) >/dev/null 2>&1
-    echo -e "\n\033[1;32m  ONLINE APP ATIVO !\033[0m"
-    echo -e "\033[1;31m \033[1;33mURL de Usuários Online para usar no App\033[0m"
-    echo -e " http://$IP:8888/server/online"
-    sleep 10
-    menu
+   clear
+   echo -e "\n\033[1;32mINICIANDO O ONLINE APP... \033[0m"
+   echo ""
+   apt install apache2 -y > /dev/null 2>&1
+   sed -i "s/Listen 80/Listen 8888/g" /etc/apache2/ports.conf >/dev/null 2>&1
+   service apache2 restart
+   rm -rf /var/www/html/server >/dev/null 2>&1
+   mkdir /var/www/html/server >/dev/null 2>&1
+   fun_bar 'screen -dmS onlineapp onlineapp' 'sleep 3'
+   [[ $(grep -wc "onlineapp" /etc/autostart) = '0' ]] && {
+       echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
+   } || {
+       sed -i '/onlineapp/d' /etc/autostart
+	   echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
+   }
+   IP=$(wget -qO- ipv4.icanhazip.com) >/dev/null 2>&1
+   echo -e "\n\033[1;32m  ONLINE APP ATIVO !\033[0m"
+   echo -e "\033[1;31m \033[1;33mURL de Usuários Online para usar no App\033[0m"
+   echo -e " http://$IP:8888/server/online"
+   sleep 10
+   menu
 }
-
 function onapp2() {
     clear
     echo -e "\033[1;32mPARANDO O ONLINE APP... \033[0m"
     echo ""
-    fun_stponlineapp() {
-        # Para Apache2 se estiver rodando na porta 80
-        if netstat -tulpn | grep -q ':80.*apache2'; then
-            service apache2 stop >/dev/null 2>&1
+    function fun_stponlineapp() {
+    # Stop Apache2 if it is running on port 80
+    if netstat -tulpn | grep -q ':80.*apache2'; then
+        service apache2 stop >/dev/null 2>&1
+        sleep 1
+    fi
+
+    # Stop Apache2 if it is running on port 8888
+    if netstat -tulpn | grep -q ':8888.*apache2'; then
+        service apache2 stop >/dev/null 2>&1
+        sleep 1
+    fi
+
+    # Stop Online App
+    screen_pids=$(pgrep -f "onlineapp")
+    if [ -n "$screen_pids" ]; then
+        for pid in $screen_pids; do
+            kill "$pid"
             sleep 1
-        fi
+        done
+        screen -wipe >/dev/null
+    fi
 
-        # Para Apache2 se estiver rodando na porta 8888
-        if netstat -tulpn | grep -q ':8888.*apache2'; then
-            service apache2 stop >/dev/null 2>&1
-            sleep 1
-        fi
-
-        # Para Online App
-        screen_pids=$(pgrep -f "onlineapp")
-        if [ -n "$screen_pids" ]; then
-            for pid in $screen_pids; do
-                kill "$pid"
-                sleep 1
-            done
-            screen -wipe >/dev/null
-        fi
-
-        # Remove Online App do autostart se presente
-        if grep -qw "onlineapp" /etc/autostart; then
-            sed -i '/onlineapp/d' /etc/autostart
-        fi
+    # Remove Online App from autostart if present
+    [[ $(grep -wc "onlineapp" /etc/autostart) != '0' ]] && {
+        sed -i '/onlineapp/d' /etc/autostart
     }
+}
     fun_bar 'fun_stponlineapp' 'sleep 3'
     rm -rf /var/www/html/server >/dev/null 2>&1
     echo -e "\n\033[1;31m ONLINE APP PARADO !\033[0m"
@@ -208,39 +192,34 @@ function onapp_ssh() {
         onapp1  # Se não está rodando, inicia
     fi
 }
-
-# Função para gerenciar autoexec
+##
 function autoexec () {
-    if grep -q "menu;" /etc/profile; then
-        clear
-        echo -e "\033[1;32mDesativando auto execução\033[0m"
-        offautmenu () {
-            sed -i '/menu;/d' /etc/profile
-        }
-        echo ""
-        fun_bar 'offautmenu'
-        echo ""
-        echo -e "\033[1;31mAuto execução desativado!\033[0m"
-        sleep 1.5s
-        menu2
-    else
-        clear
-        echo -e "\033[1;32mAtivando auto execução\033[0m"
-        autmenu () {
-            grep -v "^menu;" /etc/profile > /tmp/tmpass && mv /tmp/tmpass /etc/profile
-            echo "menu;" >> /etc/profile
-        }
-        echo ""
-        fun_bar 'autmenu'
-        echo ""
-        echo -e "\033[1;32mAuto execução ativado!\033[0m"
-        sleep 1.5s
-        menu2
-    fi
-}
-
-# Inicia o menu ou outro código conforme necessário
-# menu
+   if grep "menu;" /etc/profile > /dev/null; then
+      clear
+      echo -e "\033[1;32mDesativando auto execução\033[0m"
+      offautmenu () {
+         sed -i '/menu;/d' /etc/profile
+      }
+      echo ""
+      fun_bar 'offautmenu'
+      echo ""
+      echo -e "\033[1;31mAuto execução desativado!\033[0m"
+      sleep 1.5s
+      menu2
+   else
+      clear
+      echo -e "\033[1;32mAtivando auto execução\033[0m"
+      autmenu () {
+         grep -v "^menu;" /etc/profile > /tmp/tmpass && mv /tmp/tmpass /etc/profile
+         echo "menu;" >> /etc/profile
+      }
+      echo ""
+      fun_bar 'autmenu'
+      echo ""
+      echo -e "\033[1;32mAuto execução ativado!\033[0m"
+      sleep 1.5s
+      menu2
+   fi
 
 }
 #menu2

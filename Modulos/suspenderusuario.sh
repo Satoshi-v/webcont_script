@@ -88,6 +88,7 @@ menu() {
             ;;
         0)
             echo -e "\n\033[1;32mSaindo...\033[0m"
+            menu
             ;;
         *)
             echo -e "\n\033[1;31mOpção inválida. Por favor, escolha uma opção válida.\033[0m"

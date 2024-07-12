@@ -11,9 +11,10 @@ suspend_user() {
         echo -e "\n\033[1;32mSuspensão do usuário $username iniciada...\033[0m"
 
         # Desativa a conta do usuário
-        usermod -L "$username"
-        if [[ $? -ne 0 ]]; then
-            echo -e "\033[1;31mErro ao desativar o usuário.\033[0m"
+        if usermod -L "$username"; then
+            echo -e "\033[1;32mUsuário $username desativado com sucesso.\033[0m"
+        else
+            echo -e "\033[1;31mErro ao desativar o usuário $username.\033[0m"
             return 1
         fi
 
@@ -24,8 +25,6 @@ suspend_user() {
             rm -f /etc/openvpn/easy-rsa/pki/crl.pem
             echo -e "\033[1;32mArquivos de configuração do OpenVPN removidos.\033[0m"
         fi
-
-        echo -e "\033[1;32mUsuário $username suspenso com sucesso.\033[0m"
     else
         echo -e "\033[1;31mUsuário $username não encontrado.\033[0m"
         return 1
@@ -41,15 +40,15 @@ reactivate_user() {
         echo -e "\n\033[1;32mReativação do usuário $username iniciada...\033[0m"
 
         # Reativa a conta do usuário
-        usermod -U "$username"
-        if [[ $? -ne 0 ]]; then
-            echo -e "\033[1;31mErro ao reativar o usuário.\033[0m"
+        if usermod -U "$username"; then
+            echo -e "\033[1;32mUsuário $username reativado com sucesso.\033[0m"
+        else
+            echo -e "\033[1;31mErro ao reativar o usuário $username.\033[0m"
             return 1
         fi
 
         # Opcional: Restaurar arquivos de configuração do OpenVPN (se necessário)
         # Adapte este bloco conforme sua necessidade
-        echo -e "\033[1;32mUsuário $username reativado com sucesso.\033[0m"
     else
         echo -e "\033[1;31mUsuário $username não encontrado.\033[0m"
         return 1
@@ -72,25 +71,29 @@ menu() {
         1)
             echo -ne "\033[1;34mDigite o nome do usuário para suspender: \033[1;37m"
             read username
-            suspend_user "$username"
+            if [[ -n "$username" ]]; then
+                suspend_user "$username"
+            else
+                echo -e "\033[1;31mNome de usuário inválido.\033[0m"
+            fi
             ;;
         2)
             echo -ne "\033[1;34mDigite o nome do usuário para reativar: \033[1;37m"
             read username
-            reactivate_user "$username"
+            if [[ -n "$username" ]]; then
+                reactivate_user "$username"
+            else
+                echo -e "\033[1;31mNome de usuário inválido.\033[0m"
+            fi
             ;;
         0)
             echo -e "\n\033[1;32mSaindo...\033[0m"
-            menu
             ;;
         *)
             echo -e "\n\033[1;31mOpção inválida. Por favor, escolha uma opção válida.\033[0m"
-            sleep 2
             ;;
     esac
 }
 
-# Executa o menu
-while true; do
-    menu
-done
+# Executa o menu uma vez
+menu

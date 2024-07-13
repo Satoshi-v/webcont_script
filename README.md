@@ -56,7 +56,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/senharoot/main/
 ````
 ###############################################################################################
 
-### LINKS PARA INSTLÇAO DO SCRIPT SSHPLUS 
+### LINKS PARA INSTALAÇAO DO SCRIPT SSHPLUS 
 
 ### 3. LINKS ABAIXO
 

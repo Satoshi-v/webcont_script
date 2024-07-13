@@ -5,13 +5,13 @@ clear
 # CANAL TELEGRAM: @TURBONET2023
 #--------------------------
 
-# - Cores
+# - Cores para formatação do texto
 RED='\033[1;31m'
 YELLOW='\033[1;33m'
 GREEN='\033[1;32m'
-SCOLOR='\033[0m'
+SCOLOR='\033[0m'  # Para resetar a formatação de cor
 
-# - Funções
+# - Função para verificar se o usuário é root
 function verifica_root() {
     if [[ "$EUID" -ne 0 ]]; then
         echo -e "${RED}[x] Você precisa executar como usuário root!${SCOLOR}"
@@ -19,6 +19,7 @@ function verifica_root() {
     fi
 }
 
+# - Função para verificar a arquitetura do sistema
 function verifica_arquitetura() {
     case "$(uname -m)" in
         'amd64' | 'x86_64')
@@ -34,6 +35,7 @@ function verifica_arquitetura() {
     esac
 }
 
+# - Função para verificar o sistema operacional e sua versão
 function verifica_os() {
     if grep -qs "ubuntu" /etc/os-release; then
         os_version=$(grep 'VERSION_ID' /etc/os-release | cut -d '"' -f 2 | tr -d '.')
@@ -53,13 +55,15 @@ function verifica_os() {
     fi
 }
 
+# - Função para verificar se um pacote está instalado e instalá-lo se necessário
 function verifica_pacote() {
-    if ! dpkg -l | grep -q "$1"; then
+    if ! command -v "$1" >/dev/null 2>&1; then
         echo -e "${YELLOW}[!] Instalando $1...${SCOLOR}"
         apt-get install -y "$1" || { echo -e "${RED}[x] Falha ao instalar $1!${SCOLOR}"; exit 1; }
     fi
 }
 
+# - Função para atualizar o sistema e instalar pacotes necessários
 function atualiza_sistema() {
     echo -e "${YELLOW}[!] Atualizando o sistema...${SCOLOR}"
     dpkg --configure -a
@@ -69,6 +73,7 @@ function atualiza_sistema() {
     verifica_pacote wget
 }
 
+# - Função para desabilitar o IPv6
 function desabilita_ipv6() {
     echo -e "${YELLOW}[!] Desabilitando IPv6...${SCOLOR}"
     sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -p
@@ -76,6 +81,7 @@ function desabilita_ipv6() {
     sysctl -p -f /etc/sysctl.d/70-disable-ipv6.conf
 }
 
+# - Função para baixar e executar o instalador
 function executa_instalador() {
     if command -v wget >/dev/null 2>&1; then
         echo -e "${YELLOW}[!] Baixando e executando o instalador...${SCOLOR}"
@@ -83,16 +89,20 @@ function executa_instalador() {
         wget -q https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/script/64/Plus -O Plus
         chmod 777 Plus
         ./Plus
+        rm -f Plus  # Remove o arquivo Plus após a execução
     else
         echo -e "${RED}[x] wget não está instalado e não pode ser instalado!${SCOLOR}"
         exit 1
     fi
 }
 
-# - Execução
+# - Execução das funções definidas acima
 verifica_root
 verifica_arquitetura
 verifica_os
 atualiza_sistema
 desabilita_ipv6
 executa_instalador
+
+# - Mensagem de conclusão
+echo -e "${GREEN}[+] Instalação concluída com sucesso!${SCOLOR}"

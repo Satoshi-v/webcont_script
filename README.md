@@ -1,19 +1,17 @@
-# SSH-PLUS 2023⚡
-
-### Funcionalidades
-
-- ✅ Novo Proxy DTunnel V2 Mod
-- ✅ WebSocket Security
-- ✅ V2Ray Funcionando
-- ✅ CheckUser Conecta4G
-- ✅ CheckUser GL Tunnel Mod
-- ✅ CheckUser AnyVPN Mod
-- ✅ BadVPN Pro
-- ✅ Menu Apache
-- ✅ Mostrador de Consumo
-- ✅ TCPTweaker
-- ✅ Memória Swap
-- ✅ Firewall Oracle
+SSH-PLUS 2023⚡
+FUNCIONALIDADES
+✅ NOVO PROXY DTUNNEL V2 MOD
+✅ WEBSOCKET SECURITY
+✅ V2RAY FUNCIONANDO
+✅ CHECKUSER CONECTA4G
+✅ CHECKUSER GL TUNNEL MOD
+✅ CHECKUSER ANYVPN MOD
+✅ BADVPN PRO
+✅ MENU APACHE
+✅ MOSTRADOR DE CONSUMO
+✅ TCPTWEAKER
+✅ MEMÓRIA SWAP
+✅ FIREWALL ORACLE
 
 ## Requisitos
 

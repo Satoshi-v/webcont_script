@@ -43,7 +43,7 @@ SSH-PLUS 2023⚡
 
 ## Passos de Instalação
 
-### 1. Tornar-se root
+### 1. Tornar-se usuário root:
 
 ⚠️(somente em casos que o servidor nao vier, com usuário root por padrão)⚠️
 
@@ -60,7 +60,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/senharoot/main/
 ````
 #######################################################################################
 
-### 3. LINKS PARA INSTALAÇAO DO SCRIPT SSHPLUS 
+### 3. LINKS PARA INSTALAÇAO DO SCRIPT SSHPLUS
 
 Opção 1:
 

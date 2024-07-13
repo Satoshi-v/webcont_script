@@ -28,7 +28,8 @@ SSH-PLUS 2023⚡
 ## REQUESITOS:
 
 - Um sistema operacional baseado em Linux (Ubuntu ou Debian)
-- Debian 9 Server x86_64 / Ubuntu 18.04 Server x86_64.
+- Debian 10 Server x86_64
+- Ubuntu 20.04 Server x86_64
 - Usar uma instância ou servidor nova ou formatada.
 - Idioma padrão: Português
 

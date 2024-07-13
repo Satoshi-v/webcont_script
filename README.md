@@ -1,5 +1,6 @@
 SSH-PLUS 2023⚡
-FUNCIONALIDADES
+## FUNCIONALIDADES:
+
 ✅ NOVO PROXY DTUNNEL V2 MOD
 ✅ WEBSOCKET SECURITY
 ✅ V2RAY FUNCIONANDO
@@ -13,16 +14,14 @@ FUNCIONALIDADES
 ✅ MEMÓRIA SWAP
 ✅ FIREWALL ORACLE
 
-## Requisitos
-
-Para usar o SSH-PLUS 2023, você precisará de:
+## REQUESITOS:
 
 - Um sistema operacional baseado em Linux (Ubuntu ou Debian)
 - Debian 9 Server x86_64 / Ubuntu 18.04 Server x86_64.
 - Usar uma instância ou servidor nova ou formatada.
 - Idioma padrão: Português
 
-### Sistemas Operacionais Suportados
+### Sistemas Operacionais Suportados:
 
 ## Ubuntu 18.04 OU 20.04 Server x86_64
 ![Ubuntu](https://assets.ubuntu.com/v1/29985a98-ubuntu-logo32.png) 

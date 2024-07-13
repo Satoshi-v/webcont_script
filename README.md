@@ -34,7 +34,7 @@ Para usar o SSH-PLUS 2023, você precisará de:
 
 ## Passos de Instalação
 
-### 1. Tornar-se root
+### 1. Tornar-se root(somente em casos que o servidor nao vem com usuário root por padrão)
 Para entrar como usuário root, execute o comando abaixo:
 
 ````

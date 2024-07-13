@@ -1,65 +1,45 @@
-
 # SSH-PLUS 2023⚡
 
-# TELEGRAM @TURBONE2023
+![SSH-PLUS Logo](https://example.com/logo.png)
 
-✅ NOVO PROXY DTUNNEL V2 MOD
+## TELEGRAM: [@TURBONE2023](https://t.me/TURBONE2023)
 
-✅ WEBSOCKET SECURITY
+### Funcionalidades
 
-✅ V2RAY FUNCIONANDO
+- ✅ Novo Proxy DTunnel V2 Mod
+- ✅ WebSocket Security
+- ✅ V2Ray Funcionando
+- ✅ CheckUser Conecta4G
+- ✅ CheckUser GL Tunnel Mod
+- ✅ CheckUser AnyVPN Mod
+- ✅ BadVPN Pro
+- ✅ Menu Apache
+- ✅ Mostrador de Consumo
+- ✅ TCPTweaker
+- ✅ Memória Swap
+- ✅ Firewall Oracle
 
-✅ CHECKUSER CONECTA4G 
+## Requisitos
 
-✅ CHECKUSER GL TUNNEL MOD 
+Para usar o SSH-PLUS 2023, você precisará de:
 
-✅ CHECKUSER ANYVPN MOD
+- Um sistema operacional baseado em Linux (Ubuntu ou Debian)
+- Servidor Ubuntu 18.04 x86_64 / Servidor Ubuntu 20.04 x86_64
+- Servidor Debian 8 x86_64 / Servidor Debian 9 x86_64
 
-✅ BADVPN PRO 
+**Recomendações:**
+- Debian 9 Server x86_64 / Ubuntu 18.04 Server x86_64
+- Usar uma distro nova ou formatada
+- Idioma padrão: Português
 
-✅ MENU APACHE 
+### Sistemas Operacionais Suportados
 
-✅ MOSTRADOR DE CONSUMO 
+![Ubuntu](https://assets.ubuntu.com/v1/29985a98-ubuntu-logo32.png) ![Debian](https://www.debian.org/logos/openlogo-nd.svg)
 
-✅ TCPTWEAKER 
+## Passos de Instalação
 
-✅ MEMÓRIA SWAP 
+### 1. Tornar-se root
+Para entrar como usuário root, execute o comando abaixo:
 
-✅ FIREWALL ORACLE
-
-## :heavy_exclamation_mark: Requisitos
-* Um sistema operacional baseado em Linux (Ubuntu ou Debian)
-* Servidor Ubuntu 18.04 x86_64 / Servidor Ubuntu 20.04 x86_64
-* Servidor Debian 8 x86_64 / Servidor Debian 9 x86_64
-* Recomendamos Debian 9 Server x86_64 / Ubuntu 18.04 Server x86_64
-* Recomenda-se usar uma distro nova ou formatada
-* O idioma padrão é o Português
-
-# Entrar e definir como Usuário root usar comando abaixo:
-
-````
+```bash
 sudo -i
-````
-
-# ALTERAR SENHA ROOT VPS...
-
-````
-bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/senharoot/main/senharoot.sh)
-````
-
-# SSH-PLUS 2023 INSTALAÇÃO
-
-# ATUALIZAR SISTEMA E INSTALAR SCRIPT SSH-PLUS 2024!
-
-````
-apt update -y && apt upgrade -y && wget -y; bash <(wget -qO- raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/ssh-plus)
-````
-
-# SEGUNDA OPÇÃO PARA INSTALAÇÃO
-
-````
-apt update -y && apt upgrade -y && wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/ssh-plus && chmod 777 ssh-plus && ./ssh-plus
-````
-
-
-# ########################################################################################################################

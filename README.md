@@ -54,7 +54,7 @@ sudo -i
 ````
 bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/senharoot/main/senharoot.sh)
 ````
-###############################################################################################
+#######################################################################################
 
 ### LINKS PARA INSTALAÇAO DO SCRIPT SSHPLUS 
 

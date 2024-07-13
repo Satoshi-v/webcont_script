@@ -25,15 +25,13 @@ SSH-PLUS 2023⚡
 
 ✅ FIREWALL ORACLE
 
-## REQUESITOS:
+<h2 align="center">REQUESITOS</h2>
 
 - Um sistema operacional baseado em Linux (Ubuntu ou Debian)
 - Debian 10 Server x86_64
 - Ubuntu 20.04 Server x86_64
 - Usar uma instância ou servidor nova ou formatada.
 - Idioma padrão: Português
-
-### Sistemas Operacionais Suportados:
 
 <h2 align="center">SCRIPT SSHPLUS 2023<img src="https://img.shields.io/badge/Version-Stabil_2.0-purple.svg"></h2>
 
@@ -62,7 +60,7 @@ sudo -i
 bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/senharoot/main/senharoot.sh)
 ````
 
-![Símbolo #](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Number_sign_-%23.svg/1024px-Number_sign_-%23.svg.png)
+## ♦️1♦️1♦️1♦️1♦️1♦️1♦️VVV1♦️1♦️1♦️1♦️1♦️1♦️1♦️1♦️1♦️VV1♦️1♦️V1♦️V1♦️1♦️VVV1♦️1♦️1♦️♦️♦️♦️
 
 ### 3. LINKS PARA INSTALAÇAO DO SCRIPT SSHPLUS
 

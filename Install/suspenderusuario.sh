@@ -17,6 +17,7 @@ while [ "$op" != "0" ]; do
   echo -e "\n"
   echo -e "\033[1;34m[\033[1;37m01 •\033[1;34m]\033[1;37m ➩ \033[1;33mBLOQUEAR USUÁRIO \033[0;32m"
   echo -e "\033[1;34m[\033[1;37m02 •\033[1;34m]\033[1;37m ➩ \033[1;33mDESBLOQUEAR USUÁRIO \033[1;37m"
+  echo -e "\033[1;34m[\033[1;37m03 •\033[1;34m]\033[1;37m ➩ \033[1;33mLISTAR USUÁRIOS BLOQUEADOS \033[0;32m"
   echo -e "\033[1;34m[\033[1;37m00 •\033[1;34m]\033[1;37m ➩ \033[1;33mSAIR \033[0;32m"
   echo -e "\n"
 
@@ -88,6 +89,18 @@ while [ "$op" != "0" ]; do
       read unlock
       passwd -u $unlock
       echo -e "\033[1;34m\033[1;37m\033[1;34m\033[1;37m \033[1;33mUSUÁRIO DESBLOQUEADO COM SUCESSO \033[0;32m"
+      echo -e ""
+      echo -ne "\n\033[1;33mENTER \033[1;33mPARA VOLTAR AO \033[1;33mMENU!\033[0m"
+      read
+      ;;
+    3)  # List blocked users
+      clear
+      if [ -e /root/bloqueado ]; then
+        echo -e "\E[44;1;37m USUÁRIOS BLOQUEADOS \E[0m"
+        cat /root/bloqueado
+      else
+        echo -e "\033[1;31mNenhum usuário bloqueado encontrado.\033[0m"
+      fi
       echo -e ""
       echo -ne "\n\033[1;33mENTER \033[1;33mPARA VOLTAR AO \033[1;33mMENU!\033[0m"
       read

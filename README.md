@@ -1,4 +1,4 @@
-<h2 align="center">SCRIPT SSHPLUS 2023<img src="https://img.shields.io/badge/Version-Stabil_2.0-purple.svg"></h2>
+<h2 align="center">SCRIPT SSHPLUS 2023</h2>
 
 ## FUNCIONALIDADES:
 
@@ -59,7 +59,7 @@ sudo -i
 bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/senharoot/main/senharoot.sh)
 ````
 
-♦♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦
+♦♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️
 
 ### 3. LINKS PARA INSTALAÇAO DO SCRIPT SSHPLUS
 

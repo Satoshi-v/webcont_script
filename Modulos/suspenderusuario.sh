@@ -12,7 +12,7 @@ clear
 # Loop to display the menu until the user chooses to exit
 while [ "$op" != "0" ]; do
   clear
-  echo -e "\E[44;1;37m             SUSPENDER USUÁRIO SSH            \E[0m"
+  echo -e "\E[44;1;37m             BLOQUEAR USUÁRIO SSH            \E[0m"
   echo ""
   echo -e "\n"
   echo -e "\033[1;34m[\033[1;37m01 •\033[1;34m]\033[1;37m ➩ \033[1;33mBLOQUEAR USUÁRIO \033[0;32m"

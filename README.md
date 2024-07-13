@@ -20,12 +20,8 @@
 Para usar o SSH-PLUS 2023, você precisará de:
 
 - Um sistema operacional baseado em Linux (Ubuntu ou Debian)
-- Servidor Ubuntu 18.04 x86_64 / Servidor Ubuntu 20.04 x86_64
-- Servidor Debian 8 x86_64 / Servidor Debian 9 x86_64
-
-**Recomendações:**
-- Debian 9 Server x86_64 / Ubuntu 18.04 Server x86_64
-- Usar uma distro nova ou formatada
+- Debian 9 Server x86_64 / Ubuntu 18.04 Server x86_64.
+- Usar uma instância ou servidor nova ou formatada.
 - Idioma padrão: Português
 
 ### Sistemas Operacionais Suportados
@@ -33,7 +29,7 @@ Para usar o SSH-PLUS 2023, você precisará de:
 ## Ubuntu 18.04 OU 20.04 Server x86_64
 ![Ubuntu](https://assets.ubuntu.com/v1/29985a98-ubuntu-logo32.png) 
 
-## Debian 9 OU 10Server x86_64
+## Debian 9 OU 10 Server x86_64
 ![Debian](https://www.debian.org/logos/openlogo-nd.svg)
 
 ## Passos de Instalação

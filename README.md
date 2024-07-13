@@ -35,12 +35,15 @@ SSH-PLUS 2023⚡
 
 ### Sistemas Operacionais Suportados:
 
-## Ubuntu 18.04 OU 20.04 Server x86_64
-![Ubuntu](https://assets.ubuntu.com/v1/29985a98-ubuntu-logo32.png) 
+<h2 align="center">AutoScriptVPN <img src="https://img.shields.io/badge/Version-Stabil_2.0-purple.svg"></h2>
 
-## Debian 9 OU 10 Server x86_64
-![Debian](https://www.debian.org/logos/openlogo-nd.svg)
 
+<h2 align="center"> Supported Linux Distribution</h2>
+<p align="center"><img src="https://d33wubrfki0l68.cloudfront.net/5911c43be3b1da526ed609e9c55783d9d0f6b066/9858b/assets/img/debian-ubuntu-hover.png"width="400"></p>
+<p align="center"><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=debian&label=Debian%209&message=Stretch&color=purple"> <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=debian&label=Debian%2010&message=Buster&color=purple">  <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=ubuntu&label=Ubuntu%2018&message=Lts&color=red"> <img src="https://img.shields.io/static/v1?style=for-the-badge&logo=ubuntu&label=Ubuntu%2020&message=Lts&color=red">
+</p>
+
+<p align="center">
 ## Passos de Instalação
 
 ### 1. Tornar-se usuário root:

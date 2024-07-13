@@ -31,7 +31,7 @@
 - Um sistema operacional baseado em Linux (Ubuntu ou Debian)
 - Debian 10 Server x86_64
 - Ubuntu 20.04 Server x86_64
-- Usar uma instância ou servidor nova ou formatada.
+- Usar um Servidor novo ou formatado.
 - Idioma padrão: Português
 
 

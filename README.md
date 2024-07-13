@@ -41,6 +41,7 @@
 </p>
 
 <p align="center">
+  
 ## Passos de Instalação
 
 ### 1. Tornar-se usuário root:

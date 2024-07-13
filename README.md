@@ -1,4 +1,5 @@
-SSH-PLUS 2023⚡
+<h2 align="center">SCRIPT SSHPLUS 2023<img src="https://img.shields.io/badge/Version-Stabil_2.0-purple.svg"></h2>
+
 ## FUNCIONALIDADES:
 
 ✅ NOVO PROXY DTUNNEL V2 MOD
@@ -25,15 +26,13 @@ SSH-PLUS 2023⚡
 
 ✅ FIREWALL ORACLE
 
-<h2 align="center">REQUESITOS</h2>
+<h2 align="left">REQUESITOS</h2>
 
 - Um sistema operacional baseado em Linux (Ubuntu ou Debian)
 - Debian 10 Server x86_64
 - Ubuntu 20.04 Server x86_64
 - Usar uma instância ou servidor nova ou formatada.
 - Idioma padrão: Português
-
-<h2 align="center">SCRIPT SSHPLUS 2023<img src="https://img.shields.io/badge/Version-Stabil_2.0-purple.svg"></h2>
 
 
 <h2 align="center"> DISTRIBUIÇÕES LINUX SUPORTADAS</h2>
@@ -60,7 +59,7 @@ sudo -i
 bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/senharoot/main/senharoot.sh)
 ````
 
-## ♦️1♦️1♦️1♦️1♦️1♦️1♦️VVV1♦️1♦️1♦️1♦️1♦️1♦️1♦️1♦️1♦️VV1♦️1♦️V1♦️V1♦️1♦️VVV1♦️1♦️1♦️♦️♦️♦️
+## ♦♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️
 
 ### 3. LINKS PARA INSTALAÇAO DO SCRIPT SSHPLUS
 

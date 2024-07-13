@@ -76,5 +76,5 @@ Opção 2:
 apt update -y && apt upgrade -y && wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/ssh-plus && chmod 777 ssh-plus && ./ssh-plus
 ````
 
-## TELEGRAM: [@TURBONE2023](https://t.me/TURBONE2023)
+## TELEGRAM: [@TURBONET2023](https://t.me/TURBONET2023)
 

@@ -1,147 +1,201 @@
 #!/bin/bash
 
-# Get current version and public IP
-_lvk=$(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/versao)
-IP=$(wget -qO- ipv4.icanhazip.com)
-IP2=$(wget -qO- http://whatismyip.akamai.com/)
-[[ "$IP" != "$IP2" ]] && ipdovps="$IP2" || ipdovps="$IP"
-echo -e "$ipdovps" > /etc/IP
+# Função para definir variáveis
+definir_variaveis() {
+    _lvk=$(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/versao)
+    IP=$(wget -qO- ipv4.icanhazip.com)
+    IP2=$(wget -qO- http://whatismyip.akamai.com/)
+    [[ "$IP" != "$IP2" ]] && ipdovps="$IP2" || ipdovps="$IP"
+    echo -e "$ipdovps" > /etc/IP
 
-# Timezone configuration
-echo -e "America/Sao_Paulo" > /etc/timezone
-ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime >/dev/null 2>&1
-dpkg-reconfigure --frontend noninteractive tzdata >/dev/null 2>&1
+    TIMEZONE="America/Sao_Paulo"
 
-# Directory setup
-dirs=(
-    "/etc/SSHPlus"
-    "/etc/SSHPlus/v2ray"
-    "/etc/SSHPlus/proxy"
-    "/etc/SSHPlus/openvpn"
-    "/etc/SSHPlus/criarusuario"
-    "/etc/SSHPlus/senha"
-    "/etc/SSHPlus/userteste"
-    "/etc/SSHPlus/suspenderusuario"
-    "/etc/SSHPlus/.tmp"
-    "/etc/bot"
-    "/etc/bot/info-users"
-    "/etc/bot/arquivos"
-    "/etc/bot/revenda"
-    "/etc/bot/suspensos"
-    "/etc/rec"
-)
-for dir in "${dirs[@]}"; do
-    [[ ! -d $dir ]] && mkdir -p $dir
-done
+    # Diretórios
+    dirs=(
+        "/etc/SSHPlus"
+        "/etc/SSHPlus/v2ray"
+        "/etc/SSHPlus/proxy"
+        "/etc/SSHPlus/openvpn"
+        "/etc/SSHPlus/criarusuario"
+        "/etc/SSHPlus/senha"
+        "/etc/SSHPlus/userteste"
+        "/etc/SSHPlus/suspenderusuario"
+        "/etc/SSHPlus/.tmp"
+        "/etc/bot"
+        "/etc/bot/info-users"
+        "/etc/bot/arquivos"
+        "/etc/bot/revenda"
+        "/etc/bot/suspensos"
+        "/etc/rec"
+    )
 
-# File setup
-files=(
-    "/etc/SSHPlus/Exp"
-    "/etc/bot/lista_ativos"
-    "/etc/bot/lista_suspensos"
-)
-for file in "${files[@]}"; do
-    [[ ! -e $file ]] && touch $file
-done
+    # Arquivos
+    files=(
+        "/etc/SSHPlus/Exp"
+        "/etc/bot/lista_ativos"
+        "/etc/bot/lista_suspensos"
+    )
 
-# Licence and credits
-echo -e 'by: @KIRITO_SSH' > /usr/lib/sshplus
-cat /usr/lib/sshplus > $lst2/licence
-cat /usr/lib/sshplus > /etc/SSHPlus/.tmp/crazy
+    # Módulos
+    _dir1='/bin'
+    _dir2='/etc/SSHPlus'
+    modules=(
+        "addhost" "ajuda" "alterarlimite" "alterarsenha" "apache2menu" "autoreboot.sh" "tcptweaker.sh" "checkers" "utili" "multi" "check"
+        "chuser" "limit" "rps_cpu" "attscript" "Autobackup" "backup_mail.sh" "badvpn" "badpro" "badpro1" "badvpn2" "badvpn3" "banner"
+        "bashtop" "ddos" "blocksite" "blockt" "blockuser" "bot" "botssh" "cabecalho" "conexao" "criarteste" "criarusuario" "delhost"
+        "delscript" "detalhes" "dns-netflix.sh" "droplimiter" "expcleaner" "ban.sh" "fr" "GoLang.sh" "infousers" "inst-botteste" "initcheck"
+        "instsqd" "limiter" "menu" "menub" "menub2" "menuudp" "mudardata" "mtuning" "multi" "onlineapp" "open.py" "otimizar" "painelv2ray"
+        "prissh" "prnet.sh" "proxydt" "proxy.py" "psiphon.sh" "reiniciarservicos" "reiniciarsistema" "remover" "senharoot" "ShellBot.sh"
+        "slowdns" "speedtest" "sshmonitor" "suspenderusuario.sh" "swapmemory" "trafegototal" "trojan-go" "uexpired" "userbackup" "velocity"
+        "verifatt" "verifbot" "v2raymanager" "webmin.sh" "websocket.sh" "wireguard.sh" "wsproxy.py" "pkill.sh"
+    )
 
-# Apache and SSH configuration
-netstat -nplt | grep -w 'apache2' | grep -w '80' && sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf && service apache2 restart
-[[ "$(grep -o '#Port 22' /etc/ssh/sshd_config)" == "#Port 22" ]] && sed -i "s;#Port 22;Port 22;" /etc/ssh/sshd_config && service ssh restart
-grep -v "^PasswordAuthentication" /etc/ssh/sshd_config > /tmp/passlogin && mv /tmp/passlogin /etc/ssh/sshd_config
-echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
-
-# Module download and setup
-_dir1='/bin'
-_dir2='/etc/SSHPlus'
-modules=(
-    "addhost" "ajuda" "alterarlimite" "alterarsenha" "apache2menu" "autoreboot.sh" "tcptweaker.sh" "checkers" "utili" "multi" "check"
-    "chuser" "limit" "rps_cpu" "attscript" "Autobackup" "backup_mail.sh" "badvpn" "badpro" "badpro1" "badvpn2" "badvpn3" "banner"
-    "bashtop" "ddos" "blocksite" "blockt" "blockuser" "bot" "botssh" "cabecalho" "conexao" "criarteste" "criarusuario" "delhost"
-    "delscript" "detalhes" "dns-netflix.sh" "droplimiter" "expcleaner" "ban.sh" "fr" "GoLang.sh" "infousers" "inst-botteste" "initcheck"
-    "instsqd" "limiter" "menu" "menub" "menub2" "menuudp" "mudardata" "mtuning" "multi" "onlineapp" "open.py" "otimizar" "painelv2ray"
-    "prissh" "prnet.sh" "proxydt" "proxy.py" "psiphon.sh" "reiniciarservicos" "reiniciarsistema" "remover" "senharoot" "ShellBot.sh"
-    "slowdns" "speedtest" "sshmonitor" "suspenderusuario.sh" "swapmemory" "trafegototal" "trojan-go" "uexpired" "userbackup" "velocity"
-    "verifatt" "verifbot" "v2raymanager" "webmin.sh" "websocket.sh" "wireguard.sh" "wsproxy.py" "pkill.sh"
-)
-for module in "${modules[@]}"; do
-    [[ -e $_dir1/$module ]] && rm $_dir1/$module >/dev/null 2>&1
-    wget -c -P $_dir1 https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/$module
-    chmod +x $_dir1/$module
-done
-mv $_dir1/{cabecalho,bot,open.py,proxy.py,wsproxy.py} $_dir2
-
-# Hosts setup
-_arq_host="/etc/hosts"
-hosts=(
-    "d1n212ccp6ldpw.cloudfront.net"
-    "dns.whatsapp.net"
-    "portalrecarga.vivo.com.br/recarga"
-    "navegue.vivo.com.br/controle/"
-    "navegue.vivo.com.br/pre/"
-    "www.whatsapp.net"
-    "/SSHPLUS?"
-)
-for host in "${hosts[@]}"; do
-    if [[ "$(grep -w "$host" $_arq_host | wc -l)" == "0" ]]; then
-        sed -i "3i\127.0.0.1 $host" $_arq_host
-    fi
-done
-
-# Autostart setup
-[[ ! -e /etc/autostart ]] && {
-    echo '#!/bin/bash
-clear
-#INICIO AUTOMATICO' > /etc/autostart
-    chmod +x /etc/autostart
-} || {
-    [[ $(ps x | grep "bot_plus" | grep -v grep | wc -l) != '0' ]] && wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/ShellBot.sh
-    for proc in $(ps x | grep 'dmS' | grep -v 'grep' | awk {'print $1'}); do
-        screen -r -S "$proc" -X quit
-    done
-    screen -wipe >/dev/null
-    echo '#!/bin/bash
-clear
-#INICIO AUTOMATICO' > /etc/autostart
-    chmod +x /etc/autostart
+    # Hosts
+    _arq_host="/etc/hosts"
+    hosts=(
+        "d1n212ccp6ldpw.cloudfront.net"
+        "dns.whatsapp.net"
+        "portalrecarga.vivo.com.br/recarga"
+        "navegue.vivo.com.br/controle/"
+        "navegue.vivo.com.br/pre/"
+        "www.whatsapp.net"
+        "/SSHPLUS?"
+    )
 }
 
-# Cron job setup
-crontab -r >/dev/null 2>&1
-(
-    crontab -l 2>/dev/null
-    echo "@daily /bin/verifatt"
-    echo "@reboot /etc/autostart"
-    echo "* * * * * /etc/autostart"
-    echo "0 */6 * * * /bin/uexpired"
-) | crontab -
+# Função para configurar o timezone
+configurar_timezone() {
+    echo -e "$TIMEZONE" > /etc/timezone
+    ln -fs /usr/share/zoneinfo/$TIMEZONE /etc/localtime >/dev/null 2>&1
+    dpkg-reconfigure --frontend noninteractive tzdata >/dev/null 2>&1
+}
 
-# Additional setup
-echo "$_lvk" | sed -n '1 p' | cut -d' ' -f2 > /bin/versao && cat /bin/versao > /home/sshplus
-wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/jq-linux64 >/dev/null 2>&1
-chmod +x jq-linux64 && mv jq-linux64 $(which jq)
-service cron restart >/dev/null 2>&1
-service ssh restart >/dev/null 2>&1
-[[ -d /var/www/html/openvpn ]] && service apache2 restart >/dev/null 2>&1
-rm -rf $lst1/list >/dev/null 2>&1
-mkdir /opt/sshplus
-echo > /opt/sshplus/sshplus
+# Função para criar diretórios
+criar_diretorios() {
+    for dir in "${dirs[@]}"; do
+        [[ ! -d $dir ]] && mkdir -p $dir
+    done
+}
 
-# Download WebSocket and keys
-cd /etc/SSHPlus/
-wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/WebSocket
-wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/pub.key
-wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/priv.pem
-chmod 777 WebSocket
+# Função para criar arquivos
+criar_arquivos() {
+    for file in "${files[@]}"; do
+        [[ ! -e $file ]] && touch $file
+    done
+}
 
-# Download and setup proxydt
-cd /etc/SSHPlus/
-wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/proxydt
-chmod 777 proxydt
+# Função para configurar licença e créditos
+configurar_licenca() {
+    echo -e 'by: @KIRITO_SSH' > /usr/lib/sshplus
+    cat /usr/lib/sshplus > $lst2/licence
+    cat /usr/lib/sshplus > /etc/SSHPlus/.tmp/crazy
+}
 
-# Return to home directory
-cd $HOME
+# Função para configurar Apache e SSH
+configurar_apache_ssh() {
+    netstat -nplt | grep -w 'apache2' | grep -w '80' && sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf && service apache2 restart
+    [[ "$(grep -o '#Port 22' /etc/ssh/sshd_config)" == "#Port 22" ]] && sed -i "s;#Port 22;Port 22;" /etc/ssh/sshd_config && service ssh restart
+    grep -v "^PasswordAuthentication" /etc/ssh/sshd_config > /tmp/passlogin && mv /tmp/passlogin /etc/ssh/sshd_config
+    echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+}
+
+# Função para baixar e configurar módulos
+baixar_modulos() {
+    for module in "${modules[@]}"; do
+        [[ -e $_dir1/$module ]] && rm $_dir1/$module >/dev/null 2>&1
+        wget -c -P $_dir1 https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/$module
+        chmod +x $_dir1/$module
+    done
+    mv $_dir1/{cabecalho,bot,open.py,proxy.py,wsproxy.py} $_dir2
+}
+
+# Função para configurar hosts
+configurar_hosts() {
+    for host in "${hosts[@]}"; do
+        if [[ "$(grep -w "$host" $_arq_host | wc -l)" == "0" ]]; then
+            sed -i "3i\127.0.0.1 $host" $_arq_host
+        fi
+    done
+}
+
+# Função para configurar autostart
+configurar_autostart() {
+    [[ ! -e /etc/autostart ]] && {
+        echo '#!/bin/bash
+clear
+#INICIO AUTOMATICO' > /etc/autostart
+        chmod +x /etc/autostart
+    } || {
+        [[ $(ps x | grep "bot_plus" | grep -v grep | wc -l) != '0' ]] && wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/ShellBot.sh
+        for proc in $(ps x | grep 'dmS' | grep -v 'grep' | awk {'print $1'}); do
+            screen -r -S "$proc" -X quit
+        done
+        screen -wipe >/dev/null
+        echo '#!/bin/bash
+clear
+#INICIO AUTOMATICO' > /etc/autostart
+        chmod +x /etc/autostart
+    }
+}
+
+# Função para configurar cron jobs
+configurar_cron() {
+    crontab -r >/dev/null 2>&1
+    (
+        crontab -l 2>/dev/null
+        echo "@daily /bin/verifatt"
+        echo "@reboot /etc/autostart"
+        echo "* * * * * /etc/autostart"
+        echo "0 */6 * * * /bin/uexpired"
+    ) | crontab -
+}
+
+# Função para configurações adicionais
+configuracoes_adicionais() {
+    echo "$_lvk" | sed -n '1 p' | cut -d' ' -f2 > /bin/versao && cat /bin/versao > /home/sshplus
+    wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/jq-linux64 >/dev/null 2>&1
+    chmod +x jq-linux64 && mv jq-linux64 $(which jq)
+    service cron restart >/dev/null 2>&1
+    service ssh restart >/dev/null 2>&1
+    [[ -d /var/www/html/openvpn ]] && service apache2 restart >/dev/null 2>&1
+    rm -rf $lst1/list >/dev/null 2>&1
+    mkdir /opt/sshplus
+    echo > /opt/sshplus/sshplus
+}
+
+# Função para baixar WebSocket e chaves
+baixar_websocket_chaves() {
+    cd /etc/SSHPlus/
+    wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/WebSocket
+    wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/pub.key
+    wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/priv.pem
+    chmod 777 WebSocket
+}
+
+# Função para baixar e configurar proxydt
+baixar_proxydt() {
+    cd /etc/SSHPlus/
+    wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/proxydt
+    chmod 777 proxydt
+}
+
+# Função principal
+principal() {
+    definir_variaveis
+    configurar_timezone
+    criar_diretorios
+    criar_arquivos
+    configurar_licenca
+    configurar_apache_ssh
+    baixar_modulos
+    configurar_hosts
+    configurar_autostart
+    configurar_cron
+    configuracoes_adicionais
+    baixar_websocket_chaves
+    baixar_proxydt
+    cd $HOME
+}
+
+# Executar função principal
+principal

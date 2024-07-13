@@ -1,100 +1,106 @@
 #!/bin/bash
-#====================================================
-#   @GERENCIAMENTO DE USUÁRIOS
-#====================================================
-# Função para suspender um usuário
-suspend_user() {
-    local username="$1"
+clear
+###############################################################
+# Programa para bloquear temporariamente e desbloquear contas de usuario
+###############################################################
+# SMIGOL PRO MANAGER
+###############################################################
 
-    # Verifica se o usuário existe
-    if id "$username" &>/dev/null; then
-        echo -e "\n\033[1;32mSuspensão do usuário $username iniciada...\033[0m"
+# Clear the screen at the start
+clear
 
-        # Desativa a conta do usuário
-        if usermod -L "$username"; then
-            echo -e "\033[1;32mUsuário $username desativado com sucesso.\033[0m"
+# Loop to display the menu until the user chooses to exit
+while [ "$op" != "0" ]; do
+  clear
+  echo -e "\E[44;1;37m             SUSPENDER USUÁRIO SSH            \E[0m"
+  echo ""
+  echo -e "\n"
+  echo -e "\033[1;34m[\033[1;37m01 •\033[1;34m]\033[1;37m ➩ \033[1;33mBLOQUEAR USUÁRIO \033[0;32m"
+  echo -e "\033[1;34m[\033[1;37m02 •\033[1;34m]\033[1;37m ➩ \033[1;33mDESBLOQUEAR USUÁRIO \033[1;37m"
+  echo -e "\033[1;34m[\033[1;37m00 •\033[1;34m]\033[1;37m ➩ \033[1;33mSAIR \033[0;32m"
+  echo -e "\n"
+
+  # Read user input for the menu option
+  read -p "Escolha uma opção: " op
+
+  case $op in
+    1)  # Block user
+      clear
+      echo -e "\E[44;1;37m Usuario         Senha       limite      validade \E[0m"
+      echo ""
+
+      for users in $(awk -F : '$3 > 900 { print $1 }' /etc/passwd | sort | grep -v "nobody" | grep -vi polkitd | grep -vi system-); do
+        if [[ $(grep -cw $users $HOME/usuarios.db) == "1" ]]; then
+          lim=$(grep -w $users $HOME/usuarios.db | cut -d' ' -f2)
         else
-            echo -e "\033[1;31mErro ao desativar o usuário $username.\033[0m"
-            return 1
+          lim="1"
         fi
 
-        # Opcional: Remover ou desativar arquivos de configuração (exemplo para OpenVPN)
-        if [[ -e /etc/openvpn/easy-rsa/pki/issued/$username.crt ]]; then
-            rm -f /etc/openvpn/easy-rsa/pki/issued/$username.crt
-            rm -f /etc/openvpn/easy-rsa/pki/private/$username.key
-            rm -f /etc/openvpn/easy-rsa/pki/crl.pem
-            echo -e "\033[1;32mArquivos de configuração do OpenVPN removidos.\033[0m"
-        fi
-    else
-        echo -e "\033[1;31mUsuário $username não encontrado.\033[0m"
-        return 1
-    fi
-}
-
-# Função para reativar um usuário
-reactivate_user() {
-    local username="$1"
-
-    # Verifica se o usuário existe
-    if id "$username" &>/dev/null; then
-        echo -e "\n\033[1;32mReativação do usuário $username iniciada...\033[0m"
-
-        # Reativa a conta do usuário
-        if usermod -U "$username"; then
-            echo -e "\033[1;32mUsuário $username reativado com sucesso.\033[0m"
+        if [[ -e "/etc/SSHPlus/senha/$users" ]]; then
+          senha=$(cat /etc/SSHPlus/senha/$users)
         else
-            echo -e "\033[1;31mErro ao reativar o usuário $username.\033[0m"
-            return 1
+          senha="Null"
         fi
 
-        # Opcional: Restaurar arquivos de configuração do OpenVPN (se necessário)
-        # Adapte este bloco conforme sua necessidade
-    else
-        echo -e "\033[1;31mUsuário $username não encontrado.\033[0m"
-        return 1
-    fi
-}
+        datauser=$(chage -l $users | grep -i co | awk -F : '{print $2}')
+        if [ "$datauser" == "never" ]; then
+          data="\033[1;33mNunca\033[0m"
+        else
+          databr=$(date -d "$datauser" +"%Y%m%d")
+          hoje=$(date -d today +"%Y%m%d")
+          if [ "$hoje" -ge "$databr" ]; then
+            data="\033[1;31mVenceu\033[0m"
+          else
+            dat=$(date -d"$datauser" '+%Y-%m-%d')
+            data=$(echo -e "$((($(date -ud $dat +%s) - $(date -ud $(date +%Y-%m-%d) +%s)) / 86400)) \033[1;37mDias\033[0m")
+          fi
+        fi
 
-# Função de menu para selecionar opções
-menu() {
-    clear
-    echo -e "\033[1;44m\033[1;37m            MENU DE GERENCIAMENTO DE USUÁRIOS            \033[0m\033[0m"
-    echo -e "\033[1;44m\033[1;37m=========================================================\033[0m\033[0m"
-    echo ""
-    echo -e "\033[1;36m[\033[1;32m1\033[1;36m]\033[1;37m SUSPENDER USUÁRIO"
-    echo -e "\033[1;36m[\033[1;32m2\033[1;36m]\033[1;37m REATIVAR USUÁRIO"
-    echo -e "\033[1;36m[\033[1;32m0\033[1;36m]\033[1;37m SAIR"
-    echo ""
-    echo -ne "\033[1;34mEscolha uma opção: \033[1;37m"
-    read opcao
-    case "$opcao" in
-        1)
-            echo -ne "\033[1;34mDigite o nome do usuário para suspender: \033[1;37m"
-            read username
-            if [[ -n "$username" ]]; then
-                suspend_user "$username"
-            else
-                echo -e "\033[1;31mNome de usuário inválido.\033[0m"
-            fi
-            ;;
-        2)
-            echo -ne "\033[1;34mDigite o nome do usuário para reativar: \033[1;37m"
-            read username
-            if [[ -n "$username" ]]; then
-                reactivate_user "$username"
-            else
-                echo -e "\033[1;31mNome de usuário inválido.\033[0m"
-            fi
-            ;;
-        0)
-            echo -e "\n\033[1;32mSaindo...\033[0m"
-            menu
-            ;;
-        *)
-            echo -e "\n\033[1;31mOpção inválida. Por favor, escolha uma opção válida.\033[0m"
-            ;;
-    esac
-}
+        Usuario=$(printf ' %-15s' "$users")
+        Senha=$(printf '%-13s' "$senha")
+        Limite=$(printf '%-10s' "$lim")
+        Data=$(printf '%-1s' "$data")
+        echo -e "\033[1;33m$Usuario \033[1;37m$Senha \033[1;37m$Limite \033[1;32m$Data\033[0m"
+        echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+      done
 
-# Executa o menu uma vez
-menu
+      echo ""
+      _tuser=$(awk -F: '$3>=1000 {print $1}' /etc/passwd | grep -v nobody | wc -l)
+      _ons=$(ps -x | grep sshd | grep -v root | grep priv | wc -l)
+      [[ "$(cat /etc/SSHPlus/Exp)" != "" ]] && _expuser=$(cat /etc/SSHPlus/Exp) || _expuser="0"
+      [[ -e /etc/openvpn/openvpn-status.log ]] && _onop=$(grep -c "10.8.0" /etc/openvpn/openvpn-status.log) || _onop="0"
+      [[ -e /etc/default/dropbear ]] && _drp=$(ps aux | grep dropbear | grep -v grep | wc -l) _ondrp=$(($_drp - 1)) || _ondrp="0"
+      _onli=$(($_ons + $_onop + $_ondrp))
+      echo -e "\033[1;33m• \033[1;36mTOTAL USUARIOS\033[1;37m $_tuser \033[1;33m• \033[1;32mONLINES\033[1;37m: $_onli \033[1;33m• \033[1;31mVENCIDOS\033[1;37m: $_expuser \033[1;33m•\033[0m"
+
+      echo " DIGITE O NOME DE USUÁRIO QUE DESEJA BLOQUEAR : "
+      read lock
+      passwd -l $lock && echo "$lock" >> /root/bloqueado
+      echo -e "\033[1;34m\033[1;37m\033[1;34m\033[1;37m \033[1;33mUSUÁRIO BLOQUEADO COM SUCESSO \033[0;32m"
+      echo -e ""
+      echo -ne "\n\033[1;33mENTER \033[1;33mPARA VOLTAR AO \033[1;33mMENU!\033[0m"
+      read
+      ;;
+    2)  # Unblock user
+      clear
+      cat /root/bloqueado
+      echo " DIGITE O NOME DE USUÁRIO QUE DESEJA DESBLOQUEAR : "
+      read unlock
+      passwd -u $unlock
+      echo -e "\033[1;34m\033[1;37m\033[1;34m\033[1;37m \033[1;33mUSUÁRIO DESBLOQUEADO COM SUCESSO \033[0;32m"
+      echo -e ""
+      echo -ne "\n\033[1;33mENTER \033[1;33mPARA VOLTAR AO \033[1;33mMENU!\033[0m"
+      read
+      ;;
+    0)  # Exit
+      clear
+      echo "RETORNANDO...."
+      exit 0
+      menu
+      ;;
+    *)  # Invalid option
+      clear
+      echo "Opcao Invalida ..."
+      ;;
+  esac
+done

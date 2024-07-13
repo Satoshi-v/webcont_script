@@ -59,7 +59,7 @@ sudo -i
 bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/senharoot/main/senharoot.sh)
 ````
 
-**#######################################################################################
+![Símbolo #](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Number_sign_-%23.svg/1024px-Number_sign_-%23.svg.png)
 
 ### 3. LINKS PARA INSTALAÇAO DO SCRIPT SSHPLUS
 

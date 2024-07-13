@@ -1,9 +1,5 @@
 # SSH-PLUS 2023⚡
 
-![SSH-PLUS Logo](https://example.com/logo.png)
-
-## TELEGRAM: [@TURBONE2023](https://t.me/TURBONE2023)
-
 ### Funcionalidades
 
 - ✅ Novo Proxy DTunnel V2 Mod
@@ -71,4 +67,6 @@ Opção 2:
 ````
 apt update -y && apt upgrade -y && wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/ssh-plus && chmod 777 ssh-plus && ./ssh-plus
 ````
+
+## TELEGRAM: [@TURBONE2023](https://t.me/TURBONE2023)
 

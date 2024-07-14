@@ -13,11 +13,9 @@ dpkg-reconfigure --frontend noninteractive tzdata >/dev/null 2>&1
 }
 [[ ! -d /etc/SSHPlus ]] && mkdir /etc/SSHPlus
 [[ ! -d /etc/SSHPlus/v2ray ]] && mkdir /etc/SSHPlus/v2ray
-[[ ! -d /etc/SSHPlus/criarusuario ]] && mkdir /etc/SSHPlus/criarusuario
 [[ ! -d /etc/SSHPlus/senha ]] && mkdir /etc/SSHPlus/senha
 [[ ! -e /etc/SSHPlus/Exp ]] && touch /etc/SSHPlus/Exp
 [[ ! -d /etc/SSHPlus/userteste ]] && mkdir /etc/SSHPlus/userteste
-[[ ! -d /etc/SSHPlus/suspenderusuario ]] && mkdir /etc/SSHPlus/suspenderusuario
 [[ ! -d /etc/SSHPlus/.tmp ]] && mkdir /etc/SSHPlus/.tmp
 [[ ! -d /etc/bot ]] && mkdir /etc/bot
 [[ ! -d /etc/bot/info-users ]] && mkdir /etc/bot/info-users
@@ -35,7 +33,7 @@ echo "PasswordAuthentication yes" >>/etc/ssh/sshd_config
 _dir1='/bin'
 _dir2='/etc/SSHPlus'
 rm $_dir2/ShellBot.sh $_dir2/cabecalho $_dir2/open.py $_dir2/proxy.py $_dir2/wsproxy.py >/dev/null 2>&1
-_mdls=("addhost" "ajuda" "alterarlimite" "alterarsenha" "apache2menu" "autoreboot.sh" "tcptweaker.sh" "checkers" "utili" "multi" "check" "chuser" "limit" "rps_cpu" "attscript" "Autobackup" "backup_mail.sh" "badvpn" "badpro" "badpro1" "badvpn2" "badvpn3" "banner" "bashtop" "ddos" "blocksite" "blockt" "blockuser" "bot" "botssh" "cabecalho" "conexao" "criarteste" "criarusuario" "delhost" "delscript" "detalhes" "dns-netflix.sh" "droplimiter" "expcleaner" "ban.sh" "fr" "GoLang.sh" "infousers" "inst-botteste" "initcheck" "instsqd" "limiter" "menu" "menub" "menub2" "menuudp" "mudardata" "mtuning" "multi" "onlineapp" "open.py" "otimizar" "painelv2ray" "prissh" "prnet.sh" "proxydt" "proxy.py" "psiphon.sh" "reiniciarservicos" "reiniciarsistema" "remover" "senharoot" "ShellBot.sh" "slowdns" "speedtest" "sshmonitor" "suspenderusuario.sh" "swapmemory" "trafegototal" "trojan-go" "uexpired" "userbackup" "velocity" "verifatt" "verifbot" "v2raymanager" "webmin.sh" "websocket.sh" "wireguard.sh" "wsproxy.py" "pkill.sh")
+_mdls=("addhost" "ajuda" "alterarlimite" "alterarsenha" "apache2menu" "auto-reboot.sh" "tcptweaker.sh" "checkers" "utili" "multi" "check" "chuser" "limit" "rps_cpu" "attscript" "Autobackup" "backup_mail.sh" "badvpn" "badpro" "badpro1" "badvpn2" "badvpn3" "banner" "bashtop" "ddos" "blocksite" "blockt" "blockuser" "bot" "botssh" "cabecalho" "conexao" "criarteste" "criarusuario" "delhost" "delscript" "detalhes" "dns-netflix.sh" "droplimiter" "expcleaner" "ban.sh" "fr" "GoLang.sh" "infousers" "inst-botteste" "initcheck" "instsqd" "limiter" "menu" "menub" "menub2" "menuudp" "mudardata" "mtuning" "multi" "onlineapp" "open.py" "otimizar" "painelv2ray" "prissh" "prnet.sh" "proxydt" "proxy.py" "psiphon.sh" "reiniciarservicos" "reiniciarsistema" "remover" "senharoot" "ShellBot.sh" "slowdns" "speedtest" "sshmonitor" "swapmemory" "trafegototal" "trojan-go" "uexpired" "userbackup" "velocity" "verifatt" "verifbot" "v2raymanager" "webmin.sh" "websocket.sh" "wireguard.sh" "wsproxy.py" "pkill.sh")
 for _arq in ${_mdls[@]}; do
 	[[ -e $_dir1/$_arq ]] && rm $_dir1/$_arq >/dev/null 2>&1
 	wget -c -P $_dir1 https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/$_arq

@@ -1,11 +1,11 @@
 #!/bin/bash
-####################################<
+####################################
 ### "BY ACKHTTP SERVER MANAGER >> @GODYSKYUP <<" ###
-####################################<
+####################################
 
-user=$(whoami)
-if [ "$user" != "root" ]; then
-    echo "DEVE SER EXECUTADO COMO ROOT! >> SUDO -I <<"
+# Verifica se o script está sendo executado como root
+if [ "$(whoami)" != "root" ]; then
+    echo "Este script deve ser executado como root! Use >> sudo -i <<"
     exit 1
 fi
 
@@ -46,7 +46,7 @@ set_sysctl_param "net/core/dev_weight" 1024
 set_sysctl_param "net/core/busy_read" 50
 set_sysctl_param "net/core/busy_poll" 50
 
-### "TEMPO DE CONEXAO TCP" ###
+### "TEMPO DE CONEXÃO TCP" ###
 set_sysctl_param "net/ipv4/route/mtu_expires" 1800
 set_sysctl_param "net/ipv4/tcp_keepalive_probes" 1024
 set_sysctl_param "net/ipv4/tcp_synack_retries" 1024
@@ -98,7 +98,7 @@ set_sysctl_param "net/ipv4/tcp_ecn" 0
 set_sysctl_param "net/ipv4/tcp_slow_start_after_idle" 0
 set_sysctl_param "net/ipv4/tcp_frto" 0
 
-### "INTERFACE ROUTE" ###
+### "ROTEAMENTO DE INTERFACE" ###
 set_sysctl_param "net/ipv4/route/max_size" 32768
 set_sysctl_param "net/ipv4/route/gc_thresh" 16384
 set_sysctl_param "net/ipv4/route/gc_elasticity" 16384

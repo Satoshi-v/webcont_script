@@ -42,7 +42,7 @@
 
 <p align="center">
   
-## Passos de Instalação
+## Passos Para Instalação
 
 ### 1. Tornar-se usuário root:
 
@@ -62,7 +62,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/senharoot/main/
 
 ♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️♦️
 
-### 3. LINKS PARA INSTALAÇAO DO SCRIPT SSHPLUS
+### 3. LINKS PARA INSTALAÇÃO DO SCRIPT SSHPLUS
 
 Opção 1:
 

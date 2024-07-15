@@ -109,7 +109,7 @@ if [[ -f "$HOME/usuarios.db" ]]; then
     echo ""
     read -p "Digite apenas o número [1 ou 2]: " -e -i 1 resposta
     if [[ "$resposta" = '2' ]]; then
-    } || {
+    } 
     awk -F : '$3 >= 500 { print $1 " 1" }' /etc/passwd | grep -v '^nobody' > $HOME/usuarios.db
     }
     [ [ "$optiondb" = '2' ]] && awk -F : '$3 >= 500 { print $1 " 1" }' /etc/passwd | grep -v '^nobody' > $HOME/usuarios.db    touch $HOME/usuarios.db > /dev/null 2>&1

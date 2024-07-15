@@ -149,7 +149,7 @@ fun_bar 'fun_attlist'
     # INSTALA SOCAT
     apt install socat -y
     #SETAR PYTHON3
-    update-alternatives --set python3 /usr/bin/python3.6
+    update-alternatives --set python3 /usr/bin/python3.9
 }
     fun_bar 'otimize_python'
 #-----------------------------------------------------------------------------------------------------------------

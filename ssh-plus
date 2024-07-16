@@ -1,5 +1,8 @@
 #!/bin/bash
+
+# Limpar a tela
 clear
+
 #--------------------------
 # SCRIPT SSH-PLUS
 # CANAL TELEGRAM: @TURBONET2023
@@ -10,13 +13,19 @@ RED='\033[1;31m'
 YELLOW='\033[1;33m'
 SCOLOR='\033[0m'
 
-# - Verifica Execucao Como Root
-[[ "$EUID" -ne 0 ]] && {
-    echo -e "{RED}[x] VC PRECISA EXECUTAR COMO USUARIO ROOT !{SCOLOR}"
-    exit 1
+# - Função para limpar cores no fim do script ou em caso de interrupção
+cleanup() {
+    echo -e "${SCOLOR}"
 }
+trap cleanup EXIT
 
-# - Verifica Arquitetura Compativel
+# - Verifica Execução Como Root
+if [[ "$EUID" -ne 0 ]]; then
+    echo -e "${RED}[x] VC PRECISA EXECUTAR COMO USUARIO ROOT !${SCOLOR}"
+    exit 1
+fi
+
+# - Verifica Arquitetura Compatível
 case "$(uname -m)" in
     'amd64' | 'x86_64')
         arch='64'
@@ -25,39 +34,48 @@ case "$(uname -m)" in
         arch='arm64'
         ;;
     *)
-        echo -e "${RED}[x] ARQUITETURA INCOMPATIVEL !${SCOLOR}"
+        echo -e "${RED}[x] ARQUITETURA INCOMPATÍVEL !${SCOLOR}"
         exit 1
         ;;
 esac
 
-# - Verifica OS Compativel
+# - Verifica OS Compatível
 if grep -qs "ubuntu" /etc/os-release; then
-	os_version=$(grep 'VERSION_ID' /etc/os-release | cut -d '"' -f 2 | tr -d '.')
-    [[ "$os_version" -lt 1804 ]] && {
-        echo -e "${RED}[x] VERSAO DO UBUNTU INCOMPATIVEL !\n${YELLOW}[!] REQUER UBUNTU 18.04 OU SUPERIOR !${SCOLOR}"
+    os_version=$(grep 'VERSION_ID' /etc/os-release | cut -d '"' -f 2 | tr -d '.')
+    if [[ "$os_version" -lt 2004 ]]; then
+        echo -e "${RED}[x] VERSÃO DO UBUNTU INCOMPATÍVEL !\n${YELLOW}[!] REQUER UBUNTU 20.04 OU SUPERIOR !${SCOLOR}"
         exit 1
-    }
+    fi
 elif [[ -e /etc/debian_version ]]; then
-	os_version=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
-    [[ "$os_version" -lt 9 ]] && {
-        echo -e "${RED}[x] VERSAO DO DEBIAN INCOMPATIVEL !\n${YELLOW}[!] REQUER DEBIAN 9 OU SUPERIOR !${SCOLOR}"
+    os_version=$(grep -oE '[0-10]+' /etc/debian_version | head -1)
+    if [[ "$os_version" -lt 10 ]]; then
+        echo -e "${RED}[x] VERSÃO DO DEBIAN INCOMPATÍVEL !\n${YELLOW}[!] REQUER DEBIAN 10 OU SUPERIOR !${SCOLOR}"
         exit 1
-    }
+    fi
 else
-    echo -e "${RED}[x] OS INCOMPATIVEL !\n${YELLOW}[!] REQUER DISTROS BASE DEBIAN/UBUNTU !${SCOLOR}"
+    echo -e "${RED}[x] OS INCOMPATÍVEL !\n${YELLOW}[!] REQUER DISTROS BASE DEBIAN/UBUNTU !${SCOLOR}"
     exit 1
 fi
 
 # - Atualiza Lista/Pacotes/Sistema
 dpkg --configure -a
 apt update -y && apt upgrade -y
-apt install unzip python3 -y
+apt install unzip python3 wget -y
+
+# - Verifica se wget está instalado
+if ! command -v wget &> /dev/null; then
+    echo -e "${RED}[x] wget não está instalado e é necessário para continuar!${SCOLOR}"
+    exit 1
+fi
 
 # - Desabilita ipv6
 sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -p
 echo 'net.ipv6.conf.all.disable_ipv6 = 1' > /etc/sysctl.d/70-disable-ipv6.conf
 sysctl -p -f /etc/sysctl.d/70-disable-ipv6.conf
 
-# - Execulta instalador
-[[ -e Plus ]] && rm Plus
-wget raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/script/64/Plus && chmod 777 Plus && ./Plus
+# - Executa instalador
+if [[ -e Plus ]]; then
+    rm Plus
+fi
+
+wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/script/64/Plus && chmod 777 Plus && ./Plus

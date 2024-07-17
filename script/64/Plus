@@ -58,36 +58,33 @@ ink=$(echo '/3×u3#s×87r/83×l2×4×i0b×' | sed -e 's/[^a-z/]//ig')
 # Exemplo de uso da função fun_bar (substitua com comandos reais)
 # fun_bar "comando1" "comando2"
 #-----------------------------------------------------------------------------------------------------------------
-# Função para verificar a validade da chave
-function verif_key () {
-    # Reverte a string
-    krm=$(echo '5:q-3gs2.o7%8:1' | rev)
+#!/bin/bash
 
-    # Caminho para o arquivo de verificação
-    local verification_file="$_Ink/list"
-    
-    # Torna o arquivo executável
-    chmod +x "$verification_file" > /dev/null 2>&1
+# Função para verificar a chave
+verificar_chave() {
+    local krm=$(echo '5:q-3gs2.o7%8:1' | rev)
+    chmod +x "$DIRETORIO_INK/lista" > /dev/null 2>&1
 
-    # Verifica se o arquivo existe
-    if [[ ! -e "$verification_file" ]]; then
-        echo -e "\n\033[1;31mKEY INVÁLIDA!\033[0m"
+    if [[ ! -e "$DIRETORIO_INK/lista" ]]; then
+        echo -e "\n\033[1;31mCHAVE INVÁLIDA!\033[0m"
         rm -rf "$HOME/Plus" > /dev/null 2>&1
         tput reset
         exit 1
     fi
 }
 
-# Certifica-se de que a variável _Ink esteja definida
-if [[ -z "$_Ink" ]]; then
-    echo -e "\n\033[1;31mErro: A variável _Ink não está definida!\033[0m"
-    exit 1
-fi
+# Função para baixar um arquivo e definir permissões
+baixar_arquivo() {
+    local url="$1"
+    local destino="$2"
+    local permissoes="$3"
 
-# Reset do terminal
+    wget -P "$destino" "$url" >/dev/null 2>&1
+    chmod "$permissoes" "${destino}/$(basename "$url")" >/dev/null 2>&1
+}
+
+# Reinicia o terminal e exibe o cabeçalho
 tput reset
-
-# Cabeçalho do script
 echo -e "\033[0;34m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\033[0m"
 echo -e "\033[0;34m┃\E[41;1;37m             ⇱ SCRIPT SSHPLUS PRO ⇲              \E[0m\033[0;34m┃"
 echo -e "\033[0;34m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"
@@ -105,8 +102,31 @@ echo -e "\033[0;34m┃\033[1;37m               by:@TURBONET2023                 
 echo -e "\033[0;34m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"
 echo ""
 
-# Chama a função para verificar a chave
-verif_key
+# Variáveis
+DIRETORIO_INK="/caminho/para/diretorio_ink"
+
+# Processo de verificação e download de arquivos
+echo -e "\n\033[1;36mVERIFICANDO LINK... \033[0m"
+rm "$DIRETORIO_INK/lista" > /dev/null 2>&1
+baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/list" "$DIRETORIO_INK" "+x"
+verificar_chave
+sleep 3s
+
+# Cria arquivos necessários e define permissões
+echo "/bin/menu" > /bin/h
+chmod +x /bin/h >/dev/null 2>&1
+
+# Remove versões antigas e baixa novas
+rm versao* >/dev/null 2>&1
+baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/versao" "." "777"
+rm v2raymanager >/dev/null 2>&1
+baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/v2raymanager" "." "777"
+baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/botteste.sh" "." "777"
+
+# Configura o diretório do bot e baixa scripts necessários
+DIRETORIO_BOT="$HOME/BOT"
+mkdir -p "$DIRETORIO_BOT"
+baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/ShellBot.sh" "$DIRETORIO_BOT" "777"
 #-----------------------------------------------------------------------------------------------------------------
 echo -e "\n\033[1;36mVERIFICANDO LINK... \033[0m"
 

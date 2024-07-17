@@ -58,75 +58,31 @@ ink=$(echo '/3×u3#s×87r/83×l2×4×i0b×' | sed -e 's/[^a-z/]//ig')
 # Exemplo de uso da função fun_bar (substitua com comandos reais)
 # fun_bar "comando1" "comando2"
 #-----------------------------------------------------------------------------------------------------------------
-#!/bin/bash
-
-# Função para verificar a chave
-verificar_chave() {
-    local krm=$(echo '5:q-3gs2.o7%8:1' | rev)
-    chmod +x "$DIRETORIO_INK/lista" > /dev/null 2>&1
-
-    if [[ ! -e "$DIRETORIO_INK/lista" ]]; then
-        echo -e "\n\033[1;31mCHAVE INVÁLIDA!\033[0m"
-        rm -rf "$HOME/Plus" > /dev/null 2>&1
-        tput reset
-        exit 1
-    fi
+function verif_key () {
+krm=$(echo '5:q-3gs2.o7%8:1'|rev); chmod +x $_Ink/list > /dev/null 2>&1
+[[ ! -e "$_Ink/list" ]] && {
+echo -e "\n\033[1;31mKEY INVÁLIDA!\033[0m"
+rm -rf $HOME/Plus > /dev/null 2>&1
+tput reset; exit 1
 }
-
-# Função para baixar um arquivo e definir permissões
-baixar_arquivo() {
-    local url="$1"
-    local destino="$2"
-    local permissoes="$3"
-
-    wget -P "$destino" "$url" >/dev/null 2>&1
-    chmod "$permissoes" "${destino}/$(basename "$url")" >/dev/null 2>&1
 }
-
-# Reinicia o terminal e exibe o cabeçalho
 tput reset
 echo -e "\033[0;34m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\033[0m"
 echo -e "\033[0;34m┃\E[41;1;37m             ⇱ SCRIPT SSHPLUS PRO ⇲              \E[0m\033[0;34m┃"
 echo -e "\033[0;34m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"
-echo ""
-echo -e "             \033[1;31mATENÇÃO! \033[1;37mESSE SCRIPT IRÁ!\033[0m"
+echo ""          
+echo -e "             \033[1;31mATENCAO! \033[1;37mESSE SCRIPT IRA !\033[0m"
 echo ""
 echo -e "\033[1;31m• \033[1;37mINSTALAR UM CONJUNTO DE SCRIPTS COMO FERRAMENTAS\033[0m"
-echo -e "\033[1;37m  PARA O GERENCIAMENTO DE REDE, SISTEMA E USUÁRIOS\033[0m"
+echo -e "\033[1;37m  PARA O GERENCIAMENTO DE REDE, SISTEMA E USUARIOS\033[0m"
 echo ""
-echo -e "\033[1;32m• \033[1;32mDICA! \033[1;37mUTILIZE O TEMA DARK EM SEU TERMINAL PARA\033[0m"
-echo -e "\033[1;37m  UMA MELHOR EXPERIÊNCIA E VISUALIZAÇÃO DO MESMO!\033[0m"
-echo ""
+echo -e "\033[1;32m• \033[1;32mDICA! \033[1;37mULTILIZE O TEMA DARK EM SEU TERMINAL PARA\033[0m"
+echo -e "\033[1;37m  UMA MELHOR EXPERIÊNCIA E VISUALIZACAO DO MESMO!\033[0m"
+echo ""   
 echo -e "\033[0;34m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\033[0m"
 echo -e "\033[0;34m┃\033[1;37m               by:@TURBONET2023                  \E[0m\033[0;34m┃"
-echo -e "\033[0;34m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"
+echo -e "\033[0;34m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"           
 echo ""
-
-# Variáveis
-DIRETORIO_INK="/caminho/para/diretorio_ink"
-
-# Processo de verificação e download de arquivos
-echo -e "\n\033[1;36mVERIFICANDO LINK... \033[0m"
-rm "$DIRETORIO_INK/lista" > /dev/null 2>&1
-baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/list" "$DIRETORIO_INK" "+x"
-verificar_chave
-sleep 3s
-
-# Cria arquivos necessários e define permissões
-echo "/bin/menu" > /bin/h
-chmod +x /bin/h >/dev/null 2>&1
-
-# Remove versões antigas e baixa novas
-rm versao* >/dev/null 2>&1
-baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/versao" "." "777"
-rm v2raymanager >/dev/null 2>&1
-baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/v2raymanager" "." "777"
-baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/botteste.sh" "." "777"
-
-# Configura o diretório do bot e baixa scripts necessários
-DIRETORIO_BOT="$HOME/BOT"
-mkdir -p "$DIRETORIO_BOT"
-baixar_arquivo "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/ShellBot.sh" "$DIRETORIO_BOT" "777"
 #-----------------------------------------------------------------------------------------------------------------
 echo -e "\n\033[1;36mVERIFICANDO LINK... \033[0m"
 
@@ -278,15 +234,17 @@ otimize_python() {
     }
 
     # INSTALA PYTHON E PIP
-    install_package python
-    install_package python2
-    install_package python3.6
-    install_package python3.7
-    install_package python3.8
-    install_package python3.9
-    install_package python-pip
-    install_package python3-pip
-    install_package socat
+    sudo apt-get install_package python
+    sudo apt-get install_package python2
+    sudo apt-get install_package python3.6
+    sudo apt-get install_package python3.7
+    sudo apt-get install_package python3.8
+    sudo apt-get install_package python3.9
+    sudo apt-get install_package python3.10
+    sudo apt-get install_package python3.11
+    sudo apt-get install_package python-pip
+    sudo apt-get install_package python3-pip
+    sudo apt-get install_package socat
 
     # CRIA ALTERNATIVAS PYTHON
     echo -e " \033[1;33mConfigurando alternativas do Python...\033[0m"
@@ -294,6 +252,9 @@ otimize_python() {
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2 >/dev/null 2>&1
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 3 >/dev/null 2>&1
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 4 >/dev/null 2>&1
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 5 >/dev/null 2>&1
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 6 >/dev/null 2>&1
+
 
     # SETAR PYTHON3
     echo -e " \033[1;33mDefinindo Python 3.9 como padrão...\033[0m"

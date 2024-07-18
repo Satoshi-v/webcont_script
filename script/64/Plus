@@ -185,7 +185,7 @@ fi
 {
   echo 'figlet -k SSH-PLUS | lolcat'
   echo 'echo ""'
-  echo 'echo -e "\t\033[92mPARA MOSTRAR OS COMANDOS DIGITE: \033[93mmenu\033[92m" | boxes -d cat -a hc -p h8 | lolcat'
+  echo 'echo -e "\t\033[92mPARA INICIAR DIGITE COMANDO: \033[93mmenu\033[92m" | boxes -d cat -a hc -p h8 | lolcat'
   echo 'echo ""'
 } >> /root/.bashrc
 

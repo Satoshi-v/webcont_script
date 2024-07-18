@@ -61,7 +61,7 @@ verif_key() {
     rm -rf "$HOME/Plus"
     tput reset
     exit 1
-  }
+  fi
 }
 
 # Função para atualizar a lista
@@ -145,16 +145,14 @@ else
   awk -F : '$3 >= 500 { print $1 " 1" }' /etc/passwd | grep -v '^nobody' > "$HOME/usuarios.db"
 fi
 
-[[ "$optiondb" = '2' ]] && awk -F : '$3 >= 500 { print $1 " 1" }' /etc/passwd | grep -v '^nobody' > "$HOME/usuarios.db"
-
 # Atualizando lista
-fun_bar fun_attlist Atualizando lista
+fun_bar fun_attlist "Atualizando lista"
 
-# Instalando e Otimizando Python
-fun_bar otimize_python 'Instalando e Otimizando Python'
+# Instalando e otimizando Python
+fun_bar otimize_python "Instalando e Otimizando Python"
 
 # Instalando pacotes adicionais
-fun_bar inst_pct 'Instalando pacotes adicionais'
+fun_bar inst_pct "Instalando pacotes adicionais"
 
 # Instalando pacotes de rede
 echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
@@ -185,7 +183,7 @@ fi
 {
   echo 'figlet -k SSH-PLUS | lolcat'
   echo 'echo ""'
-  echo 'echo -e "\t\033[92mPARA INICIAR DIGITE COMANDO: \033[93mmenu\033[92m" | boxes -d cat -a hc -p h8 | lolcat'
+  echo 'echo -e "\t\033[92mPARA MOSTRAR OS COMANDOS DIGITE: \033[93mmenu\033[92m" | boxes -d cat -a hc -p h8 | lolcat'
   echo 'echo ""'
 } >> /root/.bashrc
 

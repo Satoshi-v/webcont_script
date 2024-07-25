@@ -59,8 +59,8 @@ fi
 
 # - Atualiza Lista/Pacotes/Sistema
 dpkg --configure -a
-apt update -y && apt upgrade -y
-apt install unzip python3 wget -y
+sudo apt-get update -y && apt upgrade -y > /dev/null 2>&1
+sudo apt-get install unzip python3 -y > /dev/null 2>&1
 
 # - Verifica se wget está instalado
 if ! command -v wget &> /dev/null; then

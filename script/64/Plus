@@ -162,7 +162,7 @@ _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "
 for _prog in ${_pacotes[@]}; do
 sudo apt-get install $_prog -y
 done
-sudo apt-get pip install speedtest-cli
+pip install speedtest-cli
 sudo firewall-cmd --zone=public --permanent --add-port=80/tcp ; sudo firewall-cmd --zone=public --permanent --add-port=8989/tcp ; sudo firewall-cmd --zone=public --permanent --add-port=5454/tcp ; sudo firewall-cmd --zone=public --permanent --add-port=8888/tcp ; sudo firewall-cmd --zone=public --permanent --add-port=8080/tcp ; sudo firewall-cmd --zone=public --permanent --add-port=7300/udp ; sudo firewall-cmd --zone=public --permanent --add-port=443/tcp ; sudo firewall-cmd --zone=public --permanent --add-port=8080/tcp ; sudo firewall-cmd --reload
 }
 fun_bar 'inst_pct'

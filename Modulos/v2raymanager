@@ -552,24 +552,24 @@ echo -e "\033[1;31m[\033[1;36m01\033[1;31m] \033[1;37m• \033[1;33mCRIAR USUARI
 			3 | 03)
 				mosusr_kk
 				;;
-		    4 | 04)
+		        4 | 04)
 				infocuenta
-                ;;              
-		    5 | 05)
+                                ;;              
+		        5 | 05)
 				stats
 				;;
-		    6 | 06)
+		        6 | 06)
 				lim_port
 				;;                
 			7 | 07)
 				limpiador_activador
 				;;
-            12 | 12)
+                        12 | 12)
 				unistallv2
 				;;
-            13 | 13)
+                        13 | 13)
 				conexao
-                exit;
+                                exit;
 				;;
 
 			0 | 00)

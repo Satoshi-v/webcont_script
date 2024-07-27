@@ -48,23 +48,23 @@ echo -e "\033[1;37m━━━━━━━━━━━━━━━━━━━━�
             clear
             echo -e "\033[1;32mINICIANDO O BADVPN... \033[0m\n"
             fun_udpon () {
-                screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 5
+                screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 5
                 [[ $(grep -wc "udpvpn" /etc/autostart) = '0' ]] && {
-                    echo -e "ps x | grep 'udpvpn' | grep -v 'grep' || screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 5 --client-socket-sndbuf 10000" >> /etc/autostart
+                    echo -e "ps x | grep 'udpvpn' | grep -v 'grep' || screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 5 --client-socket-sndbuf 10000" >> /etc/autostart
                 } || {
                     sed -i '/udpvpn/d' /etc/autostart
-                    echo -e "ps x | grep 'udpvpn' | grep -v 'grep' || screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 5 --client-socket-sndbuf 10000" >> /etc/autostart
+                    echo -e "ps x | grep 'udpvpn' | grep -v 'grep' || screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 5 --client-socket-sndbuf 10000" >> /etc/autostart
                 }
                 sleep 1
             }
             inst_udp () {
-                [[ -e "/bin/badvpn-udpgw" ]] && {
+                [[ -e "/bin/badvpn-udpgw-plus" ]] && {
                     sleep 0.1
                 } || {
                     cd $HOME
-                    wget https://www.dropbox.com/s/48b36clnxkkurlz/badvpn-udpgw -o /dev/null
-                    mv -f $HOME/badvpn-udpgw /bin/badvpn-udpgw
-                    chmod 777 /bin/badvpn-udpgw
+                     wget https://github.com/PhoenixxZ2023/PLUS/main/Install/badvpn-udpgw-plus -o /dev/null
+                    mv -f $HOME/badvpn-udpgw-plus /bin/badvpn-udpgw-plus
+                    chmod 777 /bin/badvpn-udpgw-plus
                 }
             }
             echo ""
@@ -95,7 +95,7 @@ echo -e "\033[1;37m━━━━━━━━━━━━━━━━━━━━�
             echo ""
             fun_abrirptbad() {
                 sleep 1
-                screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:$porta --max-clients 9000 --max-connections-for-client 5
+                screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:$porta --max-clients 9000 --max-connections-for-client 5
                 sleep 1
 		
             }

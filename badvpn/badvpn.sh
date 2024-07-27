@@ -51,22 +51,22 @@ fun_udp1 () {
 	    inst_udp () {
 	        cd $HOME
 			apt-get install dos2unix -y
-                        wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/badvpn/badvpn-udpgw -o /dev/null
+                        wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/badvpn/badvpn-udpgw-plus -o /dev/null
 			wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/badvpn/antcrashvpn.sh -o /dev/null
 			dos2unix antcrashvpn.sh
 			mv -f $HOME /antcrashvpn.sh /bin/antcrashvpn.sh
-            mv -f $HOME/badvpn-udpgw /bin/badvpn-udpgw
-            chmod 777 /bin/badvpn-udpgw
+            mv -f $HOME/badvpn-udpgw-plus /bin/badvpn-udpgw-plus
+            chmod 777 /bin/badvpn-udpgw-plus
 	   }
 	   fun_bar 'inst_udp'
 	   echo -e "\n\033[1;32mINICIANDO O BADVPN... \033[0m\n"
        fun_udpon2 () {
            screen -dmS udpvpn /bin/antcrashvpn.sh
            [[ $(grep -wc "udpvpn" /etc/autostart) = '0' ]] && {
-		       echo -e "ps x | grep 'udpvpn' | grep -v 'grep' && echo 'ON' || screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 8 --client-socket-sndbuf 10000" >> /etc/autostart
+		       echo -e "ps x | grep 'udpvpn' | grep -v 'grep' && echo 'ON' || screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 8 --client-socket-sndbuf 10000" >> /etc/autostart
 		   } || {
 		       sed -i '/udpvpn/d' /etc/autostart
-		       echo -e "ps x | grep 'udpvpn' | grep -v 'grep' && echo 'ON' || screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 8 --client-socket-sndbuf 10000" >> /etc/autostart
+		       echo -e "ps x | grep 'udpvpn' | grep -v 'grep' && echo 'ON' || screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:7300 --max-clients 9000 --max-connections-for-client 8 --client-socket-sndbuf 10000" >> /etc/autostart
 		   }
            sleep 1
        }

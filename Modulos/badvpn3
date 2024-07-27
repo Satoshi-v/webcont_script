@@ -40,23 +40,23 @@ echo -e "\033[01;34m============================================================
             clear
             echo -e "\033[1;32mINICIANDO O BADVPN-UDP... \033[0m\n"
             fun_udpon () {
-                screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 16384 --max-connections-for-client 5 --client-socket-sndbuf 16384 --udp-mtu 9000
+                screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:7300 --max-clients 16384 --max-connections-for-client 5 --client-socket-sndbuf 16384 --udp-mtu 9000
                 [[ $(grep -wc "udpvpn" /etc/autostart) = '0' ]] && {
-                    echo -e "ps x | grep 'udpvpn' | grep -v 'grep' || screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 16384 --max-connections-for-client 5 --client-socket-sndbuf 16384 --udp-mtu 9000" >> /etc/autostart
+                    echo -e "ps x | grep 'udpvpn' | grep -v 'grep' || screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:7300 --max-clients 16384 --max-connections-for-client 5 --client-socket-sndbuf 16384 --udp-mtu 9000" >> /etc/autostart
                 } || {
                     sed -i '/udpvpn/d' /etc/autostart
-                    echo -e "ps x | grep 'udpvpn' | grep -v 'grep' || screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 16384 --max-connections-for-client 5 --client-socket-sndbuf 16384 --udp-mtu 9000" >> /etc/autostart
+                    echo -e "ps x | grep 'udpvpn' | grep -v 'grep' || screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:7300 --max-clients 16384 --max-connections-for-client 5 --client-socket-sndbuf 16384 --udp-mtu 9000" >> /etc/autostart
                 }
                 sleep 1
             }
             inst_udp () {
-                [[ -e "/bin/badvpn-udpgw" ]] && {
+                [[ -e "/bin/badvpn-udpgw-plus" ]] && {
                     sleep 0.1
                 } || {
                     cd $HOME
-                    wget https://github.com/PhoenixxZ2023/PLUS/raw/main/BADVPN%20UDP/badvpn-udpgw > /dev/null 2>&1
-                    mv -f $HOME/badvpn-udpgw /bin/badvpn-udpgw
-                    chmod +x /bin/badvpn-udpgw
+                    wget https://github.com/PhoenixxZ2023/PLUS/main/Install/badvpn-udpgw-plus > /dev/null 2>&1
+                    mv -f $HOME/badvpn-udpgw-plus /bin/badvpn-udpgw-plus
+                    chmod +x /bin/badvpn-udpgw-plus
                 }
             }
             inst_udp
@@ -83,7 +83,7 @@ echo -e "\033[01;34m============================================================
             echo -e "\033[1;33mINICIANDO O BADVPN-UDP NA PORTA \033[1;36m$porta\033[1;33m"
             fun_abrirptbad() {
                 sleep 1
-                screen -dmS udpvpn /bin/badvpn-udpgw --listen-addr 127.0.0.1:$porta --max-clients 16384 --max-connections-for-client 5 --client-socket-sndbuf 16384 --udp-mtu 9000
+                screen -dmS udpvpn /bin/badvpn-udpgw-plus --listen-addr 127.0.0.1:$porta --max-clients 16384 --max-connections-for-client 5 --client-socket-sndbuf 16384 --udp-mtu 9000
                 sleep 1
             }
             fun_abrirptbad

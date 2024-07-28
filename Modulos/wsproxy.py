@@ -174,7 +174,7 @@ class ConnectionHandler(threading.Thread):
         if aux == -1:
             return ''
 
-        return head[:aux];
+        return head[:aux]
 
     def connect_target(self, host):
         i = host.find(':')

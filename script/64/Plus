@@ -256,17 +256,24 @@ echo -e "\033[01;31m\033[1;31m\033[5;34;47m                INSTALAÇÃO CONCLUÍ
 echo -e "\033[01;31m\033[1;33mPARA INICIAR DIGITE: \033[1;32mmenu\033[0m"
 echo -e "\033[01;31m\033[1;33mMAIS INFORMAÇÕES: \033[1;31m(\033[1;36mTELEGRAM\033[1;31m)--> \033[1;37m@TURBONET2023\033[0m"
 
-# Perguntar ao usuário se deseja reiniciar o servidor
-echo ""
-read -p "VOCÊ DESEJA REINICIAR O SERVIDOR AGORA? (s/n): " -n 1 -r
+# Define a função para exibir mensagens coloridas
+color_text() {
+  echo -e "\033[$1m$2\033[0m"
+}
+
+# Mensagem em amarelo
+color_text "33" "VOCÊ DESEJA REINICIAR O SERVIDOR AGORA? (s/n): "
+read -n 1 -r REPLY
 echo    # (opcional) move para a nova linha
 
-if [[ $REPLY =~ ^[Ss]$ ]]
-then
-    echo -e "\nReiniciando o servidor..."
+# Verifica a resposta
+if [[ $REPLY =~ ^[Ss]$ ]]; then
+    color_text "32" "\nReiniciando o servidor..."
     sudo reboot
+elif [[ $REPLY =~ ^[Nn]$ ]]; then
+    color_text "31" "\nVocê optou por não reiniciar o servidor."
 else
-    echo -e "\nVocê optou por não reiniciar o servidor."
+    color_text "31" "\nEntrada inválida. Por favor, responda com 's' ou 'n'."
 fi
 
 # Remover o diretório Plus do HOME e limpar o histórico do bash

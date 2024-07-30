@@ -261,20 +261,25 @@ color_text() {
   echo -e "\033[$1m$2\033[0m"
 }
 
-# Mensagem em amarelo
-color_text "33" "VOCÊ DESEJA REINICIAR O SERVIDOR AGORA? (s/n): "
-read -n 1 -r REPLY
-echo    # (opcional) move para a nova linha
+# Loop até receber uma resposta válida
+while true; do
+  # Mensagem em amarelo
+  color_text "33" "VOCÊ DESEJA REINICIAR O SERVIDOR AGORA? (s/n): "
+  read -n 1 -r REPLY
+  echo    # (opcional) move para a nova linha
 
-# Verifica a resposta
-if [[ $REPLY =~ ^[Ss]$ ]]; then
+  # Verifica a resposta
+  if [[ $REPLY =~ ^[Ss]$ ]]; then
     color_text "32" "\nReiniciando o servidor..."
     sudo reboot
-elif [[ $REPLY =~ ^[Nn]$ ]]; then
+    break
+  elif [[ $REPLY =~ ^[Nn]$ ]]; then
     color_text "31" "\nVocê optou por não reiniciar o servidor."
-else
+    break
+  else
     color_text "31" "\nEntrada inválida. Por favor, responda com 's' ou 'n'."
-fi
+  fi
+done
 
 # Remover o diretório Plus do HOME e limpar o histórico do bash
 rm -rf $HOME/Plus

@@ -207,8 +207,8 @@ otimize_python() {
     check_status "Instalação do Socat"
     
     # SETAR PYTHON3
-    sudo update-alternatives --set python3 /usr/bin/python3.9 >/dev/null 2>&1
-    check_status "Configuração do Python3 para usar a versão 3.9"
+    sudo update-alternatives --set python3 /usr/bin/python3.8 >/dev/null 2>&1
+    check_status "Configuração do Python3 para usar a versão 3.8"
 }
 
 fun_bar 'otimize_python'

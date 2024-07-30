@@ -258,7 +258,7 @@ echo -e "\033[01;31m\033[1;33mMAIS INFORMAÇÕES: \033[1;31m(\033[1;36mTELEGRAM\
 
 # Perguntar ao usuário se deseja reiniciar o servidor
 echo ""
-read -p "VOCÊ DESEJA REINICIAR O SERVIDOR AGOR? (s/n): " -n 1 -r
+read -p "VOCÊ DESEJA REINICIAR O SERVIDOR AGORA? (s/n): " -n 1 -r
 echo    # (opcional) move para a nova linha
 
 if [[ $REPLY =~ ^[Ss]$ ]]

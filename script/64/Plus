@@ -263,7 +263,7 @@ color_text() {
 
 # Loop até receber uma resposta válida
 while true; do
-  # Mensagem em amarelo
+  # Mensagem em amarelo e negrito
   color_text "33" "VOCÊ DESEJA REINICIAR O SERVIDOR AGORA? (s/n): "
   read -n 1 -r REPLY
   echo    # (opcional) move para a nova linha

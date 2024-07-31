@@ -263,21 +263,22 @@ color_text() {
 
 # Loop até receber uma resposta válida
 while true; do
+  echo
   # Mensagem em amarelo e negrito
-  color_text "33" "VOCÊ DESEJA REINICIAR O SERVIDOR AGORA? (s/n): "
+  color_text "1;33" "VOCÊ DESEJA REINICIAR O SERVIDOR AGORA? (s/n): "
   read -n 1 -r REPLY
   echo    # (opcional) move para a nova linha
 
   # Verifica a resposta
   if [[ $REPLY =~ ^[Ss]$ ]]; then
-    color_text "32" "\nReiniciando o servidor..."
+    color_text "1;32" "\nReiniciando o servidor..."
     sudo reboot
     break
   elif [[ $REPLY =~ ^[Nn]$ ]]; then
-    color_text "31" "\nVocê optou por não reiniciar o servidor."
+    color_text "1;31" "\nVocê optou por não reiniciar o servidor."
     break
   else
-    color_text "31" "\nEntrada inválida. Por favor, responda com 's' ou 'n'."
+    color_text "1;31" "\nEntrada inválida. Por favor, responda com 's' ou 'n'."
   fi
 done
 

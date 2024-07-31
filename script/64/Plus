@@ -143,7 +143,7 @@ echo -e "            \033[1;37mCOSTUMA DEMORAR UM POUCO!\033[0m"
 echo ""
 
 otimize_python() {
-    # INSTALA PYTHON AO PYTHON2
+    # INSTALA PYTHON2
     sudo apt-get install python -y >/dev/null 2>&1
     sudo apt-get install python2 -y >/dev/null 2>&1
     
@@ -152,20 +152,20 @@ otimize_python() {
     sudo apt-get install python3.8 -y >/dev/null 2>&1
     sudo apt-get install python3.9 -y >/dev/null 2>&1
     
-    # CRIA ALTERNATIVAS PYTHON
+    # CRIA ALTERNATIVAS PARA PYTHON3
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1 >/dev/null 2>&1
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2 >/dev/null 2>&1
     sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 3 >/dev/null 2>&1
     
-    # INSTALA PIP
+    # INSTALA PIP PARA PYTHON2 E PYTHON3
     sudo apt-get install python-pip -y >/dev/null 2>&1
     sudo apt-get install python3-pip -y >/dev/null 2>&1
     
     # INSTALA SOCAT
     sudo apt-get install socat -y >/dev/null 2>&1
     
-    # SETAR PYTHON3
-    sudo update-alternatives --set python3 /usr/bin/python3.7 >/dev/null 2>&1
+    # SETAR VERSÃO PADRÃO DO PYTHON3
+    sudo update-alternatives --set python3 /usr/bin/python3.8 >/dev/null 2>&1
 }
 
 fun_bar 'otimize_python'
@@ -191,11 +191,18 @@ echo ""
 
 # Definir a função para instalar pacotes e configurar o firewall
 inst_pct () {
+    # Lista de pacotes a serem instalados
     _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python-pip" "firewalld")
+    
+    # Instalar cada pacote da lista
     for _prog in ${_pacotes[@]}; do
         sudo apt-get install $_prog -y
     done
+    
+    # Instalar o speedtest-cli via pip
     pip install speedtest-cli
+    
+    # Adicionar regras ao firewall para permitir certas portas
     sudo firewall-cmd --zone=public --permanent --add-port=80/tcp
     sudo firewall-cmd --zone=public --permanent --add-port=8989/tcp
     sudo firewall-cmd --zone=public --permanent --add-port=5454/tcp
@@ -203,7 +210,6 @@ inst_pct () {
     sudo firewall-cmd --zone=public --permanent --add-port=8080/tcp
     sudo firewall-cmd --zone=public --permanent --add-port=7300/udp
     sudo firewall-cmd --zone=public --permanent --add-port=443/tcp
-    sudo firewall-cmd --zone=public --permanent --add-port=8080/tcp
     sudo firewall-cmd --reload
 }
 
@@ -211,7 +217,13 @@ inst_pct () {
 fun_bar 'inst_pct'
 
 # Se o ufw estiver instalado, permitir portas específicas no firewall
-[[ -f "/usr/sbin/ufw" ]] && ufw allow 443/tcp && ufw allow 80/tcp && ufw allow 3128/tcp && ufw allow 8799/tcp && ufw allow 8080/tcp
+if [[ -f "/usr/sbin/ufw" ]]; then
+    ufw allow 443/tcp
+    ufw allow 80/tcp
+    ufw allow 3128/tcp
+    ufw allow 8799/tcp
+    ufw allow 8080/tcp
+fi
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal
 tput reset

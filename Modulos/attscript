@@ -85,7 +85,7 @@ else
   if [[ "$res" = s || "$res" = S ]]; then
     echo -e "\n\033[1;32m  INICIANDO ATUALIZACAO..."
     sleep 3
-    wget -q -O- raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/ssh-plus | bash > /dev/null 2>&1
+    wget -q -O- raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/ssh-plus > /dev/null 2>&1
     chmod +x Plus
     ./Plus
     clear

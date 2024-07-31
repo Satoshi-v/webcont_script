@@ -3,6 +3,18 @@
 # Limpa a tela
 clear
 
+# Função para verificar se um comando está instalado
+check_command() {
+  command -v "$1" >/dev/null 2>&1 || { echo "O comando '$1' não está instalado. Por favor, instale-o para continuar."; exit 1; }
+}
+
+# Verifica se as dependências necessárias estão instaladas
+check_command wget
+check_command figlet
+check_command sed
+check_command tput
+check_command chmod
+
 # Função para exibir uma barra de progresso enquanto comandos são executados
 fun_bar() {
   comando[0]="$1"
@@ -35,17 +47,17 @@ fun_bar() {
   tput cnorm
 }
 
-echo " "
-
 # Função para verificar e baixar atualizações
 fun_atts() {
   [[ -e /home/versao ]] && rm /home/versao
   [[ -e /tmp/att ]] && rm /tmp/att
 
-  wget -c -P /home -q -O- raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/versao | bash
+  wget -c -P /home -q -O- raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/versao | bash || { echo "Erro ao baixar o arquivo de versão."; exit 1; }
   [[ -f "/home/versao" ]] && mv /home/versao /tmp/att
   [[ ! -e /bin/versao ]] && rm -rf /bin/menu
 } > /dev/null 2>&1
+
+echo " "
 
 echo -e "                              \033[1;31mBy SSH-PLUS\033[1;36m"
 echo -e "   SSH-PLUS" | figlet
@@ -85,7 +97,7 @@ else
   if [[ "$res" = s || "$res" = S ]]; then
     echo -e "\n\033[1;32m  INICIANDO ATUALIZACAO..."
     sleep 3
-    wget -q -O- raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/ssh-plus > /dev/null 2>&1
+    wget -q -O- raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/ssh-plus > Plus || { echo "Erro ao baixar o novo script."; exit 1; }
     chmod +x Plus
     ./Plus
     clear

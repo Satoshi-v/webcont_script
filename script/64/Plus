@@ -186,26 +186,8 @@ fun_bar 'otimize_python'
 # Redefinir a exibição do terminal
 tput reset
 echo ""
-
-# Função para exibir barra de progresso durante a instalação
-fun_bar() {
-    comando1=$1
-    comando2=$2
-
-    (
-        $comando1 > /dev/null 2>&1
-        $comando2 > /dev/null 2>&1
-    ) &
-
-    pid=$!
-    while kill -0 $pid 2>/dev/null; do
-        printf "."
-        sleep 1
-    done
-    echo ""
-}
-
-# Instala ferramentas de rede
+# Instalando ferramentas de rede
+echo ""
 echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
 fun_bar 'apt-get install lsof -y' 'apt-get install fail2ban -y'
 fun_bar 'apt-get install htop -y' 'apt-get install nload -y'

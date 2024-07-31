@@ -173,8 +173,25 @@ fun_bar 'otimize_python'
 # Redefinir a exibição do terminal
 tput reset
 echo ""
-# Instala ferramentas de rede
+
+# Função para exibir uma barra de progresso enquanto os pacotes são instalados
+fun_bar() {
+  local command1=$1
+  local command2=$2
+  
+  echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
+  
+  eval "$command1"
+  echo -e "\033[1;32m$command1 concluído\033[0m"
+  
+  eval "$command2"
+  echo -e "\033[1;32m$command2 concluído\033[0m"
+}
+
+# Exibir o menu de instalação
 echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
+
+# Instala ferramentas de rede
 fun_bar 'apt-get install lsof -y' 'apt-get install fail2ban -y'
 fun_bar 'apt-get install htop -y' 'apt-get install nload -y'
 fun_bar 'apt-get install apache2 -y' 'apt-get install zip -y'

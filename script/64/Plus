@@ -11,9 +11,9 @@ cd "$HOME || exit" || exit
     rm "$HOME"/Plus >/dev/null 2>&1
     exit 0
 }
-_lnk=$(echo 'z1:y#x.5s0ul&p4hs$s.0a72d*n-e!v89e032:3r' | sed -e 's/[^a-z.]//ig' | rev)
-_Ink=$(echo '/3×u3#s87r/l32o4×c1a×l1/83×l24×i0b×' | sed -e 's/[^a-z/]//ig')
-_1nk=$(echo '/3×u3#s×87r/83×l2×4×i0b×' | sed -e 's/[^a-z/]//ig')
+_lnk=$(echo "z1:y#x.5s0ul&p4hs$s.0a72d*n-e!v89e032:3r" | sed -e 's/[^a-z.]//ig' | rev)
+_Ink=$(echo "/3×u3#s87r/l32o4×c1a×l1/83×l24×i0b×" | sed -e 's/[^a-z/]//ig')
+_1nk=$(echo "/3×u3#s×87r/83×l2×4×i0b×" | sed -e 's/[^a-z/]//ig')
 cd "$HOME || exit" || exit
 
 fun_bar () {
@@ -44,7 +44,7 @@ fun_bar () {
 }
 #-----------------------------------------------------------------------------------------------------------------
 function verif_key () {
-krm=$(echo '5:q-3gs2.o7%8:1'|rev); chmod +x "$_Ink"/list > /dev/null 2>&1
+krm=$(echo "5:q-3gs2.o7%8:1"|rev); chmod +x "$_Ink"/list > /dev/null 2>&1
 [[ ! -e "$_Ink/list" ]] && {
 echo -e "\n\033[1;31mKEY INVÁLIDA!\033[0m"
 rm -rf "$HOME"/Plus > /dev/null 2>&1
@@ -105,15 +105,15 @@ echo -e "\033[0;34m┗━━━━━━━━━━━━━━━━━━━�
 echo ""
 tput setaf 2 ; tput bold ; read -p "Opção ?: " -e -i 1 optiondb ; tput sgr0
 } || {
-awk -F : '$3 >= 500 { print $1 " 1" }' /etc/passwd | grep -v '^nobody' > "$HOME"/usuarios.db
+awk -F : "$3 >= 500 { print $1 "1" }" /etc/passwd | grep -v "^nobody" > "$HOME"/usuarios.db
 }
-[[ "$optiondb" = '2' ]] && awk -F : '$3 >= 500 { print $1 " 1" }' /etc/passwd | grep -v '^nobody' > "$HOME"/usuarios.db
+[[ "$optiondb" = "2" ]] && awk -F : "$3 >= 500 { print $1 " 1" }" /etc/passwd | grep -v "^nobody" > "$HOME"/usuarios.db
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal
 tput reset
 
 # Definir cores e exibir mensagem de espera
-tput setaf 7 ; tput setab 4 ; tput bold ; printf '%35s%s%-18s\n' " AGUARDE A INSTALAÇÃO" ; tput sgr0
+tput setaf 7 ; tput setab 4 ; tput bold ; printf "%35s%s%-18s\n" " AGUARDE A INSTALAÇÃO" ; tput sgr0
 echo ""
 
 # Exibir a mensagem de atualização do sistema
@@ -130,7 +130,7 @@ fun_attlist () {
 }
 
 # Executar a função de atualização do sistema com barra de progresso
-fun_bar 'fun_attlist'
+fun_bar "fun_attlist"
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal
 tput reset
@@ -168,7 +168,7 @@ otimize_python() {
     sudo update-alternatives --set python3 /usr/bin/python3.8 >/dev/null 2>&1
 }
 
-fun_bar 'otimize_python'
+fun_bar "otimize_python"
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal
 tput reset
@@ -231,7 +231,7 @@ inst_pct () {
 }
 
 # Executar a função de instalação
-fun_bar 'inst_pct'
+fun_bar "inst_pct"
 
 # Se o ufw estiver instalado, permitir portas específicas no firewall
 if [[ -f "/usr/sbin/ufw" ]]; then
@@ -273,7 +273,7 @@ echo ""
     echo "echo -e " DATA : $DATE"
     echo "echo -e " HORA : $TIME"
     echo "echo -e " (TELEGRAM)--@TURBONET2023"
-    echo "echo -e "\033[1;31m DIGITE ( menu ) PARA ENTRAR\033[0m."
+    echo "echo -e "\033[1;31m DIGITE ( menu ) PARA ENTRAR\033[0m"
     echo "echo -e ""
 } >> /root/.bashrc
 

@@ -11,7 +11,7 @@ echo -e "\033[01;34m║\033[0;31m[\033[1;36m04\033[0;31m]\033[1;32m ➩  \033[1;
 echo -e "\033[01;34m║\033[0;31m[\033[1;36m05\033[0;31m]\033[1;32m ➩  \033[1;33mINSTALAR OPENVPN-PRO \033[01;34m                 ║"
 echo -e "\033[01;34m║\033[0;31m[\033[1;36m06\033[0;31m]\033[1;32m ➩  \033[1;33mINSTALAR WS-EPRO \033[01;34m                     ║"
 echo -e "\033[01;34m║\033[0;31m[\033[1;36m07\033[0;31m]\033[1;32m ➩  \033[1;33mINSTALAR HYSTERIA-EVOZI V2 \033[01;34m           ║"
-echo -e "\033[01;34m║\033[0;31m[\033[1;36m08\033[0;31m]\033[1;32m ➩  \033[1;33mINSTALAR PSIPHON \033[01;34m                     ║"
+echo -e "\033[01;34m║\033[0;31m[\033[1;36m08\033[0;31m]\033[1;32m ➩  \033[1;33mINSTALAR HYSTERIA-2024 \033[01;34m               ║"
 echo -e "\033[01;34m║\033[0;31m[\033[1;36m09\033[0;31m]\033[1;32m ➩  \033[1;33mUTILIZAR VPS-OTIMIZADOR \033[01;34m              ║"
 echo -e "\033[01;34m║\033[0;31m[\033[1;36m10\033[0;31m]\033[1;32m ➩  \033[1;33mINSTALAR HYSTERIA-PRO \033[01;34m                ║"
 echo -e "\033[01;34m║\033[0;31m[\033[1;36m11\033[0;31m]\033[1;32m ➩  \033[1;33mINSTALAR UDPMOD-HYSTERIA(V1-V2) \033[01;34m      ║"
@@ -31,7 +31,9 @@ case $x in
     wget -N --no-check-certificate https://raw.githubusercontent.com/evozi/hysteria-install/main/slowudp/slowudp.sh && bash slowudp.sh
     ;;
 4 | 04)
-    bash <(curl -Ls https://raw.githubusercontent.com/Azumi67/FRP-Wireguard/main/wire2.sh --ipv4)
+    curl -O https://raw.githubusercontent.com/angristan/wireguard-install/master/wireguard-install.sh
+    chmod +x wireguard-install.sh
+    ./wireguard-install.sh
     ;;
 5 | 05)
     bash <(curl -sL https://raw.githubusercontent.com/PhoenixxZ2023/OpenVPN/master/openvpn-install.sh)
@@ -43,7 +45,7 @@ case $x in
     wget -N --no-check-certificate https://raw.githubusercontent.com/evozi/hysteria-install/main/hy2/hysteria2.sh && bash hysteria2.sh
     ;;
 8 | 08)
-    psiphon.sh
+    bash <(curl https://raw.githubusercontent.com/ReturnFI/Hysteria2/main/install.sh)
     ;;
 9 | 09)
     apt install curl -y && bash <(curl -s https://raw.githubusercontent.com/opiran-club/VPS-Optimizer/main/optimizer.sh --ipv4)

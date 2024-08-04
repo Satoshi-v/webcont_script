@@ -170,78 +170,89 @@ otimize_python() {
 
 fun_bar "otimize_python"
 #-----------------------------------------------------------------------------------------------------------------
-# Redefinir a exibição do terminal
-tput reset
-echo ""
-
-# Função para exibir uma barra de progresso enquanto os pacotes são instalados
-fun_bar() {
-  local command1=$1
-  local command2=$2
-  
-  echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
-  
-  eval "$command1"
-  echo -e "\033[1;32m$command1 concluído\033[0m"
-  
-  eval "$command2"
-  echo -e "\033[1;32m$command2 concluído\033[0m"
+# Função para redefinir a exibição do terminal e exibir o cabeçalho de instalação
+reset_terminal() {
+  tput reset
+  echo ""
+  echo -e "          \033[1;37m[\033[1;31m!\033[1;37m] \033[1;32mINSTALANDO PACOTES \033[1;37m[\033[1;31m!\033[1;37m]\033[0m"
+  echo ""
+  echo -e "\033[1;37mALGUNS PACOTES SÃO EXTREMAMENTE NECESSÁRIOS!\033[0m"
+  echo ""
 }
 
-# Exibir o menu de instalação
-echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
+# Função para instalar um pacote com barra de progresso
+install_package() {
+  local package=$1
+  echo -e "\033[1;36mINSTALANDO: $package\033[0m"
+  sudo apt-get install -y $package | pv -W > /dev/null
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32m$package instalado com sucesso\033[0m"
+  else
+    echo -e "\033[1;31mFalha ao instalar $package\033[0m"
+  fi
+}
 
-# Instala ferramentas de rede
-fun_bar 'apt-get install lsof -y' 'apt-get install fail2ban -y'
-fun_bar 'apt-get install htop -y' 'apt-get install nload -y'
-fun_bar 'apt-get install apache2 -y' 'apt-get install zip -y'
+# Função para instalar pacotes usando a função install_package
+install_packages() {
+  local packages=("lsof" "fail2ban" "htop" "nload" "apache2" "zip")
+  for package in "${packages[@]}"; do
+    install_package $package
+  done
+}
 
-# Redefinir a exibição do terminal
-tput reset
-echo ""
+# Função para instalar pacotes e configurar o firewall
+inst_pct() {
+  local _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python-pip" "firewalld")
+  for _prog in "${_pacotes[@]}"; do
+    install_package $_prog
+  done
 
-# Exibir o cabeçalho de instalação
-echo -e "          \033[1;37m[\033[1;31m!\033[1;37m] \033[1;32mINSTALANDO PACOTES \033[1;37m[\033[1;31m!\033[1;37m] \033[0m"
-echo ""
-echo -e "\033[1;37mALGUNS PACOTES SÃO EXTREMAMENTE NECESSÁRIOS!\033[0m"
-echo ""
+  pip install speedtest-cli | pv -W > /dev/null
+  echo -e "\033[1;32mspeedtest-cli instalado com sucesso\033[0m"
 
-# Definir a função para instalar pacotes e configurar o firewall
-inst_pct () {
-    # Lista de pacotes a serem instalados
-    _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python-pip" "firewalld")
-    
-    # Instalar cada pacote da lista
-    for _prog in "${_pacotes[@]}"; do
-        sudo apt-get install "$_prog" -y
+  local ports=("80/tcp" "8989/tcp" "5454/tcp" "8888/tcp" "8080/tcp" "7300/udp" "443/tcp")
+  for port in "${ports[@]}"; do
+    sudo firewall-cmd --zone=public --permanent --add-port=$port
+  done
+  sudo firewall-cmd --reload
+}
+
+# Configurar firewall com UFW, se disponível
+config_ufw() {
+  if [[ -f "/usr/sbin/ufw" ]]; then
+    local ports=("443/tcp" "80/tcp" "3128/tcp" "8799/tcp" "8080/tcp")
+    for port in "${ports[@]}"; do
+      ufw allow $port
     done
-    
-    # Instalar o speedtest-cli via pip
-    pip install speedtest-cli
-    
-    # Adicionar regras ao firewall para permitir certas portas
-    sudo firewall-cmd --zone=public --permanent --add-port=80/tcp
-    sudo firewall-cmd --zone=public --permanent --add-port=8989/tcp
-    sudo firewall-cmd --zone=public --permanent --add-port=5454/tcp
-    sudo firewall-cmd --zone=public --permanent --add-port=8888/tcp
-    sudo firewall-cmd --zone=public --permanent --add-port=8080/tcp
-    sudo firewall-cmd --zone=public --permanent --add-port=7300/udp
-    sudo firewall-cmd --zone=public --permanent --add-port=443/tcp
-    sudo firewall-cmd --reload
+  fi
 }
 
-# Executar a função de instalação
-inst_pct
-
-# Se o ufw estiver instalado, permitir portas específicas no firewall
-if [[ -f "/usr/sbin/ufw" ]]; then
-    ufw allow 443/tcp
-    ufw allow 80/tcp
-    ufw allow 3128/tcp
-    ufw allow 8799/tcp
-    ufw allow 8080/tcp
+# Instalar pv antes de qualquer outra coisa
+echo -e "\033[1;36mINSTALANDO: pv\033[0m"
+sudo apt-get install -y pv > /dev/null
+if [ $? -eq 0 ]; then
+  echo -e "\033[1;32mpv instalado com sucesso\033[0m"
+else
+  echo -e "\033[1;31mFalha ao instalar pv\033[0m"
+  exit 1
 fi
 
+# Redefinir a exibição do terminal inicial
+reset_terminal
+
+# Instalar pacotes de rede iniciais
+install_packages
+
+# Redefinir a exibição do terminal novamente após a instalação inicial
+reset_terminal
+
+# Executar a função de instalação completa
+inst_pct
+
+# Configurar o UFW, se disponível
+config_ufw
+
+# Mensagem de conclusão
 echo -e "\033[1;32mInstalação e configuração concluídas!\033[0m"
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal

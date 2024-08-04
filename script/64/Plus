@@ -170,6 +170,8 @@ otimize_python() {
 
 fun_bar "otimize_python"
 #-----------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
 # Função para redefinir a exibição do terminal e exibir o cabeçalho de instalação
 reset_terminal() {
   tput reset
@@ -183,13 +185,9 @@ reset_terminal() {
 # Função para instalar um pacote com barra de progresso
 install_package() {
   local package=$1
-  echo -e "\033[1;36mINSTALANDO: $package\033[0m"
-  sudo apt-get install -y $package | pv -W > /dev/null
-  if [ $? -eq 0 ]; then
-    echo -e "\033[1;32m$package instalado com sucesso\033[0m"
-  else
-    echo -e "\033[1;31mFalha ao instalar $package\033[0m"
-  fi
+  echo -ne "\033[1;36mINSTALANDO: $package\033[0m"
+  { sudo apt-get install -y $package | pv -n; } 2>&1 | stdbuf -o0 awk '{printf "\r\033[1;36mINSTALANDO: %s [%-50s] %d%%\033[0m", "'$package'", substr("##################################################",1,($1/2)), $1}'
+  echo -ne "\r\033[1;32m$package instalado com sucesso\033[0m\n"
 }
 
 # Função para instalar pacotes usando a função install_package
@@ -202,13 +200,19 @@ install_packages() {
 
 # Função para instalar pacotes e configurar o firewall
 inst_pct() {
-  local _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python-pip" "firewalld")
+  local _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python3-pip" "firewalld")
   for _prog in "${_pacotes[@]}"; do
     install_package $_prog
   done
 
-  pip install speedtest-cli | pv -W > /dev/null
-  echo -e "\033[1;32mspeedtest-cli instalado com sucesso\033[0m"
+  if ! command -v pip &> /dev/null; then
+    echo -e "\033[1;31mFalha ao encontrar o pip. Certifique-se de que o python3-pip está instalado.\033[0m"
+    exit 1
+  fi
+
+  echo -ne "\033[1;36mINSTALANDO: speedtest-cli\033[0m"
+  { pip install speedtest-cli | pv -n; } 2>&1 | stdbuf -o0 awk '{printf "\r\033[1;36mINSTALANDO: speedtest-cli [%-50s] %d%%\033[0m", substr("##################################################",1,($1/2)), $1}'
+  echo -ne "\r\033[1;32mspeedtest-cli instalado com sucesso\033[0m\n"
 
   local ports=("80/tcp" "8989/tcp" "5454/tcp" "8888/tcp" "8080/tcp" "7300/udp" "443/tcp")
   for port in "${ports[@]}"; do

@@ -174,8 +174,8 @@ fun_bar "otimize_python"
 tput reset
 echo ""
 
-# Instalar pv e dialog se ainda não estiverem instalados
-sudo apt-get install pv dialog -y
+# Instalar pv se ainda não estiver instalado
+sudo apt-get install pv -y
 
 # Função para exibir uma barra de progresso enquanto os pacotes são instalados
 fun_bar() {
@@ -184,7 +184,7 @@ fun_bar() {
   
   echo -e "\033[1;36m${msg}\033[0m"
   
-  (eval "$command" 2>&1 | pv -n -l -s 1000 > /dev/null) 2>&1 | dialog --gauge "Aguarde..." 10 70 0
+  eval "$command" 2>&1 | pv -n -s $(($(apt-get install --print-uris $command | wc -l) * 10)) > /dev/null
   
   echo -e "\033[1;32m${msg} concluído\033[0m"
 }
@@ -192,13 +192,13 @@ fun_bar() {
 # Exibir o menu de instalação
 echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
 
-# Instala ferramentas de rede
-fun_bar "sudo apt-get install lsof -y >/dev/null 2>&1" "Instalando lsof"
-fun_bar "sudo apt-get install fail2ban -y >/dev/null 2>&1" "Instalando fail2ban"
-fun_bar "sudo apt-get install htop -y >/dev/null 2>&1" "Instalando htop"
-fun_bar "sudo apt-get install nload -y >/dev/null 2>&1" "Instalando nload"
-fun_bar "sudo apt-get install apache2 -y >/dev/null 2>&1" "Instalando apache2"
-fun_bar "sudo apt-get install zip -y >/dev/null 2>&1" "Instalando zip"
+# Instalar ferramentas de rede com barras de progresso
+fun_bar "apt-get install lsof -y" "Instalando lsof"
+fun_bar "apt-get install fail2ban -y" "Instalando fail2ban"
+fun_bar "apt-get install htop -y" "Instalando htop"
+fun_bar "apt-get install nload -y" "Instalando nload"
+fun_bar "apt-get install apache2 -y" "Instalando apache2"
+fun_bar "apt-get install zip -y" "Instalando zip"
 
 # Redefinir a exibição do terminal
 tput reset
@@ -215,10 +215,10 @@ inst_pct () {
     _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python3-pip" "firewalld")
     
     for _prog in ${_pacotes[@]}; do
-        (sudo apt-get install $_prog -y 2>&1 | pv -n -l -s 1000 > /dev/null) 2>&1 | dialog --gauge "Instalando $_prog..." 10 70 0
+        fun_bar "apt-get install $_prog -y" "Instalando $_prog"
     done
     
-    (pip install speedtest-cli 2>&1 | pv -n -l -s 1000 > /dev/null) 2>&1 | dialog --gauge "Instalando speedtest-cli..." 10 70 0
+    fun_bar "pip install speedtest-cli" "Instalando speedtest-cli"
     
     sudo firewall-cmd --zone=public --permanent --add-port=80/tcp
     sudo firewall-cmd --zone=public --permanent --add-port=8989/tcp

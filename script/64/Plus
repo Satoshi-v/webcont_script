@@ -170,6 +170,8 @@ otimize_python() {
 
 fun_bar "otimize_python"
 #-----------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+
 # Função para redefinir a exibição do terminal e exibir o cabeçalho de instalação
 reset_terminal() {
   tput reset
@@ -180,23 +182,24 @@ reset_terminal() {
   echo ""
 }
 
-# Função para exibir uma barra de progresso enquanto os pacotes são instalados
+# Função para instalar pacotes e exibir uma barra de progresso fictícia
 fun_bar() {
   local command=$1
   local package_name=$(echo $command | awk '{print $3}')
 
-  echo -e "\033[1;36mINSTALANDO: $package_name\033[0m"
   {
-    # Redireciona a saída para /dev/null para evitar poluição do terminal
-    eval "$command" 2>&1 | tee /dev/null | while IFS= read -r line; do
-      # Calcula o progresso com base no número de linhas lidas
-      progress=$(echo "$line" | grep -oP "\d+%" | tail -n1)
-      if [ -n "$progress" ]; then
-        echo -ne "\r\033[1;36mINSTALANDO: $package_name [%-50s] $progress\033[0m" $(printf "%-${#progress}s" " ")
-      fi
+    for ((i = 0; i <= 100; i+=10)); do
+      echo $i
+      sleep 0.1
     done
-    echo -ne "\r\033[1;32m$package_name instalado com sucesso\033[0m\n"
-  }
+  } | dialog --gauge "Instalando: $package_name" 10 70 0
+
+  eval "$command" > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    dialog --msgbox "$package_name instalado com sucesso" 6 40
+  else
+    dialog --msgbox "Falha ao instalar $package_name" 6 40
+  fi
 }
 
 # Função para instalar pacotes e configurar o firewall
@@ -207,16 +210,11 @@ inst_pct() {
   done
 
   if ! command -v pip &> /dev/null; then
-    echo -e "\033[1;31mFalha ao encontrar o pip. Certifique-se de que o python3-pip está instalado.\033[0m"
+    dialog --msgbox "Falha ao encontrar o pip. Certifique-se de que o python3-pip está instalado." 6 50
     exit 1
   fi
 
-  echo -ne "\033[1;36mINSTALANDO: speedtest-cli\033[0m"
-  pip install speedtest-cli 2>&1 | while IFS= read -r line; do
-    if [[ "$line" == *"Collecting"* || "$line" == *"Successfully installed"* ]]; then
-      echo -ne "\r\033[1;32mspeedtest-cli instalado com sucesso\033[0m\n"
-    fi
-  done
+  fun_bar "pip install speedtest-cli"
 
   local ports=("80/tcp" "8989/tcp" "5454/tcp" "8888/tcp" "8080/tcp" "7300/udp" "443/tcp")
   for port in "${ports[@]}"; do
@@ -236,14 +234,7 @@ config_ufw() {
 }
 
 # Instalar pv antes de qualquer outra coisa
-echo -e "\033[1;36mINSTALANDO: pv\033[0m"
-sudo apt-get install -y pv > /dev/null
-if [ $? -eq 0 ]; then
-  echo -e "\033[1;32mpv instalado com sucesso\033[0m"
-else
-  echo -e "\033[1;31mFalha ao instalar pv\033[0m"
-  exit 1
-fi
+fun_bar "apt-get install pv -y"
 
 # Redefinir a exibição do terminal inicial
 reset_terminal
@@ -257,13 +248,13 @@ fun_bar 'sudo apt-get install apache2 -y'
 fun_bar 'sudo apt-get install zip -y'
 
 # Redefinir a exibição do terminal novamente após a instalação inicial
-fun_bar reset_terminal
+reset_terminal
 
 # Executar a função de instalação completa
-fun_bar inst_pct
+inst_pct
 
 # Configurar o UFW, se disponível
-fun_bar config_ufw
+config_ufw
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal
 tput reset

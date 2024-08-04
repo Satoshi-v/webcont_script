@@ -170,7 +170,20 @@ otimize_python() {
 
 fun_bar "otimize_python"
 #-----------------------------------------------------------------------------------------------------------------
-#!/bin/bash
+# Redefinir a exibição do terminal
+tput reset
+echo ""
+Instalar o dialog se não estiver instalado
+if ! command -v dialog &> /dev/null; then
+  echo -e "\033[1;36mINSTALANDO: dialog\033[0m"
+  sudo apt-get install dialog -y > /dev/null
+  if [ $? -eq 0 ]; then
+    echo -e "\033[1;32mdialog instalado com sucesso\033[0m"
+  else
+    echo -e "\033[1;31mFalha ao instalar dialog\033[0m"
+    exit 1
+  fi
+fi
 
 # Função para redefinir a exibição do terminal e exibir o cabeçalho de instalação
 reset_terminal() {
@@ -195,7 +208,7 @@ fun_bar() {
   } | dialog --gauge "Instalando: $package_name" 10 70 0
 
   eval "$command" > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
+  if [ $? -eq 0 ]; então
     dialog --msgbox "$package_name instalado com sucesso" 6 40
   else
     dialog --msgbox "Falha ao instalar $package_name" 6 40
@@ -209,7 +222,7 @@ inst_pct() {
     fun_bar "apt-get install $_prog -y"
   done
 
-  if ! command -v pip &> /dev/null; then
+  if ! command -v pip &> /dev/null; então
     dialog --msgbox "Falha ao encontrar o pip. Certifique-se de que o python3-pip está instalado." 6 50
     exit 1
   fi
@@ -225,7 +238,7 @@ inst_pct() {
 
 # Configurar firewall com UFW, se disponível
 config_ufw() {
-  if [[ -f "/usr/sbin/ufw" ]]; then
+  if [[ -f "/usr/sbin/ufw" ]]; então
     local ports=("443/tcp" "80/tcp" "3128/tcp" "8799/tcp" "8080/tcp")
     for port in "${ports[@]}"; do
       ufw allow $port

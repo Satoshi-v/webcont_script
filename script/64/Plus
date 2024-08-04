@@ -249,24 +249,21 @@ fi
 reset_terminal
 
 # Instalar pacotes de rede iniciais
-fun_bar 'apt-get install lsof -y'
-fun_bar 'apt-get install fail2ban -y'
-fun_bar 'apt-get install htop -y'
-fun_bar 'apt-get install nload -y'
-fun_bar 'apt-get install apache2 -y'
-fun_bar 'apt-get install zip -y'
+fun_bar 'sudo apt-get install lsof -y'
+fun_bar 'sudo apt-get install fail2ban -y'
+fun_bar 'sudo apt-get install htop -y'
+fun_bar 'sudo apt-get install nload -y'
+fun_bar 'sudo apt-get install apache2 -y'
+fun_bar 'sudo apt-get install zip -y'
 
 # Redefinir a exibição do terminal novamente após a instalação inicial
-reset_terminal
+fun_bar reset_terminal
 
 # Executar a função de instalação completa
-inst_pct
+fun_bar inst_pct
 
 # Configurar o UFW, se disponível
-config_ufw
-
-# Mensagem de conclusão
-echo -e "\033[1;32mInstalação e configuração concluídas!\033[0m"
+fun_bar config_ufw
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal
 tput reset

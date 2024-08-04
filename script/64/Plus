@@ -265,16 +265,16 @@ echo ""
 # Adicionar comandos ao .bashrc para exibição ao iniciar o terminal como root
 {
     echo "clear"
-    echo "DATE=$(date +"%d-%m-%y")"
-    echo "TIME=$(date +"%T")"
-    echo "figlet -k SSH-PLUS | lolcat"
-    echo "echo -e "NOME DO SERVIDOR : $HOSTNAME"
-    echo "echo -e "SERVIDOR LIGADO À : $(uptime -p)"
-    echo "echo -e "DATA : $DATE"
-    echo "echo -e "HORA : $TIME"
-    echo "echo -e "(TELEGRAM)--@TURBONET2023"
-    echo "echo -e "\033[1;31m DIGITE ( menu ) PARA ENTRAR\033[0m"
-    echo "echo -e ""
+    echo 'DATE=$(date +"%d-%m-%y")'
+    echo 'TIME=$(date +"%T")'
+    echo 'figlet -k SSH-PLUS | lolcat'
+    echo 'echo -e " NOME DO SERVIDOR : $HOSTNAME"'
+    echo 'echo -e " SERVIDOR LIGADO À : $(uptime -p)"'
+    echo 'echo -e " DATA : $DATE"'
+    echo 'echo -e " HORA : $TIME"'
+    echo 'echo -e " (TELEGRAM)--@TURBONET2023"'
+    echo 'echo -e "\033[1;31m DIGITE ( menu ) PARA ENTRAR\033[0m."'
+    echo 'echo -e ""'
 } >> /root/.bashrc
 
 # Exibir data e hora atual, nome do sistema, e mensagem de instalação concluída

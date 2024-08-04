@@ -184,15 +184,15 @@ reset_terminal() {
 fun_bar() {
   local command1=$1
   local command2=$2
-  
+
   echo -e "\033[1;36mINSTALANDO: $command1\033[0m"
-  { eval "$command1" | pv -n; } 2>&1 | stdbuf -o0 awk '{printf "\r\033[1;36mINSTALANDO: %s [%-50s] %d%%\033[0m", "'$command1'", substr("##################################################",1,($1/2)), $1}'
-  echo -ne "\r\033[1;32m$command1 concluído\033[0m\n"
+  eval "$command1" | tee /dev/null | pv -n > /dev/null
+  echo -e "\033[1;32m$command1 concluído\033[0m"
 
   if [ -n "$command2" ]; then
     echo -e "\033[1;36mINSTALANDO: $command2\033[0m"
-    { eval "$command2" | pv -n; } 2>&1 | stdbuf -o0 awk '{printf "\r\033[1;36mINSTALANDO: %s [%-50s] %d%%\033[0m", "'$command2'", substr("##################################################",1,($1/2)), $1}'
-    echo -ne "\r\033[1;32m$command2 concluído\033[0m\n"
+    eval "$command2" | tee /dev/null | pv -n > /dev/null
+    echo -e "\033[1;32m$command2 concluído\033[0m"
   fi
 }
 
@@ -209,8 +209,8 @@ inst_pct() {
   fi
 
   echo -ne "\033[1;36mINSTALANDO: speedtest-cli\033[0m"
-  { pip install speedtest-cli | pv -n; } 2>&1 | stdbuf -o0 awk '{printf "\r\033[1;36mINSTALANDO: speedtest-cli [%-50s] %d%%\033[0m", substr("##################################################",1,($1/2)), $1}'
-  echo -ne "\r\033[1;32mspeedtest-cli instalado com sucesso\033[0m\n"
+  pip install speedtest-cli | tee /dev/null | pv -n > /dev/null
+  echo -e "\033[1;32mspeedtest-cli instalado com sucesso\033[0m"
 
   local ports=("80/tcp" "8989/tcp" "5454/tcp" "8888/tcp" "8080/tcp" "7300/udp" "443/tcp")
   for port in "${ports[@]}"; do

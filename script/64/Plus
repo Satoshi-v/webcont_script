@@ -170,8 +170,6 @@ otimize_python() {
 
 fun_bar "otimize_python"
 #-----------------------------------------------------------------------------------------------------------------
-#!/bin/bash
-
 # Função para redefinir a exibição do terminal e exibir o cabeçalho de instalação
 reset_terminal() {
   tput reset
@@ -182,27 +180,27 @@ reset_terminal() {
   echo ""
 }
 
-# Função para instalar um pacote com barra de progresso
-install_package() {
-  local package=$1
-  echo -ne "\033[1;36mINSTALANDO: $package\033[0m"
-  { sudo apt-get install -y $package | pv -n; } 2>&1 | stdbuf -o0 awk '{printf "\r\033[1;36mINSTALANDO: %s [%-50s] %d%%\033[0m", "'$package'", substr("##################################################",1,($1/2)), $1}'
-  echo -ne "\r\033[1;32m$package instalado com sucesso\033[0m\n"
-}
+# Função para exibir uma barra de progresso enquanto os pacotes são instalados
+fun_bar() {
+  local command1=$1
+  local command2=$2
+  
+  echo -e "\033[1;36mINSTALANDO: $command1\033[0m"
+  { eval "$command1" | pv -n; } 2>&1 | stdbuf -o0 awk '{printf "\r\033[1;36mINSTALANDO: %s [%-50s] %d%%\033[0m", "'$command1'", substr("##################################################",1,($1/2)), $1}'
+  echo -ne "\r\033[1;32m$command1 concluído\033[0m\n"
 
-# Função para instalar pacotes usando a função install_package
-install_packages() {
-  local packages=("lsof" "fail2ban" "htop" "nload" "apache2" "zip")
-  for package in "${packages[@]}"; do
-    install_package $package
-  done
+  if [ -n "$command2" ]; then
+    echo -e "\033[1;36mINSTALANDO: $command2\033[0m"
+    { eval "$command2" | pv -n; } 2>&1 | stdbuf -o0 awk '{printf "\r\033[1;36mINSTALANDO: %s [%-50s] %d%%\033[0m", "'$command2'", substr("##################################################",1,($1/2)), $1}'
+    echo -ne "\r\033[1;32m$command2 concluído\033[0m\n"
+  fi
 }
 
 # Função para instalar pacotes e configurar o firewall
 inst_pct() {
   local _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python3-pip" "firewalld")
   for _prog in "${_pacotes[@]}"; do
-    install_package $_prog
+    fun_bar "apt-get install $_prog -y" ""
   done
 
   if ! command -v pip &> /dev/null; then
@@ -245,7 +243,9 @@ fi
 reset_terminal
 
 # Instalar pacotes de rede iniciais
-install_packages
+fun_bar 'apt-get install lsof -y' 'apt-get install fail2ban -y'
+fun_bar 'apt-get install htop -y' 'apt-get install nload -y'
+fun_bar 'apt-get install apache2 -y' 'apt-get install zip -y'
 
 # Redefinir a exibição do terminal novamente após a instalação inicial
 reset_terminal

@@ -174,27 +174,31 @@ fun_bar "otimize_python"
 tput reset
 echo ""
 
+# Instalar pv e dialog se ainda não estiverem instalados
+sudo apt-get install pv dialog -y
+
 # Função para exibir uma barra de progresso enquanto os pacotes são instalados
 fun_bar() {
-  local command1=$1
-  local command2=$2
+  local command=$1
+  local msg=$2
   
-  echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
+  echo -e "\033[1;36m${msg}\033[0m"
   
-  eval "$command1"
-  echo -e "\033[1;32m$command1 concluído\033[0m"
+  (eval "$command" 2>&1 | pv -n -l -s 1000 > /dev/null) 2>&1 | dialog --gauge "Aguarde..." 10 70 0
   
-  eval "$command2"
-  echo -e "\033[1;32m$command2 concluído\033[0m"
+  echo -e "\033[1;32m${msg} concluído\033[0m"
 }
 
 # Exibir o menu de instalação
 echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
 
 # Instala ferramentas de rede
-fun_bar "apt-get install lsof -y" "apt-get install fail2ban -y"
-fun_bar "apt-get install htop -y" "apt-get install nload -y"
-fun_bar "apt-get install apache2 -y" "apt-get install zip -y"
+fun_bar "sudo apt-get install lsof -y >/dev/null 2>&1" "Instalando lsof"
+fun_bar "sudo apt-get install fail2ban -y >/dev/null 2>&1" "Instalando fail2ban"
+fun_bar "sudo apt-get install htop -y >/dev/null 2>&1" "Instalando htop"
+fun_bar "sudo apt-get install nload -y >/dev/null 2>&1" "Instalando nload"
+fun_bar "sudo apt-get install apache2 -y >/dev/null 2>&1" "Instalando apache2"
+fun_bar "sudo apt-get install zip -y >/dev/null 2>&1" "Instalando zip"
 
 # Redefinir a exibição do terminal
 tput reset
@@ -208,18 +212,14 @@ echo ""
 
 # Definir a função para instalar pacotes e configurar o firewall
 inst_pct () {
-    # Lista de pacotes a serem instalados
     _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python3-pip" "firewalld")
     
-    # Instalar cada pacote da lista
     for _prog in ${_pacotes[@]}; do
-        sudo apt-get install $_prog -y
+        (sudo apt-get install $_prog -y 2>&1 | pv -n -l -s 1000 > /dev/null) 2>&1 | dialog --gauge "Instalando $_prog..." 10 70 0
     done
     
-    # Instalar o speedtest-cli via pip
-    pip install speedtest-cli
+    (pip install speedtest-cli 2>&1 | pv -n -l -s 1000 > /dev/null) 2>&1 | dialog --gauge "Instalando speedtest-cli..." 10 70 0
     
-    # Adicionar regras ao firewall para permitir certas portas
     sudo firewall-cmd --zone=public --permanent --add-port=80/tcp
     sudo firewall-cmd --zone=public --permanent --add-port=8989/tcp
     sudo firewall-cmd --zone=public --permanent --add-port=5454/tcp
@@ -233,6 +233,14 @@ inst_pct () {
 # Executar a função de instalação
 inst_pct
 
+# Mensagem de conclusão da instalação dos pacotes de rede
+echo -e "\033[1;32mInstalação de pacotes de rede concluída\033[0m"
+sleep 2
+
+# Redefinir a exibição do terminal
+tput reset
+echo ""
+
 # Se o ufw estiver instalado, permitir portas específicas no firewall
 if [[ -f "/usr/sbin/ufw" ]]; then
     ufw allow 443/tcp
@@ -241,6 +249,9 @@ if [[ -f "/usr/sbin/ufw" ]]; then
     ufw allow 8799/tcp
     ufw allow 8080/tcp
 fi
+
+# Mensagem de conclusão da configuração do firewall
+echo -e "\033[1;32mConfiguração do firewall concluída\033[0m"
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal
 tput reset

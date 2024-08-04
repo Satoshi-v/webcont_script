@@ -195,7 +195,7 @@ echo -e "\033[1;36mINSTALANDO PACOTES DE REDE \033[0m"
 fun_bar 'apt-get install lsof -y' 'apt-get install fail2ban -y'
 fun_bar 'apt-get install htop -y' 'apt-get install nload -y'
 fun_bar 'apt-get install apache2 -y' 'apt-get install zip -y'
-#-----------------------------------------------------------------------------------------------------------------
+
 # Redefinir a exibição do terminal
 tput reset
 echo ""
@@ -212,8 +212,8 @@ inst_pct () {
     _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python-pip" "firewalld")
     
     # Instalar cada pacote da lista
-    for _prog in ${_pacotes[@]}; do
-        sudo apt-get install $_prog -y
+    for _prog in "${_pacotes[@]}"; do
+        sudo apt-get install "$_prog" -y
     done
     
     # Instalar o speedtest-cli via pip
@@ -231,7 +231,7 @@ inst_pct () {
 }
 
 # Executar a função de instalação
-fun_bar 'inst_pct'
+inst_pct
 
 # Se o ufw estiver instalado, permitir portas específicas no firewall
 if [[ -f "/usr/sbin/ufw" ]]; then
@@ -241,6 +241,8 @@ if [[ -f "/usr/sbin/ufw" ]]; then
     ufw allow 8799/tcp
     ufw allow 8080/tcp
 fi
+
+echo -e "\033[1;32mInstalação e configuração concluídas!\033[0m"
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal
 tput reset

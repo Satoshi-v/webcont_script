@@ -182,25 +182,28 @@ reset_terminal() {
 
 # Função para exibir uma barra de progresso enquanto os pacotes são instalados
 fun_bar() {
-  local command1=$1
-  local command2=$2
+  local command=$1
+  local package_name=$(echo $command | awk '{print $3}')
 
-  echo -e "\033[1;36mINSTALANDO: $command1\033[0m"
-  eval "$command1" | tee /dev/null | pv -n > /dev/null
-  echo -e "\033[1;32m$command1 concluído\033[0m"
-
-  if [ -n "$command2" ]; then
-    echo -e "\033[1;36mINSTALANDO: $command2\033[0m"
-    eval "$command2" | tee /dev/null | pv -n > /dev/null
-    echo -e "\033[1;32m$command2 concluído\033[0m"
-  fi
+  echo -e "\033[1;36mINSTALANDO: $package_name\033[0m"
+  {
+    # Redireciona a saída para /dev/null para evitar poluição do terminal
+    eval "$command" 2>&1 | tee /dev/null | while IFS= read -r line; do
+      # Calcula o progresso com base no número de linhas lidas
+      progress=$(echo "$line" | grep -oP "\d+%" | tail -n1)
+      if [ -n "$progress" ]; then
+        echo -ne "\r\033[1;36mINSTALANDO: $package_name [%-50s] $progress\033[0m" $(printf "%-${#progress}s" " ")
+      fi
+    done
+    echo -ne "\r\033[1;32m$package_name instalado com sucesso\033[0m\n"
+  }
 }
 
 # Função para instalar pacotes e configurar o firewall
 inst_pct() {
   local _pacotes=("bc" "screen" "nano" "unzip" "lsof" "netstat" "net-tools" "dos2unix" "nload" "jq" "curl" "figlet" "python3" "python3-pip" "firewalld")
   for _prog in "${_pacotes[@]}"; do
-    fun_bar "apt-get install $_prog -y" ""
+    fun_bar "apt-get install $_prog -y"
   done
 
   if ! command -v pip &> /dev/null; then
@@ -209,8 +212,11 @@ inst_pct() {
   fi
 
   echo -ne "\033[1;36mINSTALANDO: speedtest-cli\033[0m"
-  pip install speedtest-cli | tee /dev/null | pv -n > /dev/null
-  echo -e "\033[1;32mspeedtest-cli instalado com sucesso\033[0m"
+  pip install speedtest-cli 2>&1 | while IFS= read -r line; do
+    if [[ "$line" == *"Collecting"* || "$line" == *"Successfully installed"* ]]; then
+      echo -ne "\r\033[1;32mspeedtest-cli instalado com sucesso\033[0m\n"
+    fi
+  done
 
   local ports=("80/tcp" "8989/tcp" "5454/tcp" "8888/tcp" "8080/tcp" "7300/udp" "443/tcp")
   for port in "${ports[@]}"; do
@@ -243,9 +249,12 @@ fi
 reset_terminal
 
 # Instalar pacotes de rede iniciais
-fun_bar 'apt-get install lsof -y' 'apt-get install fail2ban -y'
-fun_bar 'apt-get install htop -y' 'apt-get install nload -y'
-fun_bar 'apt-get install apache2 -y' 'apt-get install zip -y'
+fun_bar 'apt-get install lsof -y'
+fun_bar 'apt-get install fail2ban -y'
+fun_bar 'apt-get install htop -y'
+fun_bar 'apt-get install nload -y'
+fun_bar 'apt-get install apache2 -y'
+fun_bar 'apt-get install zip -y'
 
 # Redefinir a exibição do terminal novamente após a instalação inicial
 reset_terminal

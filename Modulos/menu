@@ -477,7 +477,7 @@ case "$x" in
    bash <(curl -sL https://raw.githubusercontent.com/PhoenixxZ2023/proxy/main/install.sh)
    ;;
    14)
-   wget "https://raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-optimizer.sh" -O linux-optimizer.sh && chmod +x linux-optimizer.sh && bash linux-optimizer.sh   
+   apt install curl -y && bash <(curl -s https://raw.githubusercontent.com/opiran-club/VPS-Optimizer/main/optimizer.sh --ipv4)   
    ;;
    15)
    clear

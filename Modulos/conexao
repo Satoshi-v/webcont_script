@@ -2342,7 +2342,7 @@ echo -e "\033[01;31m║\033[0m"
 			;;
 			0 | 00)
 			clear
-			exit
+			menu
 			;;
 			*)
 			echo -e "\033[1;31mOpcao invalida !\033[0m"

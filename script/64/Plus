@@ -169,8 +169,6 @@ otimize_python() {
 }
 fun_bar "otimize_python"
 #-----------------------------------------------------------------------------------------------------------------
-#!/bin/bash
-
 # Redefinir a exibição do terminal
 tput reset
 echo ""

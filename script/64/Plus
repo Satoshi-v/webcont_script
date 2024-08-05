@@ -111,7 +111,7 @@ awk -F : "$3 >= 500 { print $1 "1" }" /etc/passwd | grep -v "^nobody" > $HOME/us
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal
 tput reset
-
+echo""
 # Definir cores e exibir mensagem de espera
 tput setaf 7 ; tput setab 4 ; tput bold ; printf '%35s%s%-18s\n' " AGUARDE A INSTALAÇÃO" ; tput sgr0
 echo ""
@@ -167,7 +167,6 @@ otimize_python() {
     # SETAR VERSÃO PADRÃO DO PYTHON3
     sudo update-alternatives --set python3 /usr/bin/python3.8 >/dev/null 2>&1
 }
-
 fun_bar "otimize_python"
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal

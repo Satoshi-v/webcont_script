@@ -215,7 +215,6 @@ fun_bar 'sudo apt-get install -y lsof'
 fun_bar 'sudo apt-get install -y fail2ban'
 fun_bar 'sudo apt-get install -y htop'
 fun_bar 'sudo apt-get install -y nload'
-fun_bar 'sudo apt-get install -y apache2'
 fun_bar 'sudo apt-get install -y zip'
 #-----------------------------------------------------------------------------------------------------------------
 # Redefinir a exibição do terminal

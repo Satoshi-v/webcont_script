@@ -50,6 +50,9 @@ fun_badvpn() {
                 sleep 1
             }
             inst_udp () {
+                [[ -e "/bin/badvpn-udpgw" ]] && {
+                    sleep 0.1
+                } || {
                 cd $HOME
                 wget https://github.com/PhoenixxZ2023/PLUS/main/Install/badvpn-udpgw -o /dev/null
                 mv -f $HOME/badvpn-udpgw /bin/badvpn-udpgw

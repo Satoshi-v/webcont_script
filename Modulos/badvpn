@@ -51,7 +51,7 @@ fun_badvpn() {
             }
             inst_udp () {
                 cd $HOME
-                wget https://github.com/VENHABRABO/SSHPLUS-NEW/main/Install/badvpn-udpgw -o /dev/null
+                wget https://github.com/PhoenixxZ2023/PLUS/main/Install/badvpn-udpgw -o /dev/null
                 mv -f $HOME/badvpn-udpgw /bin/badvpn-udpgw
                 chmod 777 /bin/badvpn-udpgw
             }

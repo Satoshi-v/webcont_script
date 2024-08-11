@@ -2318,10 +2318,7 @@ echo -e "\033[01;31m║                                                        \
 			slowdns
 			;;
 			10 | 10)
-			tput reset
-			clear
 			v2raymanager
-			exit
                         ;;
 			11 | 11)
 			trojan-go

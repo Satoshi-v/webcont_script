@@ -46,7 +46,7 @@
 
 ### 1. Tornar-se usuário root:
 
-⚠️(somente em casos que o servidor nao vier, com usuário root por padrão)⚠️
+⚠️(somente em casos que o servidor nao venha com usuário root por padrão)⚠️
 
 Para entrar como usuário root, execute o comando abaixo:
 

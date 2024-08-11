@@ -43,31 +43,13 @@ msg17='\033[1;37m\033[1;33m(Sem imformação - Para Cancelar Digite CRTL + C)\03
     }
 
     intallv2ray () {
-    wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/v2ray.sh -O /bin/v2ray > /dev/null 2>&1
+    apt install python3-pip -y 
+    wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/v2ray.sh -O sudo chmod +x /usr/bin/v2ray
+    echo -e "\033[1;37m\033[1;33mIntalado com Exito!\033[1;31m"
     USRdatabase="/etc/SSHPlus/RegV2ray"
     [[ ! -e ${USRdatabase} ]] && touch ${USRdatabase}
     sort ${USRdatabase} | uniq > ${USRdatabase}tmp
     mv -f ${USRdatabase}tmp ${USRdatabase}
-clear
-    echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-    echo -e "\E[44;1;37m           ESCOLHA O PROTOCOLO V2RAY             \E[0m"
-    echo -e "\033[1;37m• \033[1;33m[03] PROTOCOLO VMESS\033[1;31m"
-    echo -e "\033[1;37m• \033[1;33m[24] PROTOCOLO VLESS\033[1;31m"
-    echo -e "\033[1;37m• \033[1;33mEnsira seu domínio, Após digite 1 e Ensira seu domínio novamente \033[1;31m"
-  
-    echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-    v2ray stream
-clear
-    echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-    echo -e "\E[44;1;37m            ADICIONE A PORTA V2RAY [8443] ou [443]           \E[0m"
-    v2ray port 
-clear
-echo "DIGITE SEU DOMÍNIO : "; read dm
-echo "DIGITE O PROXY : "; read px
-sed -i "44 s;$dm;$px;g" /etc/v2ray/config.json
-    echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-    echo -e "\E[44;1;37m            INFORMAÇÃO DE CONTA             \E[0m"
-    v2ray info
     echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
     echo -e "\033[1;37m• \033[1;33mEnter Para Continuar\033[1;31m" && read enter
     fun_v2raymanager
@@ -75,7 +57,7 @@ sed -i "44 s;$dm;$px;g" /etc/v2ray/config.json
 
     protocolv2ray () {
     echo -e "\E[44;1;37m            ALTERAR PROTOCOLO V2RAY             \E[0m"
-    echo -e "\033[1;37m• \033[1;33mEscolha a opção 24 e coloque o domínio do seu IP\033[1;31m"
+    echo -e "\033[1;37m• \033[1;33mEscolha a opção 3 e coloque o domínio do seu IP\033[1;31m"
     echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
     v2ray stream
     echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
@@ -105,7 +87,7 @@ sed -i "44 s;$dm;$px;g" /etc/v2ray/config.json
     fun_v2raymanager
     }
     unistallv2 () {
-    source <(curl -sL https://multi.netlify.app/v2ray.sh) --remove > /dev/null 2>&1
+    wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/v2ray.sh -O sudo chmod +x /usr/bin/v2ray --remove > /dev/null 2>&1
     rm -rf /etc/SSHPlus/RegV2ray > /dev/null 2>&1
     echo -e "\n\033[1;32mV2RAY REMOVIDO COM SUCESSO !\033[0m"
     echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
@@ -142,7 +124,7 @@ sed -i "44 s;$dm;$px;g" /etc/v2ray/config.json
          echo -e "$msg17" && continue
          elif [[ "${#nick}" -lt "2" ]]; then
          echo -e "$msg02" && continue
-         elif [[ "${#nick}" -gt "20" ]]; then
+         elif [[ "${#nick}" -gt "5" ]]; then
          echo -e "$msg03" && continue
          fi
          break
@@ -175,19 +157,6 @@ sed -i "44 s;$dm;$px;g" /etc/v2ray/config.json
     let suma=$lineP+$numl1
     sed -n ${suma}p /etc/SSHPlus/v2ray/confuuid.log 
     echo ""
-    sed -i "11 s;104.16.18.94%3A443;$nick;g" /etc/SSHPlus/v2ray/confuuid.log
-    cat /etc/SSHPlus/v2ray/confuuid.log  | sed -n '11 p'
-    echo "" 
-echo "🤖APLICATIVO PARA ANDROID:"
-echo "⬇️Baixe no Link Abaixo 👇"
-echo "" 
-echo "App: https://play.google.com/store/apps/details?id=com.v2ray.ang" 
-echo "" 
-echo "" 
-echo "🍎APLICATIVO PARA IPHONE:"
-echo "⬇️Baixe no Link Abaixo 👇"
-echo "" 
-echo "App: https://apps.apple.com/br/app/fair-vpn/id1533873488" 
     echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
     echo -e "\e[92m           UUID ADICIONADO COM EXITO "
     echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
@@ -487,16 +456,16 @@ echo "App: https://apps.apple.com/br/app/fair-vpn/id1533873488"
 			[[ ! -e '/home/sshplus' ]] && exit 0
 			clear
 			figlet "V2Ray-PRO" | lolcat
-tput setaf 7 ; tput setab 4 ; tput bold ; printf '%55s%s%-12s\n' "V2RAY PRO @SCOTTSSH " ; tput sgr0
-echo ""
-echo "Para Ativar o (V2RAY) é obrigatório que portas 80 e 443 estejam DESATIVADAS"
-echo "" 
+                        tput setaf 7 ; tput setab 4 ; tput bold ; printf '%55s%s%-12s\n' "V2RAY PRO @TURBONET2023 " ; tput sgr0
+                        echo ""
+                        tput setaf 3 ; tput bold ; echo "Para Ativar o (V2RAY) é obrigatório que portas 80 e 443 estejam DESATIVADAS" ; tput sgr0
+                        echo "" 
 			xv2ray1=`if netstat -tunlp |grep v2ray 1> /dev/null 2> /dev/null; then
 			echo -e "\e[92m ATIVADO"
 			else
 			echo -e "\e[91m DESATIVADO"
 			fi`;
-            echo -e "\033[1;32mSERVICO: \033[1;33mV2RAY \033[1;32m$xv2ray1\033[1;37m" 
+                        echo -e "\033[1;32mSERVICO: \033[1;33mV2RAY \033[1;32m$xv2ray1\033[1;37m" 
 			xv2ray=`if netstat -tunlp |grep v2ray 1> /dev/null 2> /dev/null; then
 			echo -e "\033[1;32m◉ "
 			else

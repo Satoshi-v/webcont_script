@@ -165,7 +165,7 @@ otimize_python() {
     sudo apt-get install socat -y >/dev/null 2>&1
     
     # SETAR VERSÃO PADRÃO DO PYTHON3
-    sudo update-alternatives --set python3 /usr/bin/python3.8 >/dev/null 2>&1
+    sudo update-alternatives --set python3 /usr/bin/python3.9 >/dev/null 2>&1
 }
 fun_bar "otimize_python"
 #-----------------------------------------------------------------------------------------------------------------

@@ -55,7 +55,7 @@ fun_badvpn() {
                     sleep 0.1
                 } || {
                     cd $HOME
-                    wget https://github.com/PhoenixxZ2023/PLUS/main/Install/badvpn-udpgw -O badvpn-udpgw
+                    wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/badvpn-udpgw -O /bin/badvpn-udpgw > /dev/null 2>&1
                     mv -f $HOME/badvpn-udpgw /bin/badvpn-udpgw
                     chmod 777 /bin/badvpn-udpgw
                 }

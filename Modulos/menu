@@ -541,9 +541,7 @@ case "$x" in
    checkers
    ;;
    B | b)
-   clear
-   menub
-   exit;
+   badvpn
    ;;
    V | v)
    v2raymanager 

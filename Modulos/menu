@@ -542,7 +542,7 @@ case "$x" in
    ;;
    B | b)
    clear
-   menub
+   badvpn
    exit;
    ;;
    V | v)

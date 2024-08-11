@@ -2,13 +2,13 @@
 # Author: Jrohy
 # github: https://github.com/Jrohy/multi-v2ray
 
-#记录最开始运行脚本的路径
+# Registra o caminho inicial de execução do script
 begin_path=$(pwd)
 
-#安装方式, 0为全新安装, 1为保留v2ray配置更新
+# Método de instalação, 0 para instalação limpa, 1 para atualizar mantendo a configuração do v2ray
 install_way=0
 
-#定义操作变量, 0为否, 1为是
+# Define variáveis de operação, 0 para não, 1 para sim
 help=0
 
 remove=0
@@ -25,12 +25,12 @@ bash_completion_shell="$base_source_path/v2ray"
 
 clean_iptables_shell="$base_source_path/v2ray_util/global_setting/clean_iptables.sh"
 
-#Centos 临时取消别名
+# Centos desativa temporariamente alias
 [[ -f /etc/redhat-release && -z $(echo $SHELL|grep zsh) ]] && unalias -a
 
 [[ -z $(echo $SHELL|grep zsh) ]] && env_file=".bashrc" || env_file=".zshrc"
 
-#######color code########
+#######código de cor########
 red="31m"
 green="32m"
 yellow="33m"
@@ -42,7 +42,7 @@ colorEcho(){
     echo -e "\033[${color}${@:2}\033[0m"
 }
 
-#######get params#########
+#######obtém parâmetros#########
 while [[ $# > 0 ]];do
     key="$1"
     case $key in
@@ -54,44 +54,44 @@ while [[ $# > 0 ]];do
         ;;
         -k|--keep)
         install_way=1
-        colorEcho ${blue} "keep config to update\n"
+        colorEcho ${blue} "Manter configuração para atualização\n"
         ;;
         --zh)
         chinese=1
-        colorEcho ${blue} "安装中文版..\n"
+        colorEcho ${blue} "Instalando versão chinesa..\n"
         ;;
         *)
-                # unknown option
+                # opção desconhecida
         ;;
     esac
-    shift # past argument or value
+    shift # passa o argumento ou valor
 done
 #############################
 
 help(){
     echo "bash v2ray.sh [-h|--help] [-k|--keep] [--remove]"
-    echo "  -h, --help           Show help"
-    echo "  -k, --keep           keep the config.json to update"
-    echo "      --remove         remove v2ray,xray && multi-v2ray"
-    echo "                       no params to new install"
+    echo "  -h, --help           Mostrar ajuda"
+    echo "  -k, --keep           Manter config.json para atualização"
+    echo "      --remove         Remover v2ray, xray e multi-v2ray"
+    echo "                       sem parâmetros para nova instalação"
     return 0
 }
 
 removeV2Ray() {
-    #卸载V2ray脚本
+    # Remove o script V2ray
     bash <(curl -L -s https://multi.netlify.app/go.sh) --remove >/dev/null 2>&1
     rm -rf /etc/v2ray >/dev/null 2>&1
     rm -rf /var/log/v2ray >/dev/null 2>&1
 
-    #卸载Xray脚本
+    # Remove o script Xray
     bash <(curl -L -s https://multi.netlify.app/go.sh) --remove -x >/dev/null 2>&1
     rm -rf /etc/xray >/dev/null 2>&1
     rm -rf /var/log/xray >/dev/null 2>&1
 
-    #清理v2ray相关iptable规则
+    # Limpa regras de iptables relacionadas ao v2ray
     bash <(curl -L -s $clean_iptables_shell)
 
-    #卸载multi-v2ray
+    # Remove multi-v2ray
     pip uninstall v2ray_util -y
     rm -rf /usr/share/bash-completion/completions/v2ray.bash >/dev/null 2>&1
     rm -rf /usr/share/bash-completion/completions/v2ray >/dev/null 2>&1
@@ -102,7 +102,7 @@ removeV2Ray() {
     rm -rf /etc/profile.d/iptables.sh >/dev/null 2>&1
     rm -rf /root/.iptables >/dev/null 2>&1
 
-    #删除v2ray定时更新任务
+    # Remove tarefas agendadas de v2ray
     crontab -l|sed '/SHELL=/d;/v2ray/d'|sed '/SHELL=/d;/xray/d' > crontab.txt
     crontab crontab.txt >/dev/null 2>&1
     rm -f crontab.txt >/dev/null 2>&1
@@ -113,7 +113,7 @@ removeV2Ray() {
         systemctl restart cron >/dev/null 2>&1
     fi
 
-    #删除multi-v2ray环境变量
+    # Remove variáveis de ambiente do multi-v2ray
     sed -i '/v2ray/d' ~/$env_file
     sed -i '/xray/d' ~/$env_file
     source ~/$env_file
@@ -124,11 +124,11 @@ removeV2Ray() {
 
     sed -i '/iptables/d' ~/$rc_file
 
-    colorEcho ${green} "uninstall success!"
+    colorEcho ${green} "Desinstalação bem-sucedida!"
 }
 
 closeSELinux() {
-    #禁用SELinux
+    # Desativa SELinux
     if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
         sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
         setenforce 0
@@ -136,8 +136,8 @@ closeSELinux() {
 }
 
 checkSys() {
-    #检查是否为Root
-    [ $(id -u) != "0" ] && { colorEcho ${red} "Error: You must be root to run this script"; exit 1; }
+    # Verifica se é root
+    [ $(id -u) != "0" ] && { colorEcho ${red} "Erro: Você deve ser root para executar este script"; exit 1; }
 
     if [[ `command -v apt-get` ]];then
         package_manager='apt-get'
@@ -146,12 +146,12 @@ checkSys() {
     elif [[ `command -v yum` ]];then
         package_manager='yum'
     else
-        colorEcho $red "Not support OS!"
+        colorEcho $red "Sistema operacional não suportado!"
         exit 1
     fi
 }
 
-#安装依赖
+# Instala dependências
 installDependent(){
     if [[ ${package_manager} == 'dnf' || ${package_manager} == 'yum' ]];then
         ${package_manager} install socat crontabs bash-completion which -y
@@ -160,12 +160,12 @@ installDependent(){
         ${package_manager} install socat cron bash-completion ntpdate gawk -y
     fi
 
-    #install python3 & pip
+    # Instala python3 e pip
     source <(curl -sL https://python3.netlify.app/install.sh)
 }
 
 updateProject() {
-    [[ ! $(type pip 2>/dev/null) ]] && colorEcho $red "pip no install!" && exit 1
+    [[ ! $(type pip 2>/dev/null) ]] && colorEcho $red "pip não instalado!" && exit 1
 
     [[ -e /etc/profile.d/iptables.sh ]] && rm -f /etc/profile.d/iptables.sh
 
@@ -211,11 +211,11 @@ EOF
     rm -f /usr/local/bin/xray >/dev/null 2>&1
     ln -s $(which v2ray-util) /usr/local/bin/xray
 
-    #移除旧的v2ray bash_completion脚本
+    # Remove o antigo script de conclusão bash do v2ray
     [[ -e /etc/bash_completion.d/v2ray.bash ]] && rm -f /etc/bash_completion.d/v2ray.bash
     [[ -e /usr/share/bash-completion/completions/v2ray.bash ]] && rm -f /usr/share/bash-completion/completions/v2ray.bash
 
-    #更新v2ray bash_completion脚本
+    # Atualiza o script de conclusão bash do v2ray
     curl $bash_completion_shell > /usr/share/bash-completion/completions/v2ray
     curl $bash_completion_shell > /usr/share/bash-completion/completions/xray
     if [[ -z $(echo $SHELL|grep zsh) ]];then
@@ -223,14 +223,14 @@ EOF
         source /usr/share/bash-completion/completions/xray
     fi
     
-    #安装V2ray主程序
+    # Instala o programa principal do V2ray
     [[ ${install_way} == 0 ]] && bash <(curl -L -s https://multi.netlify.app/go.sh)
 }
 
-#时间同步
+# Sincroniza o tempo
 timeSync() {
     if [[ ${install_way} == 0 ]];then
-        echo -e "Time Synchronizing.. "
+        echo -e "Sincronizando hora.. "
         if [[ `command -v ntpdate` ]];then
             ntpdate pool.ntp.org
         elif [[ `command -v chronyc` ]];then
@@ -238,42 +238,41 @@ timeSync() {
         fi
 
         if [[ $? -eq 0 ]];then 
-            colorEcho $green "Time Sync Success"
-            colorEcho $blue "now: `date -R`"
+            colorEcho $green "Sincronização de hora bem-sucedida"
+            colorEcho $blue "agora: `date -R`"
         fi
     fi
 }
 
 profileInit() {
 
-    #清理v2ray模块环境变量
+    # Limpa variáveis de ambiente do módulo v2ray
     [[ $(grep v2ray ~/$env_file) ]] && sed -i '/v2ray/d' ~/$env_file && source ~/$env_file
 
-    #解决Python3中文显示问题
+    # Resolve problema de exibição em chinês do Python3
     [[ -z $(grep PYTHONIOENCODING=utf-8 ~/$env_file) ]] && echo "export PYTHONIOENCODING=utf-8" >> ~/$env_file && source ~/$env_file
 
-    #全新安装的新配置
+    # Nova configuração para instalação limpa
     [[ ${install_way} == 0 ]] && v2ray new
 
     echo ""
 }
 
 installFinish() {
-    #回到原点
+    # Retorna ao ponto inicial
     cd ${begin_path}
 
-    [[ ${install_way} == 0 ]] && WAY="install" || WAY="update"
-    colorEcho  ${green} "multi-v2ray ${WAY} success!\n"
+    [[ ${install_way} == 0 ]] && WAY="instalação" || WAY="atualização"
+    colorEcho  ${green} "multi-v2ray ${WAY} bem-sucedida!\n"
 
     if [[ ${install_way} == 0 ]]; then
         clear
 
         v2ray info
 
-        echo -e "please input 'v2ray' command to manage v2ray\n"
+        echo -e "Por favor, digite o comando 'v2ray' para gerenciar o v2ray\n"
     fi
 }
-
 
 main() {
 
@@ -281,7 +280,7 @@ main() {
 
     [[ ${remove} == 1 ]] && removeV2Ray && return
 
-    [[ ${install_way} == 0 ]] && colorEcho ${blue} "new install\n"
+    [[ ${install_way} == 0 ]] && colorEcho ${blue} "nova instalação\n"
 
     checkSys
 

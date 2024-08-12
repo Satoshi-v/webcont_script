@@ -541,7 +541,10 @@ case "$x" in
    checkers
    ;;
    B | b)
+   tput reset
+   clear
    badvpn
+   exit;
    ;;
    V | v)
    v2raymanager 

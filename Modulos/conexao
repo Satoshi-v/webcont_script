@@ -2261,7 +2261,6 @@ echo -e "\033[01;31m╚═══════════════════
 				trojansts="\033[1;31m○ "
 			}
 			[[ "$(netstat -tunlp | grep 'v2ray' | wc -l)" != '0' ]] && {
-                                echo -e "\033[01;31m\033[1;32mSERVICO: \033[1;33mV2RAY \033[1;32mPORTA: \033[1;37m$(netstat -nplt | grep 'v2ray' | awk -F ":" {'print $4'} | xargs)\033[01;31m
 				xv2ray="\033[1;32m◉ "
 			} || {
 				xv2ray="\033[1;31m○ "

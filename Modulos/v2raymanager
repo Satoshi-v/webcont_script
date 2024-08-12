@@ -494,56 +494,55 @@ msg17='\033[1;37m\033[1;33m(Sem imformação - Para Cancelar Digite CRTL + C)\03
 			clear
 			case $x in
 			1 | 01)
-				intallv2ray
-				;;
+			intallv2ray
+			;;
 			2 | 02)
-				protocolv2ray
-				;;
+			protocolv2ray
+			;;
 			3 | 03)
-				tls
-				;;
+			tls
+			;;
 			4 | 04)
-				portv
-				;;
+			portv
+			;;
 			5 | 05)
-				addusr
-				;;
+			addusr
+			;;
 			6 | 06)
-				delusr
-				;;
+			delusr
+			;;
 			7 | 07)
-				mosusr_kk
-				;;
+			mosusr_kk
+			;;
 		        8 | 08)
-				infocuenta
-                                ;;              
+			infocuenta
+                        ;;              
 		        9 | 09)
-				stats
-				;;
+			stats
+			;;
 		        10 | 10)
-				lim_port
-				;;                
+			lim_port
+			;;                
 			11 | 11)
-				limpiador_activador
-				;;
+			limpiador_activador
+			;;
                         12 | 12)
-				unistallv2
-				;;
+			unistallv2
+			;;
                         13 | 13)
-				conexao
-                                exit;
-				;;
-
+			conexao
+                        exit;
+			;;
 			0 | 00)
-				echo -e "\033[1;31mSaindo...\033[0m"
-				sleep 2
-				clear
-				menu
-				;;
+			echo -e "\033[1;31mSaindo...\033[0m"
+			sleep 2
+			clear
+			menu
+			;;
 			*)
-				echo -e "\033[1;31mOpcao invalida !\033[0m"
-				sleep 2
-				;;
+			echo -e "\033[1;31mOpcao invalida !\033[0m"
+			sleep 2
+			;;
 			esac
 		done
 	}

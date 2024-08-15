@@ -79,10 +79,25 @@ crontab -r >/dev/null 2>&1
 	echo "0 */6 * * * /bin/uexpired"
 ) | crontab -
 echo "$_lvk" | sed -n '1 p' | cut -d' ' -f2 >/bin/versao && cat /bin/versao >/home/sshplus
-wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/jq-linux64 >/dev/null 2>&1
-chmod +x jq-linux64 && mv jq-linux64 $(which jq)
-wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/jq-linux-amd64 >/dev/null 2>&1
-chmod +x jq-linux-amd64 && mv jq-linux-amd64 $(which jq)
+# Baixar e substituir jq-linux64
+wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/jq-linux64 -O jq-linux64 >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+    chmod +x jq-linux64
+    sudo mv jq-linux64 $(which jq)
+    echo "jq-linux64 foi baixado e substituído com sucesso."
+else
+    echo "Falha ao baixar jq-linux64."
+fi
+
+# Baixar e substituir jq-linux-amd64
+wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/jq-linux-amd64 -O jq-linux-amd64 >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+    chmod +x jq-linux-amd64
+    sudo mv jq-linux-amd64 $(which jq)
+    echo "jq-linux-amd64 foi baixado e substituído com sucesso."
+else
+    echo "Falha ao baixar jq-linux-amd64."
+fi
 service cron restart >/dev/null 2>&1
 service ssh restart >/dev/null 2>&1
 [[ -d /var/www/html/openvpn ]] && service apache2 restart >/dev/null 2>&1

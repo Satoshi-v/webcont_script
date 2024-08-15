@@ -330,7 +330,7 @@ case "$x" in
    menu
    ;;
    A|AA)
-   wget https://raw.githubusercontent.com/PhoenixxZ2023/autoreboot/master/autoreboot.sh && bash autoreboot.sh
+   bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/autoreboot/master/autoreboot.sh)
    ;;
    0|00)
    echo -e "\033[1;31mSaindo...\033[0m"

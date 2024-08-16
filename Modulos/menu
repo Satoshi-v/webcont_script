@@ -245,7 +245,7 @@ _ons=$(ps -x | grep sshd | grep -v root | grep priv | wc -l)
 [[ -e /etc/openvpn/openvpn-status.log ]] && _onop=$(grep -c "10.8.0" /etc/openvpn/openvpn-status.log) || _onop="0"
 [[ -e /etc/default/dropbear ]] && _drp=$(ps aux | grep dropbear | grep -v grep | wc -l) _ondrp=$(($_drp - 1)) || _ondrp="0"
 _onli=$(($_ons + $_onop + $_ondrp))
-_ram=$(printf ' %-9s' "$(free -h | grep -i mem | awk {'print $2'})")
+_ram=$(printf '%-9s' "$(free -h | grep -i mem | awk '{print $2}')")
 _usor=$(printf '%-8s' "$(free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2 }')")
 _usop=$(printf '%-5s' "$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')")
 _core=$(printf '%-5s' "$(grep -c cpu[0-9] /proc/stat)")
@@ -365,7 +365,7 @@ _ons=$(ps -x | grep sshd | grep -v root | grep priv | wc -l)
 [[ -e /etc/openvpn/openvpn-status.log ]] && _onop=$(grep -c "10.8.0" /etc/openvpn/openvpn-status.log) || _onop="0"
 [[ -e /etc/default/dropbear ]] && _drp=$(ps aux | grep dropbear | grep -v grep | wc -l) _ondrp=$(($_drp - 1)) || _ondrp="0"
 _onli=$(($_ons + $_onop + $_ondrp))
-_ram=$(printf ' %-9s' "$(free -h | grep -i mem | awk {'print $2'})")
+_ram=$(printf '%-9s' "$(free -h | grep -i mem | awk '{print $2}')")
 _usor=$(printf '%-8s' "$(free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2 }')")
 _usop=$(printf '%-5s' "$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')")
 _core=$(printf '%-5s' "$(grep -c cpu[0-9] /proc/stat)")

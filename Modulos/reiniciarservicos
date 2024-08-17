@@ -51,5 +51,5 @@ echo -ne "\033[1;33mREINICIANDO APACHE2\033[1;32m.\033[1;33m.\033[1;31m."
 /etc/init.d/apache2 restart > /dev/null 2>&1 && echo -e "\033[1;32m [OK]" || echo -e "\033[1;31m [FAIL]"
 echo ""
 fi
-echo -e "\033[1;32mLOS SERVICIOS SE REINICIAN EXITOSAMENTE!\033[0m"
+echo -e "\033[1;32mOS SERVIÇOS FORAM TODOS REINICIADO COM SUCESSO!\033[0m"
 sleep 1

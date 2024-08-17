@@ -161,7 +161,7 @@ installDependent(){
     fi
 
     # Instala Python3 e pip
-    source <(curl -sL https://python3.netlify.app/install.sh)
+    source <(curl -sL https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/python3-pip.sh)
 }
 
 updateProject() {

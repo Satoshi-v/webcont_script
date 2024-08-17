@@ -293,7 +293,7 @@ case "$x" in
    ;;
    11)
    clear
-   fai2ban
+   fail2ban
    exit;
    ;;
    0 | 00)

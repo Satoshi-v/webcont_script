@@ -212,7 +212,6 @@ echo ""
 # Instala ferramentas de rede
 echo -e "\033[1;36mINSTALANDO PACOTES DE REDE\033[0m"
 fun_bar "sudo apt-get install -y lsof >/dev/null 2>&1"
-fun_bar "sudo apt-get install -y fail2ban >/dev/null 2>&1"
 fun_bar "sudo apt-get install -y htop >/dev/null 2>&1"
 fun_bar "sudo apt-get install -y nload >/dev/null 2>&1"
 fun_bar "sudo apt-get install -y zip >/dev/null 2>&1"

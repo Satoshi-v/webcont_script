@@ -90,6 +90,10 @@ function limit1 () {
    clear
    echo -e "\n\033[1;32mINICIANDO O LIMITER... \033[0m"
    echo ""
+
+   # Garantindo que a porta 22 esteja aberta
+   iptables -I INPUT -p tcp --dport 22 -j ACCEPT
+
    fun_bar 'screen -dmS limiter limiter' 'sleep 3'
    [[ $(grep -wc "limiter" /etc/autostart) = '0' ]] && {
        echo -e "ps x | grep 'limiter' | grep -v 'grep' && echo 'ON' || screen -dmS limiter limiter" >> /etc/autostart
@@ -101,10 +105,12 @@ function limit1 () {
    sleep 3
    menu
 }
+
 function limit2 () {
    clear
    echo -e "\033[1;32mPARANDO O LIMITER... \033[0m"
    echo ""
+
    fun_stplimiter () {
       sleep 1
       screen -r -S "limiter" -X quit
@@ -114,14 +120,20 @@ function limit2 () {
       }
       sleep 1
    }
+
    fun_bar 'fun_stplimiter' 'sleep 3'
    echo -e "\n\033[1;31m LIMITER PARADO !\033[0m"
    sleep 3
    menu
 }
+
 function limit_ssh () {
-[[ $(ps x | grep "limiter"|grep -v grep |wc -l) = '0' ]] && limit1 || limit2
+   [[ $(ps x | grep "limiter"|grep -v grep |wc -l) = '0' ]] && limit1 || limit2
 }
+
+# Verificando se a porta 22 está sempre permitida no firewall antes de iniciar o script
+iptables -C INPUT -p tcp --dport 22 -j ACCEPT 2>/dev/null || iptables -I INPUT -p tcp --dport 22 -j ACCEPT
+
 #onlineapp
 function onapp1 () {
    clear

@@ -1289,7 +1289,7 @@ echo ""
 
 # Função para criar certificados e chaves usando EasyRSA
 fun_dep() {
-	wget -O ~/EasyRSAv3.2.0.tgz "https://github.com/VENHABRABO/SSHPLUS-NEW/raw/main/Install/EasyRSA3.2.0.tgz"
+	wget -O ~/EasyRSAv3.2.0.tgz "https://github.com/PhoenixxZ2023/PLUS/raw/main/Install/EasyRSA3.2.0.tgz"
 	[[ ! -e $HOME/EasyRSAv3.2.0.tgz ]] && {
 		echo "Erro ao baixar o EasyRSA. Verifique a URL."
 		exit 1

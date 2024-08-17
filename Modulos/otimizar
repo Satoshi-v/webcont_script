@@ -5,13 +5,6 @@
 #	CONTATO TELEGRAM:	http://t.me/TURBONETVPN2023
 #	
 #===================================================
-
-# Verifica se o script está sendo executado como root
-if [ "$EUID" -ne 0 ]; then
-  echo "Por favor, execute como root"
-  exit
-fi
-
 fun_bar() {
 	comando[0]="$1"
 	comando[1]="$2"
@@ -39,53 +32,10 @@ fun_bar() {
 	tput cnorm
 }
 
-[[ $(grep -wc mlocate /var/lib/dpkg/statoverride) != '0' ]] && sed -i '/mlocate/d' /var/lib/dpkg/statoverride
-
-clear
-echo -e "\E[44;1;37m                Otimizar Servidor                \E[0m"
-echo ""
-echo -e "\033[1;32m               Atualizando pacotes\033[0m"
-echo ""
-fun_bar 'apt-get update' 'apt-get upgrade -y'
-echo ""
-echo -e "\033[1;32m      Corrigindo problemas de dependências\033[0m"
-echo ""
-fun_bar 'apt-get -f install'
-echo ""
-echo -e "\033[1;32m            Removendo pacotes inúteis\033[0m"
-echo ""
-fun_bar 'apt-get autoremove -y' 'apt-get autoclean -y'
-echo ""
-echo -e "\033[1;32m        Removendo pacotes com problemas\033[0m"
-echo ""
-fun_bar 'apt-get -f remove -y' 'apt-get clean -y'
-
-# Limpar o cache memoria RAM
-clear
-echo -e "\033[1;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-echo ""
-MEM1=$(free | awk '/Mem:/ {print int(100*$3/$2)}')
-ram1=$(free -h | grep -i mem | awk {'print $2'})
-ram2=$(free -h | grep -i mem | awk {'print $4'})
-ram3=$(free -h | grep -i mem | awk {'print $3'})
-swap1=$(free -h | grep -i swap | awk {'print $2'})
-swap2=$(free -h | grep -i swap | awk {'print $4'})
-swap3=$(free -h | grep -i swap | awk {'print $3'})
-echo -e "\033[1;31m•\033[1;32mMemoria RAM\033[1;31m•\033[0m                    \033[1;31m•\033[1;32mSwap\033[1;31m•\033[0m"
-echo -e " \033[1;33mTotal: \033[1;37m$ram1                   \033[1;33mTotal: \033[1;37m$swap1"
-echo -e " \033[1;33mEm Uso: \033[1;37m$ram3                  \033[1;33mEm Uso: \033[1;37m$swap3"
-echo -e " \033[1;33mLivre: \033[1;37m$ram2                   \033[1;33mLivre: \033[1;37m$swap2\033[0m"
-echo ""
-echo -e "\033[1;37mMemória \033[1;32mRAM \033[1;37mAntes da Otimização:\033[1;36m" $MEM1%
-echo ""
-echo -e "\033[1;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-sleep 2
-echo ""
-
 fun_limpram() {
 	sync
 	echo 3 >/proc/sys/vm/drop_caches
-	sysctl -w vm.drop_caches=3 >/dev/null 2>&1
+	sync && sysctl -w vm.drop_caches=3 >/dev/null 2>&1
 	sysctl -w vm.drop_caches=0 >/dev/null 2>&1
 	swapoff -a
 	swapon -a
@@ -110,7 +60,50 @@ function aguarde() {
 	echo -e "\e[1DOk"
 }
 
+[[ $(grep -wc mlocate /var/lib/dpkg/statoverride) != '0' ]] && sed -i '/mlocate/d' /var/lib/dpkg/statoverride
+clear
+echo -e "\E[44;1;37m                Otimizar Servidor                \E[0m"
+echo ""
+echo -e "\033[1;32m               Atualizando pacotes\033[0m"
+echo ""
+fun_bar 'apt-get update -y' 'apt-get upgrade -y'
+echo ""
+echo -e "\033[1;32m      Corrigindo problemas de dependências\033[0m"
+echo ""
+fun_bar 'apt-get -f install'
+echo ""
+echo -e "\033[1;32m            Removendo pacotes inúteis\033[0m"
+echo ""
+fun_bar 'apt-get autoremove -y' 'apt-get autoclean -y'
+echo ""
+echo -e "\033[1;32m        Removendo pacotes com problemas\033[0m"
+echo ""
+fun_bar 'apt-get -f remove -y' 'apt-get clean -y'
+
+# Limpar o cache memória RAM e SWAP
+clear
+echo -e "\033[1;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo ""
+MEM1=$(free | awk '/Mem:/ {print int(100*$3/$2)}')
+ram1=$(free -h | grep -i mem | awk {'print $2'})
+ram2=$(free -h | grep -i mem | awk {'print $4'})
+ram3=$(free -h | grep -i mem | awk {'print $3'})
+swap1=$(free -h | grep -i swap | awk {'print $2'})
+swap2=$(free -h | grep -i swap | awk {'print $4'})
+swap3=$(free -h | grep -i swap | awk {'print $3'})
+echo -e "\033[1;31m•\033[1;32mMemoria RAM\033[1;31m•\033[0m                    \033[1;31m•\033[1;32mSwap\033[1;31m•\033[0m"
+echo -e " \033[1;33mTotal: \033[1;37m$ram1                   \033[1;33mTotal: \033[1;37m$swap1"
+echo -e " \033[1;33mEm Uso: \033[1;37m$ram3                  \033[1;33mEm Uso: \033[1;37m$swap3"
+echo -e " \033[1;33mLivre: \033[1;37m$ram2                   \033[1;33mLivre: \033[1;37m$swap2\033[0m"
+echo ""
+echo -e "\033[1;37mMemória \033[1;32mRAM \033[1;37mAntes da Otimização:\033[1;36m" $MEM1%
+echo ""
+echo -e "\033[1;31m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+sleep 2
+echo ""
+
 aguarde
+
 sleep 1
 clear
 echo -e "\033[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"

@@ -327,7 +327,7 @@ case "$x" in
    tcptweaker.sh
    ;;
    32)
-   autoreboot.sh
+   bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/autoreboot/master/autoreboot.sh)
    ;;
    33)
    menu

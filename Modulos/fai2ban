@@ -72,9 +72,9 @@ read -p " [S/N]: " fail2ban
 if [[ "$fail2ban" = "s" || "$fail2ban" = "S" ]]; then
 apt-get install fail2ban -y
 cd $HOME
-wget -O fail2ban https://www.dropbox.com/s/qtz4aihjnwpth7y/fail2ban-0.9.4.tar.gz?dl=0 -o /dev/null
+wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/fail2ban-1.1.0.tar.gz 
 tar -xf $HOME/fail2ban
-cd $HOME/fail2ban-0.9.4
+cd $HOME/fail2ban-1.1.0
 ./setup.py install
 echo '[INCLUDES]
 before = paths-debian.conf

@@ -1,3 +1,15 @@
 #!/bin/bash
+
+reiniciar_vps () 
+{
+echo -e "\033[1;31mATENCAO!!\033[0m"
+echo ""
+echo -ne "\033[1;33mRealmente desea Reiniciar la VPS?\033[1;37m"; read -p " [Y/n]: " -e -i n sshsn
+[[ $sshsn = @(s|S|y|Y) ]] || gestorcodes
+echo ""
 echo -e "\033[1;31mREINICIANDO...\033[0m"
-shutdown -r now
+echo ""
+sleep 1s
+shutdown -r now #reboot
+}
+reiniciar_vps

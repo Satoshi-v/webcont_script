@@ -1327,15 +1327,15 @@ SCOLOR='\033[0m'
 			# Adquirindo easy-rsa
 			echo ""
 			fun_dep() {
-				wget -O ~/EasyRSA-v3.0.9.tgz "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/EasyRSA-v3.0.9.tgz"
-				[[ ! -e $HOME/EasyRSA-v3.0.9.tgz ]] && {
-					wget -O ~/EasyRSA-v3.0.9.tgz "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/EasyRSA-v3.0.9.tgz"
+				wget -O ~/EasyRSA-3.2.0.tgz "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/EasyRSA-3.2.0.tgz"
+				[[ ! -e $HOME/EasyRSA--3.2.0.tgz ]] && {
+					wget -O ~/EasyRSA-3.2.0.tgz "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/EasyRSA-3.2.0.tgz"
 				}
-				tar xzf ~/EasyRSA-v3.0.9.tgz -C ~/
-				mv ~/EasyRSA-v3.0.9/ /etc/openvpn/
-				mv /etc/openvpn/EasyRSA-v3.0.9/ /etc/openvpn/easy-rsa/
+				tar xzf ~/EasyRSA-3.2.0.tgz -C ~/
+				mv ~/EasyRSA-3.2.0/ /etc/openvpn/
+				mv /etc/openvpn/EasyRSA-3.2.0/ /etc/openvpn/easy-rsa/
 				chown -R root:root /etc/openvpn/easy-rsa/
-				rm -rf ~/EasyRSA-v3.0.9.tgz
+				rm -rf ~/EasyRSA-3.2.0.tgz
 				cd /etc/openvpn/easy-rsa/
 				./easyrsa init-pki
 				./easyrsa --batch build-ca nopass

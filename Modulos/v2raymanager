@@ -146,7 +146,7 @@ sed -i "44 s;$dm;$px;g" /etc/v2ray/config.json
          echo -e "$msg17" && continue
          elif [[ "${#nick}" -lt "2" ]]; then
          echo -e "$msg02" && continue
-         elif [[ "${#nick}" -gt "20" ]]; then
+         elif [[ "${#nick}" -gt "5" ]]; then
          echo -e "$msg03" && continue
          fi
          break
@@ -179,19 +179,6 @@ sed -i "44 s;$dm;$px;g" /etc/v2ray/config.json
     let suma=$lineP+$numl1
     sed -n ${suma}p /etc/SSHPlus/v2ray/confuuid.log 
     echo ""
-    sed -i "11 s;104.16.18.94%3A443;$nick;g" /etc/SSHPlus/v2ray/confuuid.log
-    cat /etc/SSHPlus/v2ray/confuuid.log  | sed -n '11 p'
-    echo "" 
-echo "🤖APLICATIVO PARA ANDROID:"
-echo "⬇️Baixe no Link Abaixo 👇"
-echo "" 
-echo "App: https://play.google.com/store/apps/details?id=com.v2ray.ang" 
-echo "" 
-echo "" 
-echo "🍎APLICATIVO PARA IPHONE:"
-echo "⬇️Baixe no Link Abaixo 👇"
-echo "" 
-echo "App: https://apps.apple.com/br/app/fair-vpn/id1533873488" 
     echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
     echo -e "\e[92m           UUID ADICIONADO COM EXITO "
     echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"

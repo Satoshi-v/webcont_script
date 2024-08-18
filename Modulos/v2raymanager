@@ -46,7 +46,7 @@ msg17='\033[1;37m\033[1;33m(Sem imformação - Para Cancelar Digite CRTL + C)\03
     }
 
     intallv2ray () {
-    wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulo/v2ray.sh -O /bin/v2ray > /dev/null 2>&1
+    source <(curl -sL https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/v2ray.sh) -O /bin/v2ray > /dev/null 2>&1
     echo -e "\033[1;37m\033[1;33mIntalado com Exito!\033[1;31m"
     USRdatabase="/etc/SSHPlus/RegV2ray"
     [[ ! -e ${USRdatabase} ]] && touch ${USRdatabase}
@@ -109,7 +109,7 @@ sed -i "44 s;$dm;$px;g" /etc/v2ray/config.json
     fun_v2raymanager
     }
     unistallv2 () {
-    wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulo/go.sh --remove > /dev/null 2>&1
+    source <(curl -sL https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/go.sh) --remove > /dev/null 2>&1
     rm -rf /etc/SSHPlus/RegV2ray > /dev/null 2>&1
     echo -e "\n\033[1;32mV2RAY REMOVIDO COM SUCESSO !\033[0m"
     echo -e "\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"

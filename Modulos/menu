@@ -397,7 +397,6 @@ swap1=$(printf '%-5s' "$(free -h | grep -i swap | awk {'print $2'})")
 swap2=$(printf '%-5s' "$(free -h | grep -i swap | awk {'print $4'})")
 swap3=$(printf '%-5s' "$(free -h | grep -i swap | awk {'print $3'})")
 clear
-echo -e "\033[1;37mSEU IP 👉 \033[38;5;82m$IP           \033[1;36mTELEGRAM 😎\033 \033[1;37m @TURBONET2023"
 echo -e "\033[0;34m╔══════════════════════════════════════════════════════════╗\033[0m"
 echo -e "\033[0;34m║\E[46;1;37m                  TURBONET_SSH_SCRIPT_PRO                 \E[0m\033[0;34m║"
 echo -e "\033[0;34m╠══════════════════════════════════════════════════════════╣\033[0m"

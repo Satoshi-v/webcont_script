@@ -307,7 +307,7 @@ case "$x" in
    ;;
    14)
    clear
-   bash <(curl -fsSL https://tcp.hy2.sh/)
+   bash <(curl -s https://raw.githubusercontent.com/PhoenixxZ2023/bbrv3/master/bbrv3.sh --ipv4)
    ;;
    15)
    ddos

@@ -509,7 +509,6 @@ case "$x" in
    nload
    ;;
    18)
-   clear
    bash <(wget -qO- https://raw.githubusercontent.com/PhoenixxZ2023/turbo-swap/master/turbo_swap.sh)
    ;;
    19)

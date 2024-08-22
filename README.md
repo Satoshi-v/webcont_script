@@ -73,7 +73,7 @@ apt update -y && apt upgrade -y && wget -y; bash <(wget -qO- raw.githubuserconte
 Opção 2:
 
 ````
-apt update -y && apt upgrade -y && wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/ssh-plus && chmod 777 ssh-plus && ./ssh-plus
+apt update -y && apt upgrade -y && wget https://raw.githubusercontent.com/Satoshi-v/webcont_script/main/ssh-plus && chmod 777 ssh-plus && ./ssh-plus
 ````
 
 ## TELEGRAM: [@TURBONET2023](https://t.me/TURBONET2023)

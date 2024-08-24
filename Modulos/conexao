@@ -465,7 +465,7 @@ SCOLOR='\033[0m'
         fun_v2rayins() {
 			clear
 	        v2rayinst(){
-	            source <(curl -sL https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Modulos/v2ray.sh)
+	            source <(curl -sL https://github.com/Satoshi-v/webcont_script/main/Modulos/v2ray.sh)
                     sleep 6
 	        }
 	        if netstat -tunlp |grep v2ray 1> /dev/null 2> /dev/null; then
@@ -783,9 +783,9 @@ SCOLOR='\033[0m'
 				cd /etc/stunnel/
 				rm -rf stunnel.conf
 				rm -rf stunnel.pem
-				wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/cert
-				wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/key
-				wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/stunnel
+				wget https://github.com/Satoshi-v/webcont_script/main/Install/cert
+				wget https://github.com/Satoshi-v/webcont_script/main/Install/key
+				wget https://github.com/Satoshi-v/webcont_script/main/Install/stunnel
 				mv cert cert.pem
 				mv key key.pem
 				mv stunnel stunnel.conf
@@ -1286,9 +1286,9 @@ echo "Execulte como root"
 			# Adquirindo easy-rsa
 			echo ""
 			fun_dep() {
-				wget -O ~/EasyRSA-v3.0.9.tgz "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/EasyRSA-v3.0.9.tgz"
+				wget -O ~/EasyRSA-v3.0.9.tgz "https://github.com/Satoshi-v/webcont_script/main/Install/EasyRSA-v3.0.9.tgz"
 				[[ ! -e $HOME/EasyRSA-v3.0.9.tgz ]] && {
-					wget -O ~/EasyRSA-v3.0.9.tgz "https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/Install/EasyRSA-v3.0.9.tgz"
+					wget -O ~/EasyRSA-v3.0.9.tgz "https://github.com/Satoshi-v/webcont_script/main/Install/EasyRSA-v3.0.9.tgz"
 				}
 				tar xzf ~/EasyRSA-v3.0.9.tgz -C ~/
 				mv ~/EasyRSA-v3.0.9/ /etc/openvpn/

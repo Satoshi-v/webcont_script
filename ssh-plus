@@ -2,7 +2,7 @@
 clear
 #--------------------------
 # SCRIPT SSH-PLUS
-# CANAL TELEGRAM: @Net_Satoshi
+# CANAL TELEGRAM: @TURBONETVPN2023
 #--------------------------
 
 # - Cores
@@ -12,7 +12,7 @@ SCOLOR='\033[0m'
 
 # - Verifica Execução Como Root
 if [[ "$EUID" -ne 0 ]]; then
-    echo -e "${RED}[x] USTED PRECISA EXECUTAR COMO USUARIO ROOT!${SCOLOR}"
+    echo -e "${RED}[x] VOCÊ PRECISA EXECUTAR COMO USUÁRIO ROOT!${SCOLOR}"
     exit 1
 fi
 
@@ -25,7 +25,7 @@ case "$(uname -m)" in
         arch='arm64'
         ;;
     *)
-        echo -e "${RED}[x] ARQUITETURA INCOMPATIBLE!${SCOLOR}"
+        echo -e "${RED}[x] ARQUITETURA INCOMPATÍVEL!${SCOLOR}"
         exit 1
         ;;
 esac
@@ -34,52 +34,32 @@ esac
 if grep -qs "ubuntu" /etc/os-release; then
     os_version=$(grep 'VERSION_ID' /etc/os-release | cut -d '"' -f 2 | tr -d '.')
     if [[ "$os_version" -lt 2004 ]]; then
-        echo -e "${RED}[x] VERSION DE UBUNTU INCOMPATIBLE!\n${YELLOW}[!] REQUIERE UBUNTU 20.04 O SUPERIOR!${SCOLOR}"
+        echo -e "${RED}[x] VERSÃO DO UBUNTU INCOMPATÍVEL!\n${YELLOW}[!] REQUER UBUNTU 20.04 OU SUPERIOR!${SCOLOR}"
         exit 1
     fi
-elif grep -qs "debian" /etc/os-release; then
-    os_version=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
+elif [[ -e /etc/debian_version ]]; then
+    os_version=$(grep -oE '[0-10]+' /etc/debian_version | head -1)
     if [[ "$os_version" -lt 10 ]]; then
-        echo -e "${RED}[x] VERSION DE DEBIAN INCOMPATIBLE!\n${YELLOW}[!] REQUER DEBIAN 11 OU SUPERIOR!${SCOLOR}"
+        echo -e "${RED}[x] VERSÃO DO DEBIAN INCOMPATÍVEL!\n${YELLOW}[!] REQUER DEBIAN 10 OU SUPERIOR!${SCOLOR}"
         exit 1
     fi
 else
-    echo -e "${RED}[x] OS INCOMPATIBLE!\n${YELLOW}[!] REQUIERE BASE DEBIAN/UBUNTU!${SCOLOR}"
+    echo -e "${RED}[x] OS INCOMPATÍVEL!\n${YELLOW}[!] REQUER DISTROS BASE DEBIAN/UBUNTU!${SCOLOR}"
     exit 1
 fi
 
 # - Atualiza Lista/Pacotes/Sistema
 dpkg --configure -a
 apt update -y && apt upgrade -y
-apt install unzip python3 dialog -y
+apt install unzip python3 -y
 
 # - Desabilita IPv6
 sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -p
 echo 'net.ipv6.conf.all.disable_ipv6 = 1' > /etc/sysctl.d/70-disable-ipv6.conf
-sysctl -p -f /etc/sysctl.d/70-disable-ipv6.conf 
-
-# Atualizar a lista de pacotes
-echo "Actualizando lista de paquetes..."
-apt-get update
-
-# Instalar wget
-echo "Instalando wget..."
-apt-get install -y wget
-
-# Baixar e instalar o kernel 5.15.0-119
-echo "Baixando e instalando o kernel 5.15.0-119..."
-apt-get install -y linux-image-5.15.0-119-generic linux-headers-5.15.0-119-generic linux-modules-5.15.0-119-generic
-
-# Instalar o Virtual Linux Kernel 5.15.0-119
-echo "Instalando o Virtual Linux Kernel 5.15.0-119..."
-apt-get install -y linux-image-5.15.0-119-virtual linux-headers-5.15.0-119-virtual
-
-# Atualizar o Grub
-echo "Actualizando o Grub..."
-update-grub
+sysctl -p -f /etc/sysctl.d/70-disable-ipv6.conf
 
 # - Executa Instalador
 if [[ -e Plus ]]; then
-    rm -f Plus
+    rm Plus
 fi
-wget https://raw.githubusercontent.com/Satoshi-v/webcont_script/main/${arch}/Plus && chmod 777 Plus && ./Plus
+wget https://github.com/Satoshi-v/webcont_script/main/script/${arch}/Plus && chmod 777 Plus && ./Plus

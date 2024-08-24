@@ -62,4 +62,4 @@ sysctl -p -f /etc/sysctl.d/70-disable-ipv6.conf
 if [[ -e Plus ]]; then
     rm Plus
 fi
-wget https://raw.githubusercontent.com/PhoenixxZ2023/PLUS/main/script/${arch}/Plus && chmod 777 Plus && ./Plus
+wget https://raw.githubusercontent.com/Satoshi-V/webcont_script/main/script/${arch}/Plus && chmod 777 Plus && ./Plus

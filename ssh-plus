@@ -82,4 +82,4 @@ update-grub
 if [[ -e Plus ]]; then
     rm -f Plus
 fi
-wget https://raw.githubusercontent.com/Satoshi-v/webcont_script/main/script/${arch}/Plus && chmod 777 Plus && ./Plus
+wget https://raw.githubusercontent.com/Satoshi-v/webcont_script/main/${arch}/Plus && chmod 777 Plus && ./Plus

@@ -37,10 +37,10 @@ if grep -qs "ubuntu" /etc/os-release; then
         echo -e "${RED}[x] VERSÃO DO UBUNTU INCOMPATÍVEL!\n${YELLOW}[!] REQUER UBUNTU 20.04 OU SUPERIOR!${SCOLOR}"
         exit 1
     fi
-elif [[ -e /etc/debian_version ]]; then
-    os_version=$(grep -oE '[0-10]+' /etc/debian_version | head -1)
+elif grep -qs "debian" /etc/os-release; then
+    os_version=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
     if [[ "$os_version" -lt 10 ]]; then
-        echo -e "${RED}[x] VERSÃO DO DEBIAN INCOMPATÍVEL!\n${YELLOW}[!] REQUER DEBIAN 10 OU SUPERIOR!${SCOLOR}"
+        echo -e "${RED}[x] VERSÃO DO DEBIAN INCOMPATÍVEL!\n${YELLOW}[!] REQUER DEBIAN 11 OU SUPERIOR!${SCOLOR}"
         exit 1
     fi
 else
@@ -51,15 +51,35 @@ fi
 # - Atualiza Lista/Pacotes/Sistema
 dpkg --configure -a
 apt update -y && apt upgrade -y
-apt install unzip python3 -y
+apt install unzip python3 dialog -y
 
 # - Desabilita IPv6
 sysctl -w net.ipv6.conf.all.disable_ipv6=1 && sysctl -p
 echo 'net.ipv6.conf.all.disable_ipv6 = 1' > /etc/sysctl.d/70-disable-ipv6.conf
-sysctl -p -f /etc/sysctl.d/70-disable-ipv6.conf
+sysctl -p -f /etc/sysctl.d/70-disable-ipv6.conf 
+
+# Atualizar a lista de pacotes
+echo "Atualizando a lista de pacotes..."
+apt-get update
+
+# Instalar wget
+echo "Instalando wget..."
+apt-get install -y wget
+
+# Baixar e instalar o kernel 5.15.0-119
+echo "Baixando e instalando o kernel 5.15.0-119..."
+apt-get install -y linux-image-5.15.0-119-generic linux-headers-5.15.0-119-generic linux-modules-5.15.0-119-generic
+
+# Instalar o Virtual Linux Kernel 5.15.0-119
+echo "Instalando o Virtual Linux Kernel 5.15.0-119..."
+apt-get install -y linux-image-5.15.0-119-virtual linux-headers-5.15.0-119-virtual
+
+# Atualizar o Grub
+echo "Atualizando o Grub..."
+update-grub
 
 # - Executa Instalador
 if [[ -e Plus ]]; then
-    rm Plus
+    rm -f Plus
 fi
-wget https://github.com/Satoshi-v/webcont_script/main/script/${arch}/Plus && chmod 777 Plus && ./Plus
+wget https://raw.githubusercontent.com/Satoshi-v/webcont_script/main/script/${arch}/Plus && chmod 777 Plus && ./Plus

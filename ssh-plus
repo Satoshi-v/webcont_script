@@ -2,7 +2,7 @@
 clear
 #--------------------------
 # SCRIPT SSH-PLUS
-# CANAL TELEGRAM: @TURBONETVPN2023
+# CANAL TELEGRAM: @Net_Satoshi
 #--------------------------
 
 # - Cores
@@ -12,7 +12,7 @@ SCOLOR='\033[0m'
 
 # - Verifica Execução Como Root
 if [[ "$EUID" -ne 0 ]]; then
-    echo -e "${RED}[x] VOCÊ PRECISA EXECUTAR COMO USUÁRIO ROOT!${SCOLOR}"
+    echo -e "${RED}[x] USTED PRECISA EXECUTAR COMO USUARIO ROOT!${SCOLOR}"
     exit 1
 fi
 
@@ -25,7 +25,7 @@ case "$(uname -m)" in
         arch='arm64'
         ;;
     *)
-        echo -e "${RED}[x] ARQUITETURA INCOMPATÍVEL!${SCOLOR}"
+        echo -e "${RED}[x] ARQUITETURA INCOMPATIBLE!${SCOLOR}"
         exit 1
         ;;
 esac
@@ -34,17 +34,17 @@ esac
 if grep -qs "ubuntu" /etc/os-release; then
     os_version=$(grep 'VERSION_ID' /etc/os-release | cut -d '"' -f 2 | tr -d '.')
     if [[ "$os_version" -lt 2004 ]]; then
-        echo -e "${RED}[x] VERSÃO DO UBUNTU INCOMPATÍVEL!\n${YELLOW}[!] REQUER UBUNTU 20.04 OU SUPERIOR!${SCOLOR}"
+        echo -e "${RED}[x] VERSION DE UBUNTU INCOMPATIBLE!\n${YELLOW}[!] REQUIERE UBUNTU 20.04 O SUPERIOR!${SCOLOR}"
         exit 1
     fi
 elif grep -qs "debian" /etc/os-release; then
     os_version=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
     if [[ "$os_version" -lt 10 ]]; then
-        echo -e "${RED}[x] VERSÃO DO DEBIAN INCOMPATÍVEL!\n${YELLOW}[!] REQUER DEBIAN 11 OU SUPERIOR!${SCOLOR}"
+        echo -e "${RED}[x] VERSION DE DEBIAN INCOMPATIBLE!\n${YELLOW}[!] REQUER DEBIAN 11 OU SUPERIOR!${SCOLOR}"
         exit 1
     fi
 else
-    echo -e "${RED}[x] OS INCOMPATÍVEL!\n${YELLOW}[!] REQUER DISTROS BASE DEBIAN/UBUNTU!${SCOLOR}"
+    echo -e "${RED}[x] OS INCOMPATIBLE!\n${YELLOW}[!] REQUIERE BASE DEBIAN/UBUNTU!${SCOLOR}"
     exit 1
 fi
 
@@ -59,7 +59,7 @@ echo 'net.ipv6.conf.all.disable_ipv6 = 1' > /etc/sysctl.d/70-disable-ipv6.conf
 sysctl -p -f /etc/sysctl.d/70-disable-ipv6.conf 
 
 # Atualizar a lista de pacotes
-echo "Atualizando a lista de pacotes..."
+echo "Actualizando lista de paquetes..."
 apt-get update
 
 # Instalar wget
@@ -75,7 +75,7 @@ echo "Instalando o Virtual Linux Kernel 5.15.0-119..."
 apt-get install -y linux-image-5.15.0-119-virtual linux-headers-5.15.0-119-virtual
 
 # Atualizar o Grub
-echo "Atualizando o Grub..."
+echo "Actualizando o Grub..."
 update-grub
 
 # - Executa Instalador
